@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Users (
     PasswordHash VARCHAR(255) NOT NULL,
     Email VARCHAR(255) NOT NULL UNIQUE,
     RoleID INT,
-    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS UserProfiles (
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS UserProfiles (
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     DateOfBirth DATE,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
 -- GymNestMembershipDB
@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS Memberships (
     UserID INT NOT NULL,
     MembershipType VARCHAR(255) NOT NULL,
     StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL
+    EndDate DATE NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES GymNestUserDB.Users(UserID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Payments (
@@ -45,7 +46,7 @@ CREATE TABLE IF NOT EXISTS Payments (
     Amount DECIMAL(10, 2) NOT NULL,
     PaymentDate DATE NOT NULL,
     Status VARCHAR(100),
-    FOREIGN KEY (MembershipID) REFERENCES Memberships(MembershipID)
+    FOREIGN KEY (MembershipID) REFERENCES Memberships(MembershipID) ON DELETE CASCADE
 );
 
 -- GymNestBookingDB
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS Schedules (
     ActivityID INT,
     StartTime DATETIME NOT NULL,
     EndTime DATETIME NOT NULL,
-    FOREIGN KEY (ActivityID) REFERENCES Activities(ActivityID)
+    FOREIGN KEY (ActivityID) REFERENCES Activities(ActivityID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Bookings (
@@ -71,5 +72,6 @@ CREATE TABLE IF NOT EXISTS Bookings (
     UserID INT NOT NULL,
     ScheduleID INT,
     BookingDate DATETIME NOT NULL,
-    FOREIGN KEY (ScheduleID) REFERENCES Schedules(ScheduleID)
+    FOREIGN KEY (ScheduleID) REFERENCES Schedules(ScheduleID) ON DELETE CASCADE,
+    FOREIGN KEY (UserID) REFERENCES GymNestUserDB.Users(UserID) ON DELETE CASCADE
 );
