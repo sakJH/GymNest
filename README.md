@@ -1,5 +1,6 @@
 # GymNest
- MOIS semestrální projekt
+ MOIS semestrální projekt na FIM UHK
+ 
 **Požadavky na projekt**
 ```
 Funkční Design
@@ -19,6 +20,7 @@ Prototyp bude pro zajištění autentizace uživatelů komunikovat s jednotnou A
 Součástí každého modulu je integrace na minimálně jednu další službu (např. platební brána, …)
 Zdrojové kódy budou předány přes GIT (GitLab / GitHub / …)
 ```
+
 **Popis projektu**
 ```
 GymNest je informační systém pro telocvičny a sportovní centra který automatizuje správu členství a rezervace tříd. 
