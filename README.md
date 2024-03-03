@@ -26,19 +26,23 @@ Notifikace a připomenutí rezervací.
 ### Frontend
 React
 
-Verze: ...
+> [!NOTE]
+> Verze: ...
+
+MUI - Material Desing
+
+> [!NOTE]
+> Verze: ...
 ### Backend
 Note.js s frameworkem Express
 
-Verze: ...
+> [!NOTE]
+> Verze: ...
 ### Spojení
 REST - Synchronní
 
 > [!NOTE]
 > Verze: ...
-
-> [!CAUTION]
-> Něco i pro asynchronní komunikaci??? 
 
 > [!CAUTION]
 > API Gateway??? ano -> jaké?
@@ -143,3 +147,104 @@ Notifikace a upozornění související s rezervacemi.
 -	ActivityID (PK): Unikátní identifikátor aktivity (např. jóga, spinning).
 -	ActivityName: Název aktivity.
 
+## Struktura IS
+### Uživatelská správa
+```
+user-management-service/
+│
+├── src/
+│   ├── controllers/
+│   │   ├── AuthController.js       # Logika pro autentizaci a autorizaci
+│   │   └── UserController.js       # Operace nad uživatelskými účty (CRUD)
+│   │
+│   ├── models/
+│   │   ├── User.js                 # Model uživatele
+│   │   └── Role.js                 # Model role
+│   │
+│   ├── routes/
+│   │   ├── authRoutes.js           # Endpointy pro autentizaci
+│   │   └── userRoutes.js           # Endpointy pro správu uživatelů
+│   │
+│   ├── services/
+│   │   └── AuthService.js          # Servisní logika pro autentizaci
+│   │
+│   ├── utils/
+│   │   └── hashPassword.js         # Pomocné funkce, např. pro hashování hesel
+│   │
+│   └── index.js                    # Vstupní bod mikroservisy, nastavení Express serveru
+│
+├── package.json                    # Definice závislostí a skriptů
+└── Dockerfile                      # Docker konfigurace pro službu
+```
+
+### Správa členství 
+```
+membership-service/
+│
+├── src/
+│   ├── controllers/
+│   │   ├── MembershipController.js # Správa členství (vytváření, aktualizace, ...)
+│   │   └── PaymentController.js    # Zpracování plateb členství
+│   │
+│   ├── models/
+│   │   ├── Membership.js           # Model členství
+│   │   └── Payment.js              # Model platby
+│   │
+│   ├── routes/
+│   │   ├── membershipRoutes.js     # Endpointy pro členství
+│   │   └── paymentRoutes.js        # Endpointy pro platby
+│   │
+│   └── index.js                    # Vstupní bod mikroservisy
+│
+├── package.json
+└── Dockerfile
+```
+
+### Rezervační systém
+```
+booking-service/
+│
+├── src/
+│   ├── controllers/
+│   │   ├── BookingController.js    # Logika pro vytváření a správu rezervací
+│   │   └── ActivityController.js   # Správa aktivit (jóga, spinning, ...)
+│   │
+│   ├── models/
+│   │   ├── Booking.js              # Model rezervace
+│   │   └── Activity.js             # Model aktivity
+│   │
+│   ├── routes/
+│   │   ├── bookingRoutes.js        # Endpointy pro rezervace
+│   │   └── activityRoutes.js       # Endpointy pro aktivity
+│   │
+│   └── index.js                    # Vstupní bod mikroservisy
+│
+├── package.json
+└── Dockerfile
+```
+
+### Frontend
+```
+frontend/
+│
+├── public/
+│   └── index.html                  # Hlavní HTML soubor
+│
+├── src/
+│   ├── components/                 # Opakovaně použitelné komponenty
+│   │   ├── Navbar.js               # Navigační lišta s Material-UI komponentami
+│   │   ├── Footer.js               # Patička
+│   │   └── CustomButton.js         # Příklad vlastního tlačítka s Material-UI
+│   │
+│   ├── pages/                      # Stránky aplikace
+│   │   ├── HomePage.js             # Domovská stránka s Material-UI layoutem
+│   │   ├── UserProfilePage.js      # Stránka uživatelského profilu
+│   │   ├── MembershipPage.js       # Stránka pro správu členství
+│   │   └── BookingsPage.js         # Stránka rezervací s použitím Material-UI tabulek
+│   │
+│   ├── App.js                      # Hlavní komponenta aplikace, nastavení routeru
+│   ├── theme.js                    # Přizpůsobení Material-UI tématu
+│   └── index.js                    # Vstupní bod React aplikace
+│
+└── package.json                    # Definice závislostí a skriptů
+```
