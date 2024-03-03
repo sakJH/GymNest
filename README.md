@@ -22,9 +22,9 @@ Zdrojové kódy budou předány přes GIT (GitLab / GitHub / …)
 ```
 
 **Popis projektu**
-```
-GymNest je informační systém pro telocvičny a sportovní centra který automatizuje správu členství a rezervace tříd. 
-```
+
+GymNest je informační systém pro telocvičny a sportovní centra který automatizuje správu uživatelů, členství a rezervace tříd. 
+
 ## Návrh mikroslužeb
 
 ### 1.	Uživatelská správa (User Management Service):
