@@ -24,7 +24,7 @@ Notifikace a připomenutí rezervací.
 ## Technologie
 > Vyvíjeno v prostředí Idea Ultimate
 ### Frontend
-Reack
+React
 
 Verze: ...
 ### Backend
@@ -42,11 +42,13 @@ REST - Synchronní
 
 > [!CAUTION]
 > API Gateway??? ano -> jaké?
+
 ### Databáze
 MySQL
 
 > [!NOTE]
 > Verze: 
+
 ### Docker
 Dockerfile
 > ...Doplnit
