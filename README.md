@@ -1,5 +1,28 @@
 # GymNest
  MOIS semestrální projekt
+**Požadavky na projekt**
+```
+Funkční Design
+- High-level popis řešeného businessu (co za problém se řeší?)
+- Big Picture modulu
+- Návrh Use Casů a jejich design
+Technický Design
+- Popis architektury
+Implementovaný modul
+- Nasazeno v Google Cloud, případně v jakémkoliv jiném cloudu (volitelně), ale stačí také Docker
+Prezentace pro business zadavatele
+Prototyp může být vytvořen v libovolné technologii
+- Doporučená technologie je REACT pro front-end a Java nebo NodeJS pro backend
+Front-end musí být vytvořen jako tzv. Single Page aplikace (SPA)
+Front-end musí splňovat základní zásady material designu
+Prototyp bude pro zajištění autentizace uživatelů komunikovat s jednotnou Autentikační službou 
+Součástí každého modulu je integrace na minimálně jednu další službu (např. platební brána, …)
+Zdrojové kódy budou předány přes GIT (GitLab / GitHub / …)
+```
+**Popis projektu**
+```
+GymNest je informační systém pro telocvičny a sportovní centra který automatizuje správu členství a rezervace tříd. 
+```
 ## Návrh mikroslužeb
 
 ### 1.	Uživatelská správa (User Management Service):
