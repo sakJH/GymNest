@@ -1,5 +1,13 @@
 # GymNest
  MOIS semestrální projekt na FIM UHK
+
+ **Osnova**
+ 1. Požadavky na projekt
+ 2. Návrh mikroslužeb
+ 3. Technologie
+ 4. Návrh databáze
+ 5. Struktura Frontend
+ 6. Struktura IS
  
 **Požadavky na projekt**
 ```
