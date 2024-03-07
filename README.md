@@ -2,7 +2,7 @@
  MOIS semestrální projekt na FIM UHK
 
  **Osnova**
- 1. Požadavky na projekt
+ 1. Úvod
  2. Návrh mikroslužeb
  3. Technologie
  4. Návrh databáze
