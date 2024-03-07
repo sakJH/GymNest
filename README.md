@@ -39,6 +39,7 @@ GymNest je informační systém pro telocvičny a sportovní centra který autom
 ```
 Autentizace a autorizace uživatelů.
 - Přes Google Authentication
+- V rámci tokenů se budou přenášet i jeho oprávnění
 Profily členů a zaměstnanců.
 Správa rolí a přístupových práv.
 ```
@@ -57,11 +58,14 @@ Rezervace skupinových lekcí a osobního tréninku.
 Správa časového harmonogramu pro lekce a trenéry.
 - Základ je nastavení a správa rozvrhů na jednotlivé týdny po 45 minutách od 8:00 do 19:00
 ```
-
+### API Gateway
+```
+Vlastní API Gateway pro přesměrování dotazů na mikroslužby.
+```
 ### Další funkce
 ```
-Možnosti změny měny (CZK, EUR, POL)
-Možnosti změnit barevné schéma (3x barevné vzory)
+Možnosti změny měny (CZK, EUR, POL).
+Možnosti změnit barevné schéma (3x barevné vzory).
 ```
 
 ## Technologie
