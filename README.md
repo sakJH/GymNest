@@ -52,7 +52,7 @@ Notifikace a připomenutí rezervací.
 
 ### Další funkce
 ```
-Možnosti změny měny (CZK, EUR)
+Možnosti změny měny (CZK, EUR, POL)
 Možnosti změnit barevné schéma (3x barevné vzory)
 ```
 
@@ -261,21 +261,26 @@ user-management-service/
 ├── src/
 │   ├── controllers/
 │   │   ├── AuthController.js       # Logika pro autentizaci a autorizaci
-│   │   └── UserController.js       # Operace nad uživatelskými účty (CRUD)
+│   │   ├── UserController.js       # Operace nad uživatelskými účty (CRUD)
+│   │   └── ProfileController.js    # Nově přidaný, správa uživatelských profilů
 │   │
 │   ├── models/
 │   │   ├── User.js                 # Model uživatele
-│   │   └── Role.js                 # Model role
+│   │   ├── Role.js                 # Model role
+│   │   └── Profile.js              # Nově přidaný, model pro uživatelské profily
 │   │
 │   ├── routes/
 │   │   ├── authRoutes.js           # Endpointy pro autentizaci
-│   │   └── userRoutes.js           # Endpointy pro správu uživatelů
+│   │   ├── userRoutes.js           # Endpointy pro správu uživatelů
+│   │   └── profileRoutes.js        # Nově přidaný, endpointy pro uživatelské profily
 │   │
 │   ├── services/
-│   │   └── AuthService.js          # Servisní logika pro autentizaci
+│   │   ├── AuthService.js          # Servisní logika pro autentizaci
+│   │   └── UserService.js          # Nově přidaný, služby pro správu uživatelů
 │   │
 │   ├── utils/
-│   │   └── hashPassword.js         # Pomocné funkce, např. pro hashování hesel
+│   │   ├── hashPassword.js         # Pomocné funkce, např. pro hashování hesel
+│   │   └── validateInput.js        # Nově přidaný, validace vstupních dat
 │   │
 │   └── index.js                    # Vstupní bod mikroservisy, nastavení Express serveru
 │
@@ -289,21 +294,32 @@ membership-service/
 │
 ├── src/
 │   ├── controllers/
-│   │   ├── MembershipController.js # Správa členství (vytváření, aktualizace, ...)
-│   │   └── PaymentController.js    # Zpracování plateb členství
+│   │   ├── MembershipController.js # Rozšířeno o funkce pro zobrazení členství uživatele
+│   │   ├── PaymentController.js    # Rozšířeno o funkce pro historii a potvrzení plateb
+│   │   └── SubscriptionController.js# Nově přidaný, správa předplatného a obnova členství
 │   │
 │   ├── models/
-│   │   ├── Membership.js           # Model členství
-│   │   └── Payment.js              # Model platby
+│   │   ├── Membership.js           # Model členství, upraveno pro detailnější správu
+│   │   ├── Payment.js              # Model platby, upraveno pro více informací o platbě
+│   │   └── Subscription.js         # Nově přidaný, model pro předplatné členství
 │   │
 │   ├── routes/
-│   │   ├── membershipRoutes.js     # Endpointy pro členství
-│   │   └── paymentRoutes.js        # Endpointy pro platby
+│   │   ├── membershipRoutes.js     # Endpointy pro členství, rozšířeno o nové funkce
+│   │   ├── paymentRoutes.js        # Endpointy pro platby, rozšířeno o nové funkce
+│   │   └── subscriptionRoutes.js   # Nově přidaný, endpointy pro správu předplatného
 │   │
-│   └── index.js                    # Vstupní bod mikroservisy
+│   ├── services/
+│   │   ├── MembershipService.js    # Nově přidaný, služba pro logiku členství
+│   │   └── PaymentService.js       # Nově přidaný, služba pro logiku plateb
+│   │
+│   ├── utils/
+│   │   ├── paymentProcessing.js    # Nově přidaný, pomocné funkce pro zpracování plateb
+│   │   └── validation.js           # Nově přidaný, validace vstupních dat
+│   │
+│   └── index.js                    # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── package.json
-└── Dockerfile
+├── package.json                    # Definice závislostí a skriptů
+└── Dockerfile                      # Docker konfigurace pro službu
 ```
 
 ### Rezervační systém
@@ -312,21 +328,32 @@ booking-service/
 │
 ├── src/
 │   ├── controllers/
-│   │   ├── BookingController.js    # Logika pro vytváření a správu rezervací
-│   │   └── ActivityController.js   # Správa aktivit (jóga, spinning, ...)
+│   │   ├── BookingController.js      # Rozšířeno o funkce pro zobrazení a storno rezervací
+│   │   ├── ActivityController.js     # Rozšířeno o funkce pro detaily a úpravy aktivit
+│   │   └── ScheduleController.js     # Nově přidaný, správa časových harmonogramů aktivit
 │   │
 │   ├── models/
-│   │   ├── Booking.js              # Model rezervace
-│   │   └── Activity.js             # Model aktivity
+│   │   ├── Booking.js                # Model rezervace, upraveno pro detailnější správu
+│   │   ├── Activity.js               # Model aktivity, upraveno pro více informací o aktivitě
+│   │   └── Schedule.js               # Nově přidaný, model pro časové harmonogramy aktivit
 │   │
 │   ├── routes/
-│   │   ├── bookingRoutes.js        # Endpointy pro rezervace
-│   │   └── activityRoutes.js       # Endpointy pro aktivity
+│   │   ├── bookingRoutes.js          # Endpointy pro rezervace, rozšířeno o nové funkce
+│   │   ├── activityRoutes.js         # Endpointy pro aktivity, rozšířeno o nové funkce
+│   │   └── scheduleRoutes.js         # Nově přidaný, endpointy pro správu časových harmonogramů
 │   │
-│   └── index.js                    # Vstupní bod mikroservisy
+│   ├── services/
+│   │   ├── BookingService.js         # Nově přidaný, služba pro logiku rezervací
+│   │   └── ActivityService.js        # Nově přidaný, služba pro logiku aktivit
+│   │
+│   ├── utils/
+│   │   ├── scheduleHelpers.js        # Nově přidaný, pomocné funkce pro správu harmonogramů
+│   │   └── validation.js             # Nově přidaný, validace vstupních dat
+│   │
+│   └── index.js                      # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── package.json
-└── Dockerfile
+├── package.json                      # Definice závislostí a skriptů
+└── Dockerfile                        # Docker konfigurace pro službu
 ```
 
 ### Frontend
