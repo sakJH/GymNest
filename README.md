@@ -55,7 +55,7 @@ Sledování platby členství a historie transakcí.
 ```
 Rezervace skupinových lekcí a osobního tréninku.
 Správa časového harmonogramu pro lekce a trenéry.
-Notifikace a připomenutí rezervací.
+- Základ je nastavení a správa rozvrhů na jednotlivé týdny po 45 minutách od 8:00 do 19:00
 ```
 
 ### Další funkce
