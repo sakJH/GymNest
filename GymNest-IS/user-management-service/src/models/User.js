@@ -37,7 +37,7 @@ class User extends Model {
                 where: { username }
             });
             if (result === 0) {
-                // Žádný záznam nebyl odstraněn, což znamená, že uživatel s tímto uživatelským jménem nebyl nalezen
+                // Žádný záznam nebyl odstraněn, uživatel s tímto uživatelským jménem nebyl nalezen
                 throw new Error(`Uživatel s uživatelským jménem "${username}" nebyl nalezen.`);
             }
             console.log(`Uživatel s uživatelským jménem "${username}" byl úspěšně odstraněn.`);
