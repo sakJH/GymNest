@@ -50,6 +50,8 @@
 3. controllers/AuthController.js
 4. routes/userRoutes.js
 
+**Dockerfile**
+
 # TODO
 Auth tree
 
@@ -58,3 +60,4 @@ Docker
 utils/hashPassword.
 
 utils/validateInput - je potřeba?
+
