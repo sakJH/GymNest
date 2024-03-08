@@ -7,7 +7,7 @@ exports.register = async (req, res) => {
 exports.login = (req, res) => {
     const user = req.user;
     const payload = { id: user.id, username: user.username };
-    const token = jwt.sign(payload, 'váš_tajný_klíč', { expiresIn: '1h' }); // Opět použijte bezpečný klíč
+    const token = jwt.sign(payload, process.env.AUTH_SECRET, { expiresIn: '1h' }); // Opět použijte bezpečný klíč
 
     res.json({ token: `Bearer ${token}` });
 };

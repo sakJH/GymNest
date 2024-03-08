@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
 const bcrypt = require('bcryptjs');
-const User = require('../models/User'); // Předpokládáme, že máte model User
+const User = require('../models/User');
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
@@ -26,7 +26,7 @@ passport.use(new LocalStrategy(
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'váš_tajný_klíč', // Použijte bezpečný klíč uložený v konfiguraci/env proměnných
+    secretOrKey: process.env.AUTH_SECRET, // secret.env
 };
 
 passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
