@@ -51,13 +51,12 @@
 4. routes/userRoutes.js
 
 **Dockerfile**
+Dockerfile
 
 # TODO
-Auth tree
+Auth tree - asi nebude správně
 
-Docker
-
-utils/hashPassword.
+utils/hashPassword
 
 utils/validateInput - je potřeba?
 
