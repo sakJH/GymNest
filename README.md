@@ -104,8 +104,24 @@ MySQL
 > Verze: 
 
 ### Docker
-Dockerfile
-> ...Doplnit
+**Dockerfile**
+```
+FROM mysql:latest
+
+# Nastavení prostředí pro MySQL (přizpůsobte podle potřeby)
+ENV MYSQL_DATABASE=GymNestUserDB
+ENV MYSQL_ROOT_PASSWORD=my-secret-pw
+
+# Kopírování inicializačních skriptů do kontejneru
+COPY ./1_init_gymnest_user_db.sql /docker-entrypoint-initdb.d/
+COPY ./2_init_gymnest_membership_db.sql /docker-entrypoint-initdb.d/
+COPY ./3_init_gymnest_booking_db.sql /docker-entrypoint-initdb.d/
+```
+**Spuštění**
+docker build -t gymnest_db
+
+docker run --name gymnest_db_container -e MYSQL_ROOT_PASSWORD=PowerOfMicroservices -d gymnest_db
+
 
 docker-compose.yml
 > ...Doplnit
