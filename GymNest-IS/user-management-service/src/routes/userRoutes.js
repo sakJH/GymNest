@@ -1,6 +1,10 @@
 const express = require('express');
 const UserController = require('../controllers/UserController');
 
+const passport = require('passport'); // Nezapomeňte na import Passport
+const protectedController = require('../controllers/AuthController'); // Předpokládáme, že máte nějaký kontrolér pro ochranné metody
+
+
 const router = express.Router();
 
 // Vytvoření nového uživatele
@@ -20,5 +24,8 @@ router.post('/users/login', UserController.loginUser);
 
 // Získání všech uživatelů
 router.get('/users', UserController.getAllUsers);
+
+// TODO - bezpečná auth
+router.get('/protected', passport.authenticate('jwt', { session: false }), protectedController.someMethod);
 
 module.exports = router;

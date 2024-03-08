@@ -3,7 +3,7 @@ USE GymNestUserDB;
 INSERT INTO Roles (RoleName) VALUES 
 ('člen'), 
 ('trenér'), 
-('administrátor');
+('admin');
 
 INSERT INTO Users (Username, PasswordHash, Email, RoleID) VALUES 
 ('jan.novak', 'hash1234', 'jan.novak@email.cz', 1), 

@@ -28,7 +28,33 @@
 5. routes/profileRoutes.js
 6. Přidáno profileRoutes do app.js 
 
+> [!CAUTION]
+> TODO -> Profile tree je dokončen, ale není otestovaný!
+
+
 ## Role tree
 
 **Postup**
 1. models/Profile.js
+2. services/RoleService.js
+3. controllers/RoleController.js
+4. routes/roleRoutes.js
+5. Přidáno roleRoutes do app.js
+
+> [!CAUTION]
+> TODO -> Role tree je dokončen, ale není otestovaný!
+
+## Auth tree
+1. utils/passport.js
+2. routes/authRoutes.js
+3. controllers/AuthController.js
+4. routes/userRoutes.js
+
+# TODO
+Auth tree
+
+Docker
+
+utils/hashPassword.
+
+utils/validateInput - je potřeba?

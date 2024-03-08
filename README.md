@@ -306,7 +306,8 @@ user-management-service/
 │   │
 │   ├── services/
 │   │   ├── AuthService.js             # Servisní logika pro autentizaci
-│   │   ├── ProfileService.js             # Servisní logika pro profily
+│   │   ├── ProfileService.js          # Servisní logika pro profily
+│   │   ├── RoleService.js             # Servisní logika pro role
 │   │   └── UserService.js             # Nově přidaný, služby pro správu uživatelů
 │   │
 │   ├── utils/
