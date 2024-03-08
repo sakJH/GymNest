@@ -1,7 +1,48 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
-class Profile extends Model {}
+class Profile extends Model {
+
+    static async findByUserId(userId) {
+        return await this.findOne({ where: { userId } });
+    }
+
+    static async createProfile(profileData) {
+        try {
+            return await this.create(profileData);
+        } catch (error) {
+            console.error('Nepodařilo se vytvořit profil:', error);
+            throw error;
+        }
+    }
+
+    static async updateProfile(userId, updateValues) {
+        try {
+            const profile = await this.findByUserId(userId);
+            if (!profile) {
+                throw new Error('Profil nebyl nalezen.');
+            }
+            return await profile.update(updateValues);
+        } catch (error) {
+            console.error('Nepodařilo se aktualizovat profil:', error);
+            throw error;
+        }
+    }
+
+    static async deleteProfile(userId) {
+        try {
+            const profile = await this.findByUserId(userId);
+            if (!profile) {
+                throw new Error('Profil nebyl nalezen.');
+            }
+            await profile.destroy();
+            console.log('Profil byl úspěšně odstraněn.');
+        } catch (error) {
+            console.error('Nepodařilo se odstranit profil:', error);
+            throw error;
+        }
+    }
+}
 
 Profile.init({
     // Definice atributů modelu

@@ -22,8 +22,13 @@
 
 **Postup**
 1. models/Profile.js
+2. app.js - asociace mezi User a Profile (1:1)
+3. services/ProfileService.js
+4. controllers/ProfileController.js
+5. routes/profileRoutes.js
+6. Přidáno profileRoutes do app.js 
 
-2. services/ProfileService.js
-3. controllers/ProfileController.js
-4. routes/profileRoutes.js
-5. Přidáno profileRoutes do app.js 
+## Role tree
+
+**Postup**
+1. models/Profile.js
