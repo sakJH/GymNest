@@ -290,32 +290,35 @@ user-management-service/
 │
 ├── src/
 │   ├── controllers/
-│   │   ├── AuthController.js       # Logika pro autentizaci a autorizaci
-│   │   ├── UserController.js       # Operace nad uživatelskými účty (CRUD)
-│   │   └── ProfileController.js    # Nově přidaný, správa uživatelských profilů
+│   │   ├── AuthController.js          # Logika pro autentizaci a autorizaci
+│   │   ├── UserController.js          # Operace nad uživatelskými účty (CRUD)
+│   │   └── ProfileController.js       # Nově přidaný, správa uživatelských profilů
 │   │
 │   ├── models/
-│   │   ├── User.js                 # Model uživatele
-│   │   ├── Role.js                 # Model role
-│   │   └── Profile.js              # Model pro uživatelské profily
+│   │   ├── User.js                    # Model uživatele
+│   │   ├── Role.js                    # Model role
+│   │   └── Profile.js                 # Model pro uživatelské profily
 │   │
 │   ├── routes/
-│   │   ├── authRoutes.js           # Endpointy pro autentizaci
-│   │   ├── userRoutes.js           # Endpointy pro správu uživatelů
-│   │   └── profileRoutes.js        # Nově přidaný, endpointy pro uživatelské profily
+│   │   ├── authRoutes.js              # Endpointy pro autentizaci
+│   │   ├── userRoutes.js              # Endpointy pro správu uživatelů
+│   │   └── profileRoutes.js           # Nově přidaný, endpointy pro uživatelské profily
 │   │
 │   ├── services/
-│   │   ├── AuthService.js          # Servisní logika pro autentizaci
-│   │   └── UserService.js          # Nově přidaný, služby pro správu uživatelů
+│   │   ├── AuthService.js             # Servisní logika pro autentizaci
+│   │   └── UserService.js             # Nově přidaný, služby pro správu uživatelů
 │   │
 │   ├── utils/
-│   │   ├── hashPassword.js         # Pomocné funkce, např. pro hashování hesel
-│   │   └── validateInput.js        # Nově přidaný, validace vstupních dat
-│   │
-│   └── index.js                    # Vstupní bod mikroservisy, nastavení Express serveru
+│   │   ├── hashPassword.js            # Pomocné funkce, např. pro hashování hesel
+│   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
+│   ├── sequelize.js                   # Soubor s nastavením pro DB 
+│   └── app.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── package.json                    # Definice závislostí a skriptů
-└── Dockerfile                      # Docker konfigurace pro službu
+├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
+├── package.json                       # Definice závislostí a skriptů
+├── user-management-service.iml        # iml soubor
+├── README-user-management-service.md  # MD soubor s postupem vývoje
+└── Dockerfile                         # Docker konfigurace pro službu
 ```
 
 ### Správa členství 
@@ -346,7 +349,7 @@ membership-service/
 │   │   ├── paymentProcessing.js    # Nově přidaný, pomocné funkce pro zpracování plateb
 │   │   └── validation.js           # Nově přidaný, validace vstupních dat
 │   │
-│   └── index.js                    # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── app.js                    # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── package.json                    # Definice závislostí a skriptů
 └── Dockerfile                      # Docker konfigurace pro službu
@@ -380,7 +383,7 @@ booking-service/
 │   │   ├── scheduleHelpers.js        # Nově přidaný, pomocné funkce pro správu harmonogramů
 │   │   └── validation.js             # Nově přidaný, validace vstupních dat
 │   │
-│   └── index.js                      # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── app.js                      # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── package.json                      # Definice závislostí a skriptů
 └── Dockerfile                        # Docker konfigurace pro službu
@@ -407,7 +410,7 @@ frontend/
 │   │
 │   ├── App.js                      # Hlavní komponenta aplikace, nastavení routeru
 │   ├── theme.js                    # Přizpůsobení Material-UI tématu
-│   └── index.js                    # Vstupní bod React aplikace
+│   └── app.js                    # Vstupní bod React aplikace
 │
 └── package.json                    # Definice závislostí a skriptů
 ```
