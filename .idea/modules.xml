@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GymNest.iml" filepath="$PROJECT_DIR$/.idea/GymNest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service.iml" filepath="$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service.iml" />
     </modules>
   </component>
 </project>

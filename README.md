@@ -1,5 +1,7 @@
 # GymNest
- MOIS semestrální projekt na FIM UHK
+ MOIS semestrální projekt na FIM UHK.
+
+Autoři - Bc. Jan Sakač a Bc. Matěj Boura 
 
  **Osnova**
  1. Úvod
@@ -276,10 +278,10 @@ user-management-service/
 │   │   ├── UserController.js       # Operace nad uživatelskými účty (CRUD)
 │   │   └── ProfileController.js    # Nově přidaný, správa uživatelských profilů
 │   │
-│   ├── src.models/
+│   ├── models/
 │   │   ├── User.js                 # Model uživatele
 │   │   ├── Role.js                 # Model role
-│   │   └── Profile.js              # Nově přidaný, model pro uživatelské profily
+│   │   └── Profile.js              # Model pro uživatelské profily
 │   │
 │   ├── routes/
 │   │   ├── authRoutes.js           # Endpointy pro autentizaci
@@ -310,7 +312,7 @@ membership-service/
 │   │   ├── PaymentController.js    # Rozšířeno o funkce pro historii a potvrzení plateb
 │   │   └── SubscriptionController.js# Nově přidaný, správa předplatného a obnova členství
 │   │
-│   ├── src.models/
+│   ├── models/
 │   │   ├── Membership.js           # Model členství, upraveno pro detailnější správu
 │   │   ├── Payment.js              # Model platby, upraveno pro více informací o platbě
 │   │   └── Subscription.js         # Nově přidaný, model pro předplatné členství
@@ -344,7 +346,7 @@ booking-service/
 │   │   ├── ActivityController.js     # Rozšířeno o funkce pro detaily a úpravy aktivit
 │   │   └── ScheduleController.js     # Nově přidaný, správa časových harmonogramů aktivit
 │   │
-│   ├── src.models/
+│   ├── models/
 │   │   ├── Booking.js                # Model rezervace, upraveno pro detailnější správu
 │   │   ├── Activity.js               # Model aktivity, upraveno pro více informací o aktivitě
 │   │   └── Schedule.js               # Nově přidaný, model pro časové harmonogramy aktivit

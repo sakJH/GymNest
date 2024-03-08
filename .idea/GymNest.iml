@@ -3,7 +3,11 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/user-management-service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/booking-service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/frontend" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/gateway-api" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/membership-service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/user-management-service" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
