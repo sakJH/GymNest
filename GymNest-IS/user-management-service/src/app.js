@@ -27,7 +27,7 @@ sequelize.sync({ force: false }).then(() => {
     User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
     Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-    console.log('Databáze a tabulky byly úspěšně synchronizovány');
+    console.log('Databáze a tabulky byly synchronizovány');
 
     app.listen(PORT, () => {
         console.log(`Server běží na portu ${PORT}`);

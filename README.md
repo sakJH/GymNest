@@ -288,6 +288,10 @@ Editace akce: Formulář pro upravení detailů existující akce s možností u
 ```
 user-management-service/
 │
+├── database/                           # Adresář pro databázové skripty
+│   └── migrations/
+│       └── 1_init_gymnest_user_db.sql  # Skript pro inicializaci databáze
+│
 ├── src/
 │   ├── controllers/
 │   │   ├── AuthController.js          # Logika pro autentizaci a autorizaci
@@ -320,7 +324,8 @@ user-management-service/
 ├── package.json                       # Definice závislostí a skriptů
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
-└── Dockerfile                         # Docker konfigurace pro službu
+├── Dockerfile                         # Docker konfigurace pro službu
+└── docker-compose.yml                 # Docker Compose konfigurace 
 ```
 
 ### Správa členství 
