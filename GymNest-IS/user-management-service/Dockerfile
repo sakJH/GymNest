@@ -1,5 +1,5 @@
 # Základní obraz: Node.js
-FROM node:14
+FROM node:21
 
 # Vytvoření adresáře aplikace v kontejneru
 WORKDIR /usr/src/app
@@ -17,5 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Definice příkazu, který se spustí při startu kontejneru.
-# Tento příkaz by měl odpovídat příkazu, který spouští aplikaci.
-CMD [ "node", "app.js" ]
+CMD [ "node", "user-namagement-service/src/app.js" ]
