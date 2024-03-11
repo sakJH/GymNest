@@ -10,6 +10,7 @@ Autoři - Bc. Jan Sakač a Bc. Matěj Boura
  4. Návrh databáze
  5. Struktura Frontend
  6. Struktura IS
+ 7. Use Case
  
 **Požadavky na projekt**
 ```
@@ -421,3 +422,82 @@ frontend/
 │
 └── package.json                    # Definice závislostí a skriptů
 ```
+
+## Use Case
+
+### 1. Přihlášení a registrace s nákupem členství
+
+#### Popis:
+Nový uživatel chce vstoupit do systému GymNest a zakoupit si členství.
+
+#### Aktoři:
+Nový uživatel
+
+#### Předpoklady:
+Uživatel má přístup k internetu a webovému prohlížeči.
+
+#### Postup:
+1. Uživatel přistupuje k domovské stránce systému GymNest.
+2. Uživatel klikne na možnost "Přihlásit se" nebo "Registrovat se".
+3. Pokud uživatel ještě nemá účet, vyplní registrační formulář s potřebnými informacemi (jako je jméno, e-mail a heslo).
+4. Po vyplnění formuláře uživatel klikne na tlačítko "Registrovat se".
+5. Systém ověří zadané údaje a vytvoří nový účet pro uživatele.
+6. Uživatel je automaticky přihlášen do systému a přesměrován na stránku pro nákup členství.
+7. Uživatel vybere požadovaný typ členství a klikne na možnost "Zakoupit".
+8. Systém přesměruje uživatele na platební bránu, kde provede platbu za vybrané členství.
+9. Po úspěšné platbě je uživateli automaticky přiděleno zakoupené členství a potvrzení o platbě je zasláno na jeho e-mail.
+
+#### Alternativní průběh:
+- Pokud uživatel již má účet, přihlásí se pomocí svých přihlašovacích údajů a pokračuje od kroku 6.
+- Pokud se uživatel rozhodne nezakoupit členství okamžitě, může zvolit možnost prohlížení rozvrhu lekcí nebo jiných funkcí aplikace.
+- Pokud platba za členství selže, systém uživatele o tom informuje a nabízí možnost opakování platby.
+
+
+### 2. Zobrazení rozvrhu a rezervace lekce
+
+#### Popis:
+Registrovaný uživatel si chce zobrazit rozvrh skupinových lekcí a rezervovat si místo na vybrané lekci.
+
+#### Aktoři:
+Registrovaný uživatel
+
+#### Předpoklady:
+Uživatel je registrován do systému.
+
+#### Postup:
+1. Uživatel se přihlásí do systému pomocí svého uživatelského jména a hesla.
+2. Po úspěšném přihlášení uživatel se nachází na domovské stránce aplikace GymNest.
+3. Uživatel vybere možnost "Zobrazit rozvrh" z hlavního menu.
+4. Systém zobrazí rozvrh skupinových lekcí pro daný týden, který obsahuje informace jako datum, čas, typ lekce a instruktora.
+5. Uživatel prochází dostupné lekce a vybírá tu, na kterou se chce zúčastnit.
+6. Po výběru konkrétní lekce uživatel klikne na možnost "Rezervovat místo".
+7. Systém ověří dostupnost místa na lekci a potvrdí rezervaci.
+8. Uživatel obdrží potvrzení o rezervaci a má místo na vybrané lekci zajištěno.
+
+#### Alternativní průběh:
+- Pokud uživatel nenajde vhodnou lekci v aktuálním týdnu, může se podívat na rozvrh následujících týdnů.
+- Pokud je lekce již plně obsazena, uživatel nemůže provést rezervaci a musí vybrat jinou lekci.
+- Uživatel může také procházet rozvrh lekcí podle typu (např. aerobic, spinning) nebo instruktora.
+
+### 3. Zobrazení historie plateb a transakcí
+
+#### Popis:
+Registrovaný uživatel si chce zobrazit historii svých plateb za členství a transakcí spojených s aplikací GymNest.
+
+#### Aktoři:
+Registrovaný uživatel
+
+#### Předpoklady:
+Uživatel je registrován do systému.
+
+#### Postup:
+1. Uživatel se přihlásí do systému pomocí svého uživatelského jména a hesla.
+2. Po úspěšném přihlášení uživatel se nachází na domovské stránce aplikace GymNest.
+3. Uživatel vybere možnost "Historie plateb" nebo "Transakce" z hlavního menu.
+4. Systém zobrazí seznam všech plateb za členství a transakcí, které uživatel provedl v minulosti.
+5. Uživatel může procházet seznam a prohlížet detaily každé platby nebo transakce, jako je částka, datum a stav platby.
+6. Po skončení prohlížení uživatel klikne na možnost "Zavřít" nebo se vrátí zpět na domovskou stránku.
+
+#### Alternativní průběh:
+- Pokud uživatel nemá žádné platby nebo transakce v historii, systém zobrazí odpovídající zprávu, že historie je prázdná.
+- Pokud systém není schopen načíst historii platby nebo transakcí z databáze, uživatel obdrží chybové hlášení a může to zkusit znovu později.
