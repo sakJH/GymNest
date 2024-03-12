@@ -445,7 +445,7 @@ Uživatel má přístup k internetu a webovému prohlížeči.
 6. Uživatel je automaticky přihlášen do systému a přesměrován na stránku pro nákup členství.
 7. Uživatel vybere požadovaný typ členství a klikne na možnost "Zakoupit".
 8. Systém přesměruje uživatele na platební bránu, kde provede platbu za vybrané členství.
-9. Po úspěšné platbě je uživateli automaticky přiděleno zakoupené členství a potvrzení o platbě je zasláno na jeho e-mail.
+9. Po úspěšné platbě je uživateli automaticky přiděleno zakoupené členství a potvrzení o platbě je zasláno na jeho e-mail, zároveň mu systém přiřadí oprávnění: člen.
 
 #### Alternativní průběh:
 - Pokud uživatel již má účet, přihlásí se pomocí svých přihlašovacích údajů a pokračuje od kroku 6.
@@ -501,3 +501,41 @@ Uživatel je registrován do systému.
 #### Alternativní průběh:
 - Pokud uživatel nemá žádné platby nebo transakce v historii, systém zobrazí odpovídající zprávu, že historie je prázdná.
 - Pokud systém není schopen načíst historii platby nebo transakcí z databáze, uživatel obdrží chybové hlášení a může to zkusit znovu později.
+
+### 4. Správa Aktivit a Rozvrhů
+
+#### Popis:
+Vlastník posilovny může jednoduše spravovat aktivity a rozvrhy lekcí a tréninků v posilovně pomocí aplikace GymNest.
+
+#### Aktoři:
+Vlastník posilovny
+
+#### Předpoklady:
+Uživatel je registrován do systému s oprávněním admin nebo alespoň trenér.
+
+#### Postup:
+1. Vlastník posilovny se přihlásí do systému pomocí svých přihlašovacích údajů.
+2. Po úspěšném přihlášení je vlastník posilovny přesměrován na domovskou stránku aplikace GymNest.
+3. Vlastník posilovny klikne na možnost "Správa Aktivit" nebo "Rozvrhy" z hlavního menu.
+4. Systém zobrazí seznam aktuálně nabízených aktivit nebo rozvrh lekcí a tréninků v posilovně.
+5. Vlastník posilovny může provádět následující činnosti:
+   - **Přidání Nové Aktivity:**
+     - Klikne na tlačítko "Přidat Aktivitu".
+     - Vyplní formulář s informacemi o nové aktivitě.
+     - Potvrdí přidání aktivity do systému.
+   - **Úprava Aktivity:**
+     - Vybere existující aktivitu ze seznamu.
+     - Klikne na tlačítko "Upravit".
+     - Upraví požadované údaje aktivity.
+     - Potvrdí provedené změny.
+   - **Mazání Aktivity:**
+     - Vybere aktivitu, kterou chce odstranit.
+     - Klikne na tlačítko "Smazat".
+     - Potvrdí smazání aktivity ze systému.
+   - **Správa Rozvrhů:**
+     - Prochází seznam lekcí a tréninků v rozvrhu.
+     - Může provádět úpravy, jako jsou změny časů a lokalit nebo přiřazování trenérů k jednotlivým aktivitám.
+
+#### Alternativní průběh:
+- Pokud vlastník posilovny nemá žádné aktivity v nabídce, systém zobrazí odpovídající zprávu, že seznam je prázdný.
+- Pokud systém není schopen načíst aktivity nebo rozvrh z databáze, vlastník posilovny obdrží chybové hlášení a může to zkusit znovu později.
