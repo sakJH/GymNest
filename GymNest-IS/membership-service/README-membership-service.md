@@ -18,6 +18,8 @@
 > [!CAUTION]
 > TODO -> Membership tree je dokončen, ale není otestovaný!
 
+TODO -> Validace Membership
+
 ## Subsciption tree
 
 1. models/Subscription.js
@@ -28,3 +30,17 @@
 
 > [!CAUTION]
 > TODO -> Subsciption tree je dokončen, ale není otestovaný!
+
+TODO -> Validace Subscription 
+
+## Payment tree
+
+1. models/Payment.js
+2. services/PaymentService.js
+3. controllers/PaymentController.js
+4. routes/paymentRoutes.js
+5. Přidáno paymentRoutes do app.js
+
+> [!CAUTION]
+> TODO -> Payment tree je dokončen, ale není otestovaný!
+
