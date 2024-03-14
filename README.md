@@ -333,27 +333,28 @@ user-management-service/
 ```
 membership-service/
 │
-├── membership-service/               # složka s Module pro Node.js s Express frameworkem
+├── membership-service/               # Složka s Module pro Node.js s Express frameworkem
 │
 ├── src/
 │   ├── controllers/
 │   │   ├── MembershipController.js   # Rozšířeno o funkce pro zobrazení členství uživatele
 │   │   ├── PaymentController.js      # Rozšířeno o funkce pro historii a potvrzení plateb
-│   │   └── SubscriptionController.js # Nově přidaný, správa předplatného a obnova členství
+│   │   └── SubscriptionController.js # Správa předplatného a obnova členství
 │   │
 │   ├── models/
 │   │   ├── Membership.js           # Model členství, upraveno pro detailnější správu
 │   │   ├── Payment.js              # Model platby, upraveno pro více informací o platbě
-│   │   └── Subscription.js         # Nově přidaný, model pro předplatné členství
+│   │   └── Subscription.js         # Model pro předplatné členství
 │   │
 │   ├── routes/
 │   │   ├── membershipRoutes.js     # Endpointy pro členství, rozšířeno o nové funkce
 │   │   ├── paymentRoutes.js        # Endpointy pro platby, rozšířeno o nové funkce
-│   │   └── subscriptionRoutes.js   # Nově přidaný, endpointy pro správu předplatného
+│   │   └── subscriptionRoutes.js   # Endpointy pro správu předplatného
 │   │
 │   ├── services/
-│   │   ├── MembershipService.js    # Nově přidaný, služba pro logiku členství
-│   │   └── PaymentService.js       # Nově přidaný, služba pro logiku plateb
+│   │   ├── MembershipService.js    # Služba pro logiku členství
+│   │   ├── PaymentService.js       # Služba pro logiku plateb
+│   │   └── SubscriptionService.js  # Služba pro logiku předplatného
 │   │
 │   ├── utils/
 │   │   ├── paymentProcessing.js    # Nově přidaný, pomocné funkce pro zpracování plateb
@@ -368,6 +369,8 @@ membership-service/
 ### Rezervační systém
 ```
 booking-service/
+│
+├── booking-service/                 # Složka s Module pro Node.js s Express frameworkem
 │
 ├── src/
 │   ├── controllers/

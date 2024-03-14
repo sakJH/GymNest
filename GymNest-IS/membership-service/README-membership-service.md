@@ -44,3 +44,8 @@ TODO -> Validace Subscription
 > [!CAUTION]
 > TODO -> Payment tree je dokončen, ale není otestovaný!
 
+
+# TODO úkoly
+1. Implementace utils/paymentProcessing.js
+2. Implementace utils/validation.js
+3. TODO úkoly
