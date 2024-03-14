@@ -29,3 +29,8 @@
 3. controllers/NotificationController.js
 4. routes/notificationRoutes.js
 5. Přidáno notificationRoutes do app.js
+
+
+# TODO úkoly
+1. Vytvoření a implementace utils/validateInput.js
+2. Vytvoření a implementace utils/dateUtils.js

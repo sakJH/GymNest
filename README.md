@@ -410,7 +410,7 @@ booking-service/
 │   ├── sequelize.js                    # Soubor s nastavením pro DB (pro SQL databáze)
 │   └── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── db-setup.env                                # Soubor s proměnnými prostředí
+├── db-setup.env                        # Soubor s proměnnými prostředí
 ├── package.json                        # Definice závislostí a skriptů
 ├── README.md                           # README soubor s dokumentací
 ├── Dockerfile                          # Docker konfigurace pro službu
