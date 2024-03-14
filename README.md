@@ -333,11 +333,13 @@ user-management-service/
 ```
 membership-service/
 │
+├── membership-service/               # složka s Module pro Node.js s Express frameworkem
+│
 ├── src/
 │   ├── controllers/
-│   │   ├── MembershipController.js # Rozšířeno o funkce pro zobrazení členství uživatele
-│   │   ├── PaymentController.js    # Rozšířeno o funkce pro historii a potvrzení plateb
-│   │   └── SubscriptionController.js# Nově přidaný, správa předplatného a obnova členství
+│   │   ├── MembershipController.js   # Rozšířeno o funkce pro zobrazení členství uživatele
+│   │   ├── PaymentController.js      # Rozšířeno o funkce pro historii a potvrzení plateb
+│   │   └── SubscriptionController.js # Nově přidaný, správa předplatného a obnova členství
 │   │
 │   ├── models/
 │   │   ├── Membership.js           # Model členství, upraveno pro detailnější správu

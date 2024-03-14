@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Definice příkazu, který se spustí při startu kontejneru.
-CMD [ "node", "user-namagement-service/src/app.js" ]
+CMD [ "node", "src/app.js" ]

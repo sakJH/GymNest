@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/frontend" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/membership-service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/GymNest-IS/user-management-service" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
