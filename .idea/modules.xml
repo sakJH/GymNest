@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GymNest.iml" filepath="$PROJECT_DIR$/.idea/GymNest.iml" />
       <module fileurl="file://$PROJECT_DIR$/GymNest-IS/booking-service/booking-service.iml" filepath="$PROJECT_DIR$/GymNest-IS/booking-service/booking-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GymNest-IS/frontend/frontend.iml" filepath="$PROJECT_DIR$/GymNest-IS/frontend/frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/GymNest-IS/membership-service/membership-service.iml" filepath="$PROJECT_DIR$/GymNest-IS/membership-service/membership-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service.iml" filepath="$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service.iml" />
     </modules>

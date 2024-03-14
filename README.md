@@ -422,6 +422,8 @@ booking-service/
 ```
 frontend/
 │
+├── frontend/                       # Složka s Module pro React aplikaci
+│
 ├── public/
 │   └── index.html                  # Hlavní HTML soubor
 │
@@ -429,7 +431,6 @@ frontend/
 │   ├── components/                 # Opakovaně použitelné komponenty
 │   │   ├── Navbar.js               # Navigační lišta s Material-UI komponentami
 │   │   ├── Footer.js               # Patička
-│   │   └── CustomButton.js         # Příklad vlastního tlačítka s Material-UI
 │   │
 │   ├── pages/                      # Stránky aplikace
 │   │   ├── HomePage.js             # Domovská stránka s Material-UI layoutem
@@ -439,7 +440,7 @@ frontend/
 │   │
 │   ├── App.js                      # Hlavní komponenta aplikace, nastavení routeru
 │   ├── theme.js                    # Přizpůsobení Material-UI tématu
-│   └── app.js                    # Vstupní bod React aplikace
+│   └── main.js                    # Vstupní bod React aplikace
 │
 └── package.json                    # Definice závislostí a skriptů
 ```

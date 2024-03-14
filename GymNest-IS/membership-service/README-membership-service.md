@@ -49,3 +49,7 @@ TODO -> Validace Subscription
 1. Implementace utils/paymentProcessing.js
 2. Implementace utils/validation.js
 3. TODO úkoly
+4. Správa různých typů členství a tarifů (tiers)
+5. Platební brána PayPal (Sandbox mod)
+6. Různé měny
+7. Výběr barevných schémat

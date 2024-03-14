@@ -113,6 +113,53 @@ class User extends Model {
         }
     }
 
+    static async getUserByEmail(email) {
+        try {
+            const user = await this.findOne({
+                where: { email },
+                attributes: { exclude: ['passwordHash'] } // Vyjma hesla
+            });
+            if (!user) {
+                throw new Error(`Uživatel s emailem "${email}" nebyl nalezen.`);
+            }
+            return user;
+        } catch (error) {
+            console.error('Chyba při získávání uživatele podle emailu:', error);
+            throw error;
+        }
+    }
+
+    // Metoda pro aktualizaci preferencí uživatele
+    static async updatePreferences(userId, preferences) {
+        try {
+            const user = await this.findByPk(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            await user.update(preferences);
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Metoda pro resetování preferencí na výchozí hodnoty
+    static async resetPreferencesToDefault(userId) {
+        try {
+            const user = await this.findByPk(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            await user.update({
+                preferredCurrency: 'CZK', // Výchozí měna
+                colorScheme: 'light', // Výchozí barevné schéma
+            });
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // TODO - Další metody?
 }
 
@@ -142,6 +189,14 @@ User.init({
             model: 'Roles', // Název modelu Role
             key: 'id'
         }
+    },
+    preferredCurrency: {
+        type: DataTypes.STRING,
+        defaultValue: 'CZK', // Výchozí měna
+    },
+    colorScheme: {
+        type: DataTypes.STRING,
+        defaultValue: 'light', // Výchozí barevné schéma
     }
 }, {
     sequelize,

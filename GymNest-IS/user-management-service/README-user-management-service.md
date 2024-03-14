@@ -44,19 +44,18 @@
 > [!CAUTION]
 > TODO -> Role tree je dokončen, ale není otestovaný!
 
-## Auth tree
-1. utils/passport.js
-2. routes/authRoutes.js
-3. controllers/AuthController.js
-4. routes/userRoutes.js
-
 **Dockerfile**
 Dockerfile
 
+## Auth tree - TODO
+**Auth tree - JWT**
+1. authJWT.js
+2. 
+
 # TODO
-Auth tree - asi nebude správně
-
-utils/hashPassword
-
-utils/validateInput - je potřeba?
-
+1. Auth tree - není správně
+2. utils/hashPassword - implementovat
+3. utils/validateInput - je potřeba?
+4. JWT Tokeny
+5. Autentizace přes Google Authentication
+6. CurrencyConverter - dodělat ošetření (try/catch) a cachování odpovědí

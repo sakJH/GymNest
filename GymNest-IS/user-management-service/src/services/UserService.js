@@ -64,6 +64,34 @@ class UserService {
             throw error;
         }
     }
+
+    static async getUserByEmail(email){
+        try {
+            return await User.getUserByEmail(email);
+        } catch (error) {
+            console.error('Služba - Chyba při získávání uživatele dle emailu:', error);
+            throw error;
+        }
+    }
+
+    static async updatePreferences(username, preferences){
+        try {
+            return await User.updatePreferences(username, preferences);
+        } catch (error) {
+            console.error('Služba - Chyba při aktualizaci preferencí uživatele:', error);
+            throw error;
+        }
+    }
+
+    static async resetPreferencesToDefault(username){
+        try {
+            return await User.resetPreferencesToDefault(username);
+        } catch (error) {
+            console.error('Služba - Chyba při resetování preferencí uživatele:', error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = UserService;
