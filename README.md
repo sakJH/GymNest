@@ -4,13 +4,13 @@
 Autoři - Bc. Jan Sakač a Bc. Matěj Boura 
 
  **Osnova**
- 1. Úvod
- 2. Návrh mikroslužeb
- 3. Technologie
- 4. Návrh databáze
- 5. Struktura Frontend
- 6. Struktura IS
- 7. Use Case
+ 1. [Úvod](#úvod)
+ 2. [Návrh mikroslužeb](#návrh-mikroslužeb)
+ 3. [Technologie](#technologie)
+ 4. [Návrh databáze](#návrh-databáze)
+ 5. [Struktura Frontend](#struktura-frontend)
+ 6. [Struktura IS](#struktura-is) 
+ 7. [Use Case](#use-case)
  
 **Požadavky na projekt**
 ```
@@ -322,6 +322,7 @@ user-management-service/
 │   └── app.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
+├── db-setup.env                       # Konfigurace pro připojení k databázi
 ├── package.json                       # Definice závislostí a skriptů
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
@@ -362,44 +363,59 @@ membership-service/
 │   │
 │   └── app.js                    # Vstupní bod mikroservisy, nastavení Express serveru
 │
+├── db-setup.env                    # Konfigurace pro připojení k databázi
 ├── package.json                    # Definice závislostí a skriptů
-└── Dockerfile                      # Docker konfigurace pro službu
+├── docker-compose.yml              # Docker Compose konfigurace
+├── Dockerfile                      # Docker konfigurace pro službu
+├── membership-service.iml          # iml soubor
+├── README-membership-service.md    # MD soubor s postupem vývoje
+└── README-představa.md             # MD soubor s představou
 ```
 
 ### Rezervační systém
 ```
 booking-service/
 │
-├── booking-service/                 # Složka s Module pro Node.js s Express frameworkem
+├── booking-service/                   # Složka s Module pro Node.js s Express frameworkem
 │
 ├── src/
 │   ├── controllers/
-│   │   ├── BookingController.js      # Rozšířeno o funkce pro zobrazení a storno rezervací
-│   │   ├── ActivityController.js     # Rozšířeno o funkce pro detaily a úpravy aktivit
-│   │   └── ScheduleController.js     # Nově přidaný, správa časových harmonogramů aktivit
+│   │   ├── BookingController.js        # Logika pro správu rezervací
+│   │   ├── ActivityController.js       # Operace s aktivitami (lekce, kurzy atd.)
+│   │   ├── ScheduleController.js       # Operace nad harmonogramem aktivit
+│   │   └── NotificationController.js   # Správa notifikací a upozornění
 │   │
 │   ├── models/
-│   │   ├── Booking.js                # Model rezervace, upraveno pro detailnější správu
-│   │   ├── Activity.js               # Model aktivity, upraveno pro více informací o aktivitě
-│   │   └── Schedule.js               # Nově přidaný, model pro časové harmonogramy aktivit
+│   │   ├── Booking.js                  # Model pro rezervace
+│   │   ├── Activity.js                 # Model pro aktivity (lekce, kurzy atd.)
+│   │   ├── Schedule.js                 # Model pro harmonogram aktivit
+│   │   └── Notification.js             # Model pro notifikace
 │   │
 │   ├── routes/
-│   │   ├── bookingRoutes.js          # Endpointy pro rezervace, rozšířeno o nové funkce
-│   │   ├── activityRoutes.js         # Endpointy pro aktivity, rozšířeno o nové funkce
-│   │   └── scheduleRoutes.js         # Nově přidaný, endpointy pro správu časových harmonogramů
+│   │   ├── bookingRoutes.js            # Endpointy pro správu rezervací
+│   │   ├── activityRoutes.js           # Endpointy pro správu aktivit
+│   │   ├── scheduleRoutes.js           # Endpointy pro správu harmonogramu
+│   │   └── notificationRoutes.js       # Endpointy pro notifikace
 │   │
 │   ├── services/
-│   │   ├── BookingService.js         # Nově přidaný, služba pro logiku rezervací
-│   │   └── ActivityService.js        # Nově přidaný, služba pro logiku aktivit
+│   │   ├── BookingService.js           # Servisní logika pro rezervace
+│   │   ├── ActivityService.js          # Servisní logika pro aktivity
+│   │   ├── ScheduleService.js          # Servisní logika pro harmonogram
+│   │   ├── NotificationService.js      # Servisní logika pro notifikace
+│   │   └── AuthService.js              # Servisní logika pro autentizaci (pokud potřeba)
 │   │
 │   ├── utils/
-│   │   ├── scheduleHelpers.js        # Nově přidaný, pomocné funkce pro správu harmonogramů
-│   │   └── validation.js             # Nově přidaný, validace vstupních dat
-│   │
-│   └── app.js                      # Vstupní bod mikroservisy, nastavení Express serveru
+│   │   ├── validateInput.js            # Pomocné funkce pro validaci vstupů
+│   │   └── dateUtils.js                # Pomocné funkce pro práci s daty
+│   ├── sequelize.js                    # Soubor s nastavením pro DB (pro SQL databáze)
+│   └── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── package.json                      # Definice závislostí a skriptů
-└── Dockerfile                        # Docker konfigurace pro službu
+├── .env                                # Soubor s proměnnými prostředí
+├── package.json                        # Definice závislostí a skriptů
+├── README.md                           # README soubor s dokumentací
+├── Dockerfile                          # Docker konfigurace pro službu
+└── docker-compose.yml                  # Docker Compose konfigurace pro orchestraci kontejnerů
+
 ```
 
 ### Frontend
