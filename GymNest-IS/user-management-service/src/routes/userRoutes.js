@@ -1,6 +1,6 @@
 const express = require('express');
 const UserController = require('../controllers/UserController');
-const passport = require('passport');
+
 // Predpokladame existenci UserService
 const UserService = require('../services/UserService');
 
@@ -25,18 +25,15 @@ router.post('/users/login', UserController.loginUser);
 router.get('/users', UserController.getAllUsers);
 
 // Získání uživatele podle uživatelského jména
-router.get('/users/:username', UserController.getUserByUsername);
+//router.get('/users/:username', UserController.getUserByUsername);
 
 // Získání uživatele podle emailu
-router.get('/users/email/:email', UserController.getUserByEmail);
+//router.get('/users/email/:email', UserController.getUserByEmail);
 
 // Aktualizace preferencí uživatele
 router.put('/users/:userId/preferences', UserController.updatePreferences);
 
 // Reset preferencí uživatele na výchozí hodnoty
 router.put('/users/:userId/preferences/reset', UserController.resetPreferencesToDefault);
-
-// Přístup k zabezpečenému obsahu
-router.get('/protected', passport.authenticate('jwt', { session: false }), protectedController.someMethod);
 
 module.exports = router;

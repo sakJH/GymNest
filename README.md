@@ -77,17 +77,19 @@ Možnosti změnit barevné schéma (3x barevné vzory).
 React
 
 > [!NOTE]
-> Verze: ...
+> Verze: 18.2.0
 
 MUI - Material Desing
 
 > [!NOTE]
 > Verze: ...
+
 ### Backend
 Note.js s frameworkem Express
 
 > [!NOTE]
-> Verze: ...
+> Verze: 21
+
 ### Spojení
 REST - Synchronní
 
@@ -102,21 +104,12 @@ REST - Synchronní
 MySQL
 
 > [!NOTE]
-> Verze: 
+> Verze: 5.7
 
 ### Docker
 **Dockerfile**
 ```
-FROM mysql:latest
-
-# Nastavení prostředí pro MySQL (přizpůsobte podle potřeby)
-ENV MYSQL_DATABASE=GymNestUserDB
-ENV MYSQL_ROOT_PASSWORD=my-secret-pw
-
-# Kopírování inicializačních skriptů do kontejneru
-COPY ./1_init_gymnest_user_db.sql /docker-entrypoint-initdb.d/
-COPY ./2_init_gymnest_membership_db.sql /docker-entrypoint-initdb.d/
-COPY ./3_init_gymnest_booking_db.sql /docker-entrypoint-initdb.d/
+...
 ```
 **Spuštění**
 docker build -t gymnest_db
@@ -285,7 +278,20 @@ Seznam akcí: Přehled všech plánovaných akcí s možnostmi editace nebo odst
 Editace akce: Formulář pro upravení detailů existující akce s možností uložit změny nebo akci zrušit.
 
 ## Struktura IS
-### Uživatelská správa
+
+### GymNest-IS
+```
+GymNest-IS/
+│── api-gateway/
+│── booking-service/
+│── frontend/
+│── membership-service/
+│── user-management-service/
+│
+└── README.md
+```
+
+#### Uživatelská správa
 ```
 user-management-service/
 │
@@ -330,7 +336,7 @@ user-management-service/
 └── docker-compose.yml                 # Docker Compose konfigurace 
 ```
 
-### Správa členství 
+#### Správa členství 
 ```
 membership-service/
 │
@@ -372,7 +378,7 @@ membership-service/
 └── README-představa.md             # MD soubor s představou
 ```
 
-### Rezervační systém
+#### Rezervační systém
 ```
 booking-service/
 │
@@ -418,7 +424,7 @@ booking-service/
 
 ```
 
-### Frontend
+#### Frontend
 ```
 frontend/
 │

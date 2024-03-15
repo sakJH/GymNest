@@ -3,7 +3,7 @@ services:
   app:
     build: membership-service
     ports:
-      - "3000:3000"
+      - "3002:3002"
     depends_on:
       - db
     volumes:

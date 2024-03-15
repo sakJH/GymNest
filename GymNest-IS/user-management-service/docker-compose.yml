@@ -3,12 +3,12 @@ services:
   app:
     build: user-management-service
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - db
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/usr/src/user-management-service
+      - /usr/src/user-management-service/node_modules
     environment:
       - DB_HOST=db
       - DB_USER=${DB_USER}

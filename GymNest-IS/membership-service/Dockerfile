@@ -5,7 +5,7 @@ FROM node:21
 WORKDIR /usr/src/membership-service
 
 # Kopírování souborů definujících závislosti aplikace
-COPY package*.json ./
+COPY /membership-service/package*.json ./
 
 # Instalace závislostí
 RUN npm install
@@ -13,8 +13,8 @@ RUN npm install
 # Kopírování zbytku zdrojového kódu aplikace do kontejneru
 COPY . .
 
-# Aplikace běží na portu 3001 (nebo jiném portu podle vašeho nastavení)
-EXPOSE 3001
+# Aplikace běží na portu 3002
+EXPOSE 3002
 
 # Definice příkazu, který se spustí při startu kontejneru.
 CMD [ "node", "src/app.js" ]

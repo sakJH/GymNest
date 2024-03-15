@@ -1,14 +1,14 @@
 const express = require('express');
 const sequelize = require('./sequelize');
 
-require('./models/User'); // Import modelu User
-require('./models/Profile'); // Import modelu Profile
+const User = require('./models/User'); // Import modelu User
+const Profile =  require('./models/Profile'); // Import modelu Profile
 
 const userRoutes = require('./routes/userRoutes'); // Import rout
 const profileRoutes = require('./routes/profileRoutes');
 const roleRoutes = require('./routes/roleRoutes')
 
-const User = require('./models/User');
+
 User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
 Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
