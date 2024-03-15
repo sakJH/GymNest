@@ -9,20 +9,24 @@ services:
     volumes:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
+    env_file:
+      - db-setup.env
     environment:
-      - DB_HOST=db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: user
+      DB_NAME: process.env.DB_NAME1
     command: npm start
 
   db:
     image: mysql:5.7
+    env_file:
+      - db-setup.env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_NAME1}
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
