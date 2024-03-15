@@ -429,6 +429,7 @@ frontend/
 │
 ├── src/
 │   ├── components/                 # Opakovaně použitelné komponenty
+│   │   ├── Header.js               # Hlavička s nadpisem a obrázkem
 │   │   ├── Navbar.js               # Navigační lišta s Material-UI komponentami
 │   │   ├── Footer.js               # Patička
 │   │
@@ -438,9 +439,14 @@ frontend/
 │   │   ├── MembershipPage.js       # Stránka pro správu členství
 │   │   └── BookingsPage.js         # Stránka rezervací s použitím Material-UI tabulek
 │   │
+│   ├── themes/                     # Přizpůsobení Material-UI tématu
+│   │   ├── lightTheme.js           # Světlé téma aplikace
+│   │   └── darkTheme.js            # Tmavé téma aplikace
+│   │
 │   ├── App.js                      # Hlavní komponenta aplikace, nastavení routeru
 │   ├── theme.js                    # Přizpůsobení Material-UI tématu
-│   └── main.js                    # Vstupní bod React aplikace
+│   ├── themeContext.js             # Kontext pro sdílení tématu v aplikaci
+│   └── main.js                     # Vstupní bod React aplikace
 │
 └── package.json                    # Definice závislostí a skriptů
 ```

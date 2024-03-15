@@ -1,14 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from './themeContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-ReactDOM.render(
-    <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <App />
+function App() {
+    return (
+        <ThemeProvider> {/* Komponenta poskytující motiv pro aplikaci */}
+            <CssBaseline /> {/* Normalizuje CSS a zajišťuje konzistentní základní styl */}
+            <Header />
+            {/* TODO Další komponenty a obsah */}
+            <Footer />
         </ThemeProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
-);
+    );
+}
+
+export default App;
