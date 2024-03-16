@@ -1,36 +1,28 @@
 version: '3.8'
 services:
-  app-user-service:
-    build: .
+  app:
+    build: ./
     ports:
       - "3001:3001"
     depends_on:
-      - db-user-service
+      - db
     volumes:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
-    env_file:
-      - ./db-setup.env
     environment:
-      - DB_HOST=user-management-service
-      - DB_USER=root
-      - DB_PASSWORD=strongPassword
-      - DB_NAME=GymNestUserDB
+      DB_HOST: ${DB_HOST1}
+      DB_USER: ${DB_USER1}
+      DB_PASSWORD: ${DB_PASSWORD1}
+      DB_NAME: ${DB_NAME1}
     command: npm start
 
-  db-user-service:
+  db:
     image: mysql:5.7
-    env_file:
-      - ./db-setup.env
     environment:
-      - MYSQL_ROOT_PASSWORD=GymrootNestpassword456987
-      - MYSQL_DATABASE=GymNestUserDB
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=strongPassword
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS1}
+      MYSQL_DATABASE: ${DB_NAME1}
+      MYSQL_USER: ${DB_USER1}
+      MYSQL_PASSWORD: ${DB_PASSWORD1}
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
-    command: --default-authentication-plugin=mysql_native_password
-
-volumes:
-  db_data:
