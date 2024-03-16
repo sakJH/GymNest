@@ -1,32 +1,32 @@
 version: '3.8'
 services:
-  app:
-    build: user-management-service
+  app-user-service:
+    build: .
     ports:
       - "3001:3001"
     depends_on:
-      - db
+      - db-user-service
     volumes:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
     env_file:
-      - db-setup.env
+      - ./db-setup.env
     environment:
-      DB_HOST: db
-      DB_USER: user
-      DB_PASSWORD: user
-      DB_NAME: process.env.DB_NAME1
+      - DB_HOST=user-management-service
+      - DB_USER=root
+      - DB_PASSWORD=strongPassword
+      - DB_NAME=GymNestUserDB
     command: npm start
 
-  db:
+  db-user-service:
     image: mysql:5.7
     env_file:
-      - db-setup.env
+      - ./db-setup.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ${DB_NAME1}
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      - MYSQL_ROOT_PASSWORD=GymrootNestpassword456987
+      - MYSQL_DATABASE=GymNestUserDB
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=strongPassword
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d

@@ -1,14 +1,14 @@
 version: '3.8'
 services:
   app:
-    build: membership-service
+    build: .
     ports:
       - "3002:3002"
     depends_on:
       - db
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/usr/src/member-service
+      - /usr/src/member-service/node_modules
     environment:
       - DB_HOST=db
       - DB_USER=${DB_USER}

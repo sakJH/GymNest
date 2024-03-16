@@ -13,12 +13,16 @@ User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
 Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use('/api', userRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server běží na portu ${PORT}`);
+});
 
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
@@ -29,7 +33,5 @@ sequelize.sync({ force: false }).then(() => {
 
     console.log('Databáze a tabulky byly synchronizovány');
 
-    app.listen(PORT, () => {
-        console.log(`Server běží na portu ${PORT}`);
-    });
+
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));

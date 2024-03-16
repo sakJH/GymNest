@@ -18,7 +18,7 @@ app.use('/api', subscriptionRoutes);
 // Použití rout pro platby
 app.use('/api', paymentRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
     console.log(`Server běží na portu ${PORT}`);
 });

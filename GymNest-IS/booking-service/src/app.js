@@ -19,7 +19,7 @@ app.use('/api', scheduleRoutes);
 app.use('/api', notificationRoutes);
 
 // Nastavení portu, na kterém bude aplikace naslouchat
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3003;
 
 // Spuštění serveru
 app.listen(PORT, () => {
