@@ -1,17 +1,17 @@
 # Základní obraz: Node.js
 FROM node:21
 
-# Vytvoření adresáře aplikace v kontejneru
+# Vytvoření adresáře aplikace v kontejneru a nastavení aktuálního adresáře
 WORKDIR /usr/src/user-management-service
 
 # Kopírování souborů definujících závislosti aplikace
-COPY /user-management-service/package*.json ./
+COPY user-management-service/package*.json ./
 
 # Instalace závislostí
 RUN npm install
 
 # Kopírování zbytku zdrojového kódu aplikace do kontejneru
-COPY . .
+COPY ./ ./
 
 # Aplikace běží na portu 3001
 EXPOSE 3001
