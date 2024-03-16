@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   app:
-    build: user-management-service
+    build: ./
     ports:
       - "3001:3001"
     depends_on:
@@ -9,24 +9,20 @@ services:
     volumes:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
-    env_file:
-      - db-setup.env
     environment:
-      DB_HOST: db
-      DB_USER: user
-      DB_PASSWORD: user
-      DB_NAME: process.env.DB_NAME1
+      DB_HOST: ${DB_HOST1}
+      DB_USER: ${DB_USER1}
+      DB_PASSWORD: ${DB_PASSWORD1}
+      DB_NAME: ${DB_NAME1}
     command: npm start
 
   db:
     image: mysql:5.7
-    env_file:
-      - db-setup.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS1}
       MYSQL_DATABASE: ${DB_NAME1}
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      MYSQL_USER: ${DB_USER1}
+      MYSQL_PASSWORD: ${DB_PASSWORD1}
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
