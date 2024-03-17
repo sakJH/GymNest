@@ -299,6 +299,8 @@ user-management-service/
 │   └── migrations/
 │       └── 1_init_gymnest_user_db.sql  # Skript pro inicializaci databáze
 │
+├── node_modules/
+│
 ├── src/
 │   ├── controllers/
 │   │   ├── AuthController.js          # Logika pro autentizaci a autorizaci
@@ -328,8 +330,16 @@ user-management-service/
 │   └── app.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
-├── db-setup.env                       # Konfigurace pro připojení k databázi
-├── package.json                       # Definice závislostí a skriptů
+│   ├── bin/
+│   ├── node-modules/
+│   ├── public/
+│   ├── routes/
+│   ├── views/
+│   ├── app.js
+│   ├── package.json
+│   └── package-lock.json
+│
+├── .env                       # Konfigurace pro připojení k databázi
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
 ├── Dockerfile                         # Docker konfigurace pro službu

@@ -16,5 +16,5 @@ COPY ./ ./
 # Aplikace běží na portu 3001
 EXPOSE 3001
 
-# Definice příkazu, který se spustí při startu kontejneru.
-CMD [ "node", "src/app.js" ]
+# Definice příkazu, který se spustí při startu kontejneru
+CMD ["node", "src/app.js"]

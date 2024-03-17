@@ -1,28 +1,35 @@
 version: '3.8'
 services:
-  app:
-    build: ./
+  app-user-management-service:
+    build: .
     ports:
       - "3001:3001"
     depends_on:
-      - db
+      - db-user-management-service
+    env_file:
+      - .env
     volumes:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
     environment:
-      DB_HOST: ${DB_HOST1}
-      DB_USER: ${DB_USER1}
-      DB_PASSWORD: ${DB_PASSWORD1}
-      DB_NAME: ${DB_NAME1}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     command: npm start
 
-  db:
+  db-user-management-service:
     image: mysql:5.7
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS1}
-      MYSQL_DATABASE: ${DB_NAME1}
-      MYSQL_USER: ${DB_USER1}
-      MYSQL_PASSWORD: ${DB_PASSWORD1}
+      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
-      - ./database/migrations:/docker-entrypoint-initdb.d
+      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:
