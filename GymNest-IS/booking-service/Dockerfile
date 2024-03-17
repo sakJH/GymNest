@@ -5,13 +5,13 @@ FROM node:21
 WORKDIR /usr/src/booking-service
 
 # Kopírování souborů definujících závislosti aplikace
-COPY /booking-service/package*.json ./
+COPY */package*.json ./
 
 # Instalace závislostí
 RUN npm install
 
 # Kopírování zbytku zdrojového kódu aplikace do kontejneru
-COPY . .
+COPY ./ ./
 
 # Aplikace běží na portu 3003
 EXPOSE 3003

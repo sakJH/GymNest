@@ -1,28 +1,28 @@
 version: '3.8'
 services:
-  app:
+  app-booking-service:
     build: .
     ports:
       - "3003:3003"
     depends_on:
-      - db
+      - db-booking-service
+    env_file:
+      - .env
     volumes:
       - .:/usr/src/booking-service
       - /usr/src/booking-service/node_modules
     environment:
-      - DB_HOST=db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     command: npm start
 
-  db:
+  db-booking-service:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASS}
       MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
