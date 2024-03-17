@@ -5,7 +5,7 @@ FROM node:21
 WORKDIR /usr/src/user-management-service
 
 # Kopírování souborů definujících závislosti aplikace
-COPY user-management-service/package*.json ./
+COPY ./package*.json ./
 
 # Instalace závislostí
 RUN npm install
