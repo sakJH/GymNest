@@ -11,7 +11,7 @@ Autoři - Bc. Jan Sakač a Bc. Matěj Boura
  5. [Struktura Frontend](#struktura-frontend)
  6. [Struktura IS](#struktura-is) 
  7. [Use Case](#use-case)
-8. [Google Authentication a JWT Tokeny](#google-authentication-a-jwt-tokeny)
+ 8. [Autentizace a Autorizace v Mikroslužbách](#autentizace-a-autorizace-v-mikroslužbách) 
  
 **Požadavky na projekt**
 ```
@@ -296,17 +296,21 @@ GymNest-IS/
 ```
 user-management-service/
 │
-├── database/                           # Adresář pro databázové skripty
-│   └── migrations/
-│       └── init_gymnest_user_db.sql  # Skript pro inicializaci databáze
+│   ├── auth/
+│   │   ├── passportConfig.js          # Konfigurace pro autentizaci
 │
-├── node_modules/
+├── database/                          # Adresář pro databázové skripty
+│   └── migrations/
+│       └── init_gymnest_user_db.sql   # Skript pro inicializaci databáze
+│
+├── node_modules/                      # Adresář pro závislosti Node.js
 │
 ├── src/
 │   ├── controllers/
 │   │   ├── AuthController.js          # Logika pro autentizaci a autorizaci
-│   │   ├── UserController.js          # Operace nad uživatelskými účty (CRUD)
-│   │   └── ProfileController.js       # Nově přidaný, správa uživatelských profilů
+│   │   ├── RoleController.js          # Operace nad rolemi
+│   │   ├── ProfileController.js       # Správa uživatelských profilů
+│   │   └── UserController.js          # Operace nad uživatelskými účty
 │   │
 │   ├── models/
 │   │   ├── User.js                    # Model uživatele
@@ -315,18 +319,20 @@ user-management-service/
 │   │
 │   ├── routes/
 │   │   ├── authRoutes.js              # Endpointy pro autentizaci
-│   │   ├── userRoutes.js              # Endpointy pro správu uživatelů
-│   │   └── profileRoutes.js           # Nově přidaný, endpointy pro uživatelské profily
+│   │   ├── profileRoutes.js           # Endpointy pro uživatelské profily
+│   │   ├── roleRoutes.js              # Endpointy pro role
+│   │   └── userRoutes.js              # Endpointy pro správu uživatelů
 │   │
 │   ├── services/
-│   │   ├── AuthService.js             # Servisní logika pro autentizaci
 │   │   ├── ProfileService.js          # Servisní logika pro profily
 │   │   ├── RoleService.js             # Servisní logika pro role
 │   │   └── UserService.js             # Nově přidaný, služby pro správu uživatelů
 │   │
 │   ├── utils/
+│   │   ├── CurrencyConvertor.js       # Pomocné funkce pro konverzi měn
 │   │   ├── hashPassword.js            # Pomocné funkce, např. pro hashování hesel
 │   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
+│   │
 │   ├── sequelize.js                   # Soubor s nastavením pro DB 
 │   └── app.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
@@ -340,7 +346,7 @@ user-management-service/
 │   ├── package.json
 │   └── package-lock.json
 │
-├── .env                       # Konfigurace pro připojení k databázi
+├── .env                               # Konfigurace pro připojení k databázi, JWT tokeny a Google auth
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
 ├── Dockerfile                         # Docker konfigurace pro službu

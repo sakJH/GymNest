@@ -7,7 +7,10 @@ const Profile =  require('./models/Profile'); // Import modelu Profile
 const userRoutes = require('./routes/userRoutes'); // Import rout
 const profileRoutes = require('./routes/profileRoutes');
 const roleRoutes = require('./routes/roleRoutes')
+const authRoutes = require('./routes/authRoutes');
 
+const passport = require('passport');
+require('./auth/passportConfig')(passport);
 
 User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
 Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
@@ -19,6 +22,13 @@ app.use(express.json());
 app.use('/api', userRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
+app.use('/api', authRoutes);
+app.use(passport.initialize());
+
+// Inicializace passportu
+app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({ message: 'Přístup povolen' });
+});
 
 app.listen(PORT, () => {
     console.log(`Server běží na portu ${PORT}`);
