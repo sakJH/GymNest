@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS GymNestMembershipDB;
+USE GymNestMembershipDB;
+
 -- Vytvoření tabulky 'memberships'
 CREATE TABLE IF NOT EXISTS `memberships` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,

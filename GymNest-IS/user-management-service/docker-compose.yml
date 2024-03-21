@@ -27,7 +27,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - db_data:/var/lib/mysql
-      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d
+      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d/init_gymnest_user_db.sql
 
 volumes:
   db_data:

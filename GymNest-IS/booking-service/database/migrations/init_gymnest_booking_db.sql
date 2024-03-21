@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS GymNestBookingDB;
+USE GymNestBookingDB;
+
 -- Vytvoření tabulky 'activities'
 CREATE TABLE IF NOT EXISTS `activities` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `bookings` (
     `bookingDate` DATE NOT NULL,
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`activityId`) REFERENCES `activities` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`scheduleId`) REFERENCES `schedules` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
