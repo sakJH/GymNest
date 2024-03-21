@@ -11,6 +11,7 @@ Autoři - Bc. Jan Sakač a Bc. Matěj Boura
  5. [Struktura Frontend](#struktura-frontend)
  6. [Struktura IS](#struktura-is) 
  7. [Use Case](#use-case)
+8. [Google Authentication a JWT Tokeny](#google-authentication-a-jwt-tokeny)
  
 **Požadavky na projekt**
 ```
@@ -591,3 +592,33 @@ Uživatel je registrován do systému s oprávněním admin nebo alespoň trené
 #### Alternativní průběh:
 - Pokud vlastník posilovny nemá žádné aktivity v nabídce, systém zobrazí odpovídající zprávu, že seznam je prázdný.
 - Pokud systém není schopen načíst aktivity nebo rozvrh z databáze, vlastník posilovny obdrží chybové hlášení a může to zkusit znovu později.
+
+
+## Autentizace a Autorizace v Mikroslužbách
+Google Authentication a JWT Tokeny.
+
+### Přehled
+Tento projekt využívá mikroslužby pro autentizaci a autorizaci uživatelů, včetně integrace s Google Auth pro umožnění přihlašování přes Google účty. Hlavní mikroslužba, User Management Service, je zodpovědná za správu uživatelských účtů, generování JWT tokenů a autentizaci.
+
+### Integrace s Google Auth
+Autentizace přes Google je realizována pomocí OAuth2.0 flow. Uživatel je přesměrován na přihlašovací stránku Google, kde udělí přístup aplikaci. Po úspěšné autentizaci Google pošle zpět autorizační kód, který lze vyměnit za access token a ID token.
+
+### JWT Tokeny
+Po úspěšném přihlášení se vygeneruje JWT token obsahující identifikaci uživatele a jeho oprávnění. Token slouží klientovi pro autorizaci požadavků na server.
+
+### Propagace Tokenů
+Požadavky od klienta obsahují JWT token v Authorization headeru. API Gateway nebo jednotlivé mikroslužby validují token před předáním požadavku na cílovou mikroslužbu. Pro interní komunikaci mezi mikroslužbami může být použit stejný JWT token nebo specifický systém pro autentizaci a autorizaci.
+
+### Bezpečnost
+Při implementaci je kladen důraz na bezpečné uložení tokenů na straně klienta a ochranu proti běžným útokům. Je doporučeno používat httpOnly cookies pro uložení tokenů a implementovat ochranu proti CSRF útokům.
+
+### Implementace
+- **JWT Generování a Validace**: V projektu jsou využity knihovny `jsonwebtoken` a `passport-jwt` pro práci s JWT.
+- **Google Auth**: Pro integraci přihlášení přes Google je využita knihovna `passport-google-oauth20`.
+
+### Schéma kominikace
+1. Uživatel se pokusí přihlásit přes Google Auth nebo standardním způsobem.
+2. Po úspěšné autentizaci user-management-service vygeneruje JWT token a odešle ho zpět klientovi.
+3. Klient přiloží tento token jako Bearer token v Authorization headeru každého požadavku.
+4. API Gateway nebo mikroslužby validují token a případně extrahují z něj informace o uživateli.
+5. Po validaci a autorizaci je požadavek předán na cílovou mikroslužbu.
