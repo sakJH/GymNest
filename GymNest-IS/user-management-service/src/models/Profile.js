@@ -72,7 +72,7 @@ Profile.init({
         allowNull: false,
         unique: true, // Zajišťuje, že každý profil bude spojen s jedním uživatelem
         references: {
-            model: 'Users', // 'Users' je název tabulky pro User
+            model: 'Users', // 'Users' název tabulky pro User
             key: 'id', // Klíč, na který odkazujeme
         },
     },

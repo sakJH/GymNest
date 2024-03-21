@@ -297,7 +297,7 @@ user-management-service/
 │
 ├── database/                           # Adresář pro databázové skripty
 │   └── migrations/
-│       └── 1_init_gymnest_user_db.sql  # Skript pro inicializaci databáze
+│       └── init_gymnest_user_db.sql  # Skript pro inicializaci databáze
 │
 ├── node_modules/
 │
@@ -350,6 +350,10 @@ user-management-service/
 ```
 membership-service/
 │
+├── database/                           # Adresář pro databázové skripty
+│   └── migrations/
+│       └── init_gymnest_membership_db.sql  # Skript pro inicializaci databáze
+│
 ├── membership-service/               # Složka s Module pro Node.js s Express frameworkem
 │
 ├── src/
@@ -391,6 +395,10 @@ membership-service/
 #### Rezervační systém
 ```
 booking-service/
+│
+├── database/                           # Adresář pro databázové skripty
+│   └── migrations/
+│       └── init_gymnest_booking_db.sql  # Skript pro inicializaci databáze
 │
 ├── booking-service/                   # Složka s Module pro Node.js s Express frameworkem
 │

@@ -1,0 +1,64 @@
+-- GymNestUserDB
+
+CREATE DATABASE IF NOT EXISTS GymNestUserDB;
+USE GymNestUserDB;
+
+CREATE TABLE IF NOT EXISTS Roles (
+    RoleID INT AUTO_INCREMENT PRIMARY KEY,
+    RoleName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    RoleID INT,
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS UserProfiles (
+    ProfileID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL UNIQUE,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    DateOfBirth DATE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_username ON Users(Username);
+CREATE INDEX idx_email ON Users(Email);
+
+INSERT INTO Roles (RoleName) VALUES ('člen'), ('trenér'), ('admin');
+
+
+-- nové
+
+CREATE TABLE `users` (
+     `id` INT AUTO_INCREMENT PRIMARY KEY,
+     `username` VARCHAR(255) NOT NULL UNIQUE,
+     `passwordHash` VARCHAR(255) NOT NULL,
+     `email` VARCHAR(255) NOT NULL UNIQUE,
+     `roleId` INT,
+     `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
+     `colorScheme` VARCHAR(255) DEFAULT 'light',
+     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+     FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `profiles` (
+      `id` INT AUTO_INCREMENT PRIMARY KEY,
+      `firstName` VARCHAR(255) NOT NULL,
+      `lastName` VARCHAR(255) NOT NULL,
+      `dateOfBirth` DATE,
+      `userId` INT UNIQUE NOT NULL,
+      `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+      `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `roles` (
+      `id` INT AUTO_INCREMENT PRIMARY KEY,
+      `roleName` VARCHAR(255) NOT NULL UNIQUE CHECK (`roleName` IN ('člen', 'trenér', 'admin'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
