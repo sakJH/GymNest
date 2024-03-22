@@ -1,11 +1,26 @@
 import React from 'react';
-import LandingPage from './pages/LandingPage';
+import { CssBaseline } from '@mui/material';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/NavBar';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import ActionsPage from './pages/ActionsPage';
+import MembershipPage from './pages/MembershipPage';
+import SchledulePage from './pages/SchledulePage';
 
 function App() {
   return (
-      <div className="App">
-        <LandingPage />
-      </div>
+    <Router>
+      <CssBaseline /> {/* Resetuje CSS pro konzistentní vzhled */} 
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} /> {/* Přidáno */}
+        <Route path="/akce" element={<ActionsPage />} />
+        <Route path="/clenstvi" element={<MembershipPage />} />
+        <Route path="/rozvrhy" element={<SchledulePage />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 
