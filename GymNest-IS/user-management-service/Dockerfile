@@ -4,6 +4,9 @@ FROM node:21
 # Vytvoření adresáře aplikace v kontejneru a nastavení aktuálního adresáře
 WORKDIR /usr/src/user-management-service
 
+# Definice proměnné prostředí, která určuje, kde se nachází databázová služba
+ENV DB_HOST=db-user-management-service
+
 # Kopírování souborů definujících závislosti aplikace
 COPY ./package*.json ./
 

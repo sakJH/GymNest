@@ -12,10 +12,11 @@ services:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
     environment:
-      DB_HOST: ${DB_HOST}
+      DB_HOST: db-user-management-service
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
+    restart: always
     command: npm start
 
   db-user-management-service:
@@ -25,9 +26,16 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASS}
       MYSQL_DATABASE: ${DB_NAME}
+    restart: always
     volumes:
       - db_data:/var/lib/mysql
-      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d/init_gymnest_user_db.sql
+      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   db_data:
