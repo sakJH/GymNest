@@ -331,6 +331,7 @@ user-management-service/
 │   ├── utils/
 │   │   ├── CurrencyConvertor.js       # Pomocné funkce pro konverzi měn
 │   │   ├── hashPassword.js            # Pomocné funkce, např. pro hashování hesel
+│   │   ├── swaggerDefinition.js       # Definice Swagger dokumentace
 │   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
 │   │
 │   ├── sequelize.js                   # Soubor s nastavením pro DB 
@@ -385,6 +386,7 @@ membership-service/
 │   │   └── SubscriptionService.js  # Služba pro logiku předplatného
 │   │
 │   ├── utils/                      # Adresář pro pomocné funkce, zatím nic neobsahuje
+│   │   ├── swaggerDefinition.js    # Definice Swagger dokumentace
 │   │   └── paypalClient.js         # Pomocné funkce pro PayPal API
 │   │
 │   └── app.js                      # Vstupní bod mikroservisy, nastavení Express serveru
@@ -436,11 +438,13 @@ booking-service/
 │   │
 │   ├── utils/
 │   │   ├── validateInput.js            # Pomocné funkce pro validaci vstupů
-│   │   └── dateUtils.js                # Pomocné funkce pro práci s daty
+│   │   ├── dateUtils.js                # Pomocné funkce pro práci s daty
+│   │   └── swaggerDefinition.js       # Definice Swagger dokumentace
+│   │
 │   ├── sequelize.js                    # Soubor s nastavením pro DB (pro SQL databáze)
 │   └── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── db-setup.env                        # Soubor s proměnnými prostředí
+├── .env                                # Soubor s proměnnými prostředí
 ├── package.json                        # Definice závislostí a skriptů
 ├── README.md                           # README soubor s dokumentací
 ├── Dockerfile                          # Docker konfigurace pro službu
@@ -455,30 +459,42 @@ frontend/
 ├── frontend/                       # Složka s Module pro React aplikaci
 │
 ├── public/
-│   └── index.html                  # Hlavní HTML soubor
+│   ├── favicon.ico                 # Ikona pro záložku
+│   ├── index.html                  # Hlavní HTML soubor
+│   ├── manifest.json               # Konfigurace pro PWA
+│   └── robots.txt                  # Soubor pro blokování robotů
 │
 ├── src/
 │   ├── components/                 # Opakovaně použitelné komponenty
-│   │   ├── Header.js               # Hlavička s nadpisem a obrázkem
-│   │   ├── Navbar.js               # Navigační lišta s Material-UI komponentami
-│   │   ├── Footer.js               # Patička
+│   │   ├── AppAppBar.js            # Komponenta pro horní lištu aplikace
+│   │   ├── FAQ.js                  # Komponenta s často kladenými otázkami
+│   │   ├── Features.js             # Komponenta s výčtem funkcí aplikace
+│   │   ├── Footer.js               # Komponenta pro patičku aplikace
+│   │   ├── Hero.js                 # Komponenta s úvodním obrázkem a textem
+│   │   ├── Highlight.js            # Komponenta s výrazným textem
+│   │   ├── Pricing.js              # Komponenta s cenovými plány
+│   │   ├── ToggleColorMode.js      # Komponenta pro přepínání barevného schématu
 │   │
 │   ├── pages/                      # Stránky aplikace
-│   │   ├── HomePage.js             # Domovská stránka s Material-UI layoutem
-│   │   ├── UserProfilePage.js      # Stránka uživatelského profilu
-│   │   ├── MembershipPage.js       # Stránka pro správu členství
-│   │   └── BookingsPage.js         # Stránka rezervací s použitím Material-UI tabulek
+│   │   ├── LandingPage.js          # Úvodní stránka aplikace
 │   │
 │   ├── themes/                     # Přizpůsobení Material-UI tématu
-│   │   ├── lightTheme.js           # Světlé téma aplikace
-│   │   └── darkTheme.js            # Tmavé téma aplikace
+│   │   └── getLPTheme.js           # Téma pro úvodní stránku
 │   │
+│   ├── App.css                     # Styly pro komponenty
 │   ├── App.js                      # Hlavní komponenta aplikace, nastavení routeru
-│   ├── theme.js                    # Přizpůsobení Material-UI tématu
-│   ├── themeContext.js             # Kontext pro sdílení tématu v aplikaci
-│   └── main.js                     # Vstupní bod React aplikace
+│   ├── App.test.js                 # Testy pro hlavní komponentu
+│   ├── index.css                   # Globální styly
+│   ├── index.js                    # Vstupní bod React aplikace
+│   ├── reportWebVitals.js          # Sledování výkonu aplikace
+│   └── setupTests.js               # Konfigurace pro testy
 │
-└── package.json                    # Definice závislostí a skriptů
+├── docker-compose.yml              # Docker Compose konfigurace
+├── Dockerfile                      # Docker konfigurace pro službu
+├── frontend.iml                    # iml soubor 
+├── package.json                    # Definice závislostí a skriptů
+├── package-lock.json               # Definice závislostí a skriptů
+└── README.md                       # README soubor s dokumentací
 ```
 
 ### API Gateway

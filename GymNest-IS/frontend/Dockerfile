@@ -13,7 +13,7 @@ RUN npm install
 # Kopírování zbytku zdrojového kódu aplikace do kontejneru
 COPY ./ ./
 
-# Aplikace běží na portu 3002
+# Aplikace běží na portu 3000
 EXPOSE 3000
 
 # Spustíme aplikaci

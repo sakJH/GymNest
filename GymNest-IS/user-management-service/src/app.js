@@ -1,5 +1,8 @@
 const express = require('express');
 const sequelize = require('./sequelize');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerDefinition = require('./utils/swaggerDefinition');
 
 const User = require('./models/User'); // Import modelu User
 const Profile =  require('./models/Profile'); // Import modelu Profile
@@ -18,12 +21,22 @@ Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const options = {
+    swaggerDefinition,
+    apis: ['./src/routes/*.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(options);
+
 app.use(express.json());
 app.use('/api', userRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
 app.use('/api', authRoutes);
 app.use(passport.initialize());
+
+// Zpřístupnění Swagger UI na /docs
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Inicializace passportu
 app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
