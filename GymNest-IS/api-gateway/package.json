@@ -1,7 +1,11 @@
 {
   "name": "api-gateway",
   "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
-    "express-gateway": "~1.16.11"
+    "express-gateway": "~1.16.11",
+    "dotenv": "~16.4.5"
   }
 }

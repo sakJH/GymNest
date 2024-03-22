@@ -4,3 +4,23 @@ services:
     build: .
     ports:
       - "8080:8080"
+  user-management-service:
+    build:
+      context: ../user-management-service
+    ports:
+      - "3001:3001"
+  membership-service:
+    build:
+      context: ../membership-service
+    ports:
+      - "3002:3002"
+  booking-service:
+    build:
+      context: ../booking-service
+    ports:
+      - "3003:3003"
+  frondend:
+    build:
+      context: ../frontend
+    ports:
+      - "3000:3000"

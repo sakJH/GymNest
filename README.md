@@ -487,10 +487,13 @@ api-gateway/
 │
 ├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
 │
-├── package.json                    # Definice závislostí a skriptů
-├── gateway.config.yml              # Konfigurace API Gateway
+├── .env                            # 
+├── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
+├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
-└── docker-compose.yml              # Docker Compose konfigurace
+├── gateway.config.yml              # Konfigurace API Gateway
+├── package.json                    # Definice závislostí a skriptů
+└── package-lock.json               # Definice závislostí a skriptů
 ```
 
 ## Use Case
