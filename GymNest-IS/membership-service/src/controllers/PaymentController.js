@@ -1,16 +1,33 @@
 const PaymentService = require('../services/PaymentService');
 
+// PayPal SDK
+const paypal = require('@paypal/checkout-server-sdk');
+const paypalClient = require('../utils/paypalClient');
+
 class PaymentController {
-    // Vytvoření nové platby
+    // Vytvoření nové platby pomocí PayPal API
     async createPayment(req, res) {
+        const { currency, amount } = req.body;
+        const request = new paypal.orders.OrdersCreateRequest();
+        request.prefer("return=representation");
+        request.requestBody({
+            intent: 'CAPTURE',
+            purchase_units: [{
+                amount: {
+                    currency_code: currency, // Dynamicky nastavitelná měna
+                    value: amount // Dynamicky nastavitelná cena
+                }
+            }]
+        });
+
         try {
-            const paymentDetails = req.body;
-            const payment = await PaymentService.createPayment(paymentDetails);
-            res.status(201).json(payment);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
+            const order = await paypalClient.client().execute(request);
+            res.json({ id: order.result.id });
+        } catch (err) {
+            res.status(500).send(err.message);
         }
     }
+
 
     // Aktualizace stavu platby
     async updatePaymentStatus(req, res) {

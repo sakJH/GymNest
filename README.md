@@ -384,13 +384,12 @@ membership-service/
 │   │   ├── PaymentService.js       # Služba pro logiku plateb
 │   │   └── SubscriptionService.js  # Služba pro logiku předplatného
 │   │
-│   ├── utils/
-│   │   ├── paymentProcessing.js    # Nově přidaný, pomocné funkce pro zpracování plateb
-│   │   └── validation.js           # Nově přidaný, validace vstupních dat
+│   ├── utils/                      # Adresář pro pomocné funkce, zatím nic neobsahuje
+│   │   └── paypalClient.js         # Pomocné funkce pro PayPal API
 │   │
-│   └── app.js                    # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── app.js                      # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── db-setup.env                    # Konfigurace pro připojení k databázi
+├── .env                            # Konfigurace pro připojení k databázi
 ├── package.json                    # Definice závislostí a skriptů
 ├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
