@@ -481,6 +481,18 @@ frontend/
 └── package.json                    # Definice závislostí a skriptů
 ```
 
+### API Gateway
+```
+api-gateway/
+│
+├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
+│
+├── package.json                    # Definice závislostí a skriptů
+├── gateway.config.yml              # Konfigurace API Gateway
+├── Dockerfile                      # Docker konfigurace pro službu
+└── docker-compose.yml              # Docker Compose konfigurace
+```
+
 ## Use Case
 
 ### 1. Přihlášení a registrace s nákupem členství

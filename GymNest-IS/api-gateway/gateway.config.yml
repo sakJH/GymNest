@@ -1,0 +1,87 @@
+http:
+  port: 8080
+
+apiEndpoints:
+  auth:
+    host: '*'
+    paths: '/auth/*'
+  users:
+    host: '*'
+    paths: '/users/*'
+  profiles:
+    host: '*'
+    paths: '/profiles/*'
+  roles:
+    host: '*'
+    paths: '/roles/*'
+  memberships:
+    host: '*'
+    paths: '/memberships/*'
+  payments:
+    host: '*'
+    paths: '/payments/*'
+  subscriptions:
+    host: '*'
+    paths: '/subscriptions/*'
+  bookings:
+    host: '*'
+    paths: '/bookings/*'
+  activities:
+    host: '*'
+    paths: '/activities/*'
+  schedules:
+    host: '*'
+    paths: '/schedules/*'
+
+serviceEndpoints:
+  userService:
+    url: 'http://user-management-service:3001'
+  membershipService:
+    url: 'http://membership-service:3002'
+  bookingService:
+    url: 'http://booking-service:3003'
+
+policies:
+  - proxy:
+      - action:
+          changeOrigin: true
+  - jwt:
+      - action:
+          secretOrPublicKeyFile: './path/to/your/publicKey.pem'
+          checkCredentialExistence: false
+
+pipelines:
+  authPipeline:
+    apiEndpoints:
+      - auth
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: userService
+  userPipeline:
+    apiEndpoints:
+      - users
+      - profiles
+      - roles
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: userService
+  membershipPipeline:
+    apiEndpoints:
+      - memberships
+      - payments
+      - subscriptions
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: membershipService
+  bookingPipeline:
+    apiEndpoints:
+      - bookings
+      - activities
+      - schedules
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: bookingService
