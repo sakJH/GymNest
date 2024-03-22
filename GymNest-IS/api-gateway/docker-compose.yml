@@ -19,7 +19,7 @@ services:
       context: ../booking-service
     ports:
       - "3003:3003"
-  frondend:
+  frontend:
     build:
       context: ../frontend
     ports:
