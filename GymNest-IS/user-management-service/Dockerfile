@@ -4,9 +4,6 @@ FROM node:21
 # Vytvoření adresáře aplikace v kontejneru a nastavení aktuálního adresáře
 WORKDIR /usr/src/user-management-service
 
-# Definice proměnné prostředí, která určuje, kde se nachází databázová služba
-ENV DB_HOST=db-user-management-service
-
 # Kopírování souborů definujících závislosti aplikace
 COPY ./package*.json ./
 
@@ -21,3 +18,4 @@ EXPOSE 3001
 
 # Definice příkazu, který se spustí při startu kontejneru
 CMD ["node", "src/app.js"]
+# docker exec -it user-management-service-db-user-management-service-1 mysql -u root -p
