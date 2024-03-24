@@ -12,15 +12,19 @@ services:
       - .:/usr/src/user-management-service
       - /usr/src/user-management-service/node_modules
     environment:
-      DB_HOST: db-user-management-service
+      DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
     restart: always
     command: npm start
+    networks:
+      - user-service-network
 
   db-user-management-service:
     image: mysql:5.7
+    ports:
+      - "3306:3306"
     env_file:
       - .env
     environment:
@@ -31,10 +35,10 @@ services:
       - db_data:/var/lib/mysql
       - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d
     networks:
-      - app-network
+      - user-service-network
 
 networks:
-  app-network:
+  user-service-network:
     driver: bridge
 
 volumes:

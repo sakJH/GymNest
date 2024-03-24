@@ -30,6 +30,9 @@ CREATE TABLE `roles` (
       `roleName` VARCHAR(255) NOT NULL UNIQUE CHECK (`roleName` IN ('člen', 'trenér', 'admin'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'strongUserManagement895585Password' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 CREATE INDEX idx_username ON Users(Username);
 CREATE INDEX idx_email ON Users(Email);
 
