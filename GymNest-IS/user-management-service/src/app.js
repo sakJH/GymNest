@@ -7,7 +7,8 @@ const swaggerDefinition = require('./utils/swaggerDefinition');
 const User = require('./models/User'); // Import modelu User
 const Profile =  require('./models/Profile'); // Import modelu Profile
 
-const userRoutes = require('./routes/userRoutes'); // Import rout
+// Import rout
+const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const roleRoutes = require('./routes/roleRoutes')
 const authRoutes = require('./routes/authRoutes');

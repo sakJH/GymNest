@@ -10,7 +10,19 @@ CREATE TABLE IF NOT EXISTS `activities` (
     `duration` INT NOT NULL COMMENT 'Duration in minutes',
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Vytvoření tabulky 'schedules'
+CREATE TABLE IF NOT EXISTS `schedules` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `activityId` INT NOT NULL,
+    `startTime` DATETIME NOT NULL,
+    `endTime` DATETIME NOT NULL,
+    `capacity` INT NOT NULL,
+    `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`activityId`) REFERENCES `activities` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Vytvoření tabulky 'bookings'
 CREATE TABLE IF NOT EXISTS `bookings` (
@@ -24,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`activityId`) REFERENCES `activities` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`scheduleId`) REFERENCES `schedules` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Vytvoření tabulky 'notifications'
 CREATE TABLE IF NOT EXISTS `notifications` (
@@ -34,16 +46,6 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     `message` TEXT NOT NULL,
     `status` VARCHAR(255) NOT NULL DEFAULT 'unread',
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Vytvoření tabulky 'schedules'
-CREATE TABLE IF NOT EXISTS `schedules` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `activityId` INT NOT NULL,
-    `startTime` DATETIME NOT NULL,
-    `endTime` DATETIME NOT NULL,
-    `capacity` INT NOT NULL,
-    `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`activityId`) REFERENCES `activities` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB;
+

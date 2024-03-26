@@ -1,0 +1,40 @@
+
+2024-03-26T12:24:47.330130905Z > user-management-service@1.0.0 start
+2024-03-26T12:24:47.330137905Z > node src/app.js
+2024-03-26T12:24:47.330140905Z
+2024-03-26T12:24:47.953203294Z Server běží na portu 3001
+2024-03-26T12:24:47.972720622Z Při synchronizaci databáze došlo k chybě: ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 172.20.0.2:3306
+2024-03-26T12:24:47.972763522Z     at ConnectionManager.connect (/usr/src/user-management-service/node_modules/sequelize/lib/dialects/mysql/connection-manager.js:92:17)
+2024-03-26T12:24:47.972770022Z     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-26T12:24:47.972772822Z     at async ConnectionManager._connect (/usr/src/user-management-service/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:222:24)
+2024-03-26T12:24:47.972775322Z     at async /usr/src/user-management-service/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:174:32
+2024-03-26T12:24:47.972777922Z     at async ConnectionManager.getConnection (/usr/src/user-management-service/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:197:7)
+2024-03-26T12:24:47.972780222Z     at async /usr/src/user-management-service/node_modules/sequelize/lib/sequelize.js:305:26
+2024-03-26T12:24:47.972782722Z     at async MySQLQueryInterface.tableExists (/usr/src/user-management-service/node_modules/sequelize/lib/dialects/abstract/query-interface.js:102:17)
+2024-03-26T12:24:47.972785422Z     at async User.sync (/usr/src/user-management-service/node_modules/sequelize/lib/model.js:939:21)
+2024-03-26T12:24:47.972788122Z     at async Sequelize.sync (/usr/src/user-management-service/node_modules/sequelize/lib/sequelize.js:377:9) {
+2024-03-26T12:24:47.972790522Z   parent: Error: connect ECONNREFUSED 172.20.0.2:3306
+2024-03-26T12:24:47.972792822Z       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1605:16) {
+2024-03-26T12:24:47.972795122Z     errno: -111,
+2024-03-26T12:24:47.972797422Z     code: 'ECONNREFUSED',
+2024-03-26T12:24:47.972799722Z     syscall: 'connect',
+2024-03-26T12:24:47.972802022Z     address: '172.20.0.2',
+2024-03-26T12:24:47.972804222Z     port: 3306,
+2024-03-26T12:24:47.972806522Z     fatal: true
+2024-03-26T12:24:47.972808822Z   },
+2024-03-26T12:24:47.972811222Z   original: Error: connect ECONNREFUSED 172.20.0.2:3306
+2024-03-26T12:24:47.972813622Z       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1605:16) {
+2024-03-26T12:24:47.972815922Z     errno: -111,
+2024-03-26T12:24:47.972818222Z     code: 'ECONNREFUSED',
+2024-03-26T12:24:47.972820522Z     syscall: 'connect',
+2024-03-26T12:24:47.972823022Z     address: '172.20.0.2',
+2024-03-26T12:24:47.972825322Z     port: 3306,
+2024-03-26T12:24:47.972827622Z     fatal: true
+2024-03-26T12:24:47.972829922Z   }
+2024-03-26T12:24:47.973213923Z }
+2024-03-26T12:25:04.197676278Z npm ERR! path /usr/src/user-management-service
+2024-03-26T12:25:04.212639119Z npm ERR! command failed
+2024-03-26T12:25:04.212684019Z npm ERR! signal SIGTERM
+2024-03-26T12:25:04.212690519Z npm ERR! command sh -c node src/app.js
+2024-03-26T12:25:04.212693119Z
+2024-03-26T12:25:04.212695519Z npm ERR! A complete log of this run can be found in: /root/.npm/_logs/2024-03-26T12_24_47_255Z-debug-0.log

@@ -34,3 +34,7 @@ const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
     console.log(`Server běží na portu ${PORT}`);
 });
+
+sequelize.sync({ force: false }).then(() => {
+    console.log('Databáze a tabulky byly synchronizovány');
+}).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));

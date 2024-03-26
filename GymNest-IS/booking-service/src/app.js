@@ -1,4 +1,5 @@
 const express = require('express');
+const sequelize = require('./sequelize');
 const bookingRoutes = require('./routes/bookingRoutes');
 
 const activityRoutes = require('./routes/activityRoutes');
@@ -40,3 +41,7 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+sequelize.sync({ force: false }).then(() => {
+    console.log('Databáze a tabulky byly synchronizovány');
+}).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
