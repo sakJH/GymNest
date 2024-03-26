@@ -1,12 +1,12 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Načtení proměnných z .env souboru
 
-const sequelize = new Sequelize( //TODO - nastavení DB login a heslo v .env mimo mikroslužbu
+const sequelize = new Sequelize(
     process.env.DB_NAME, // GymNestUserDB
-    process.env.DB_USER, // root
-    process.env.DB_PASSWORD, // strongPassword
+    process.env.DB_MYSQL_USER,
+    process.env.DB_MYSQL_PASS,
     {
-        host: process.env.DB_HOST, // db-user-management-service
+        host: process.env.DB_HOST,
         dialect: 'mysql'
     }
 );

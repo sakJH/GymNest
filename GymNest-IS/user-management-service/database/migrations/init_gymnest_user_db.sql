@@ -30,10 +30,10 @@ CREATE TABLE `profiles` (
       FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'strongUserManagement895585Password' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'userGymNestUserService'@'%' IDENTIFIED BY 'GymRootNestPaSSword456987' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-CREATE INDEX idx_username ON Users(Username);
-CREATE INDEX idx_email ON Users(Email);
+CREATE INDEX idx_username ON users(Username);
+CREATE INDEX idx_email ON users(Email);
 
-INSERT INTO Roles (RoleName) VALUES ('člen'), ('trenér'), ('admin');
+INSERT INTO roles (RoleName) VALUES ('člen'), ('trenér'), ('admin');
