@@ -5,31 +5,35 @@ services:
     ports:
       - "3002:3002"
     depends_on:
-      - db-management-service
+      - db-membership-service
     env_file:
       - .env
     volumes:
       - .:/usr/src/member-service
       - /usr/src/member-service/node_modules
-    restart: always
     environment:
       DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
-    command: npm start
+    restart: always
+    command: ["./wait-for-it.sh", "db-user-membership-service:3307", "--", "npm", "start"]
     networks:
       - membership-service-network
 
-  db-management-service:
+  db-membership-service:
     image: mysql:5.7
     ports:
       - "3307:3307"
+    expose:
+      - "3307"
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASS}
       MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     restart: always
     volumes:
       - db_data:/var/lib/mysql

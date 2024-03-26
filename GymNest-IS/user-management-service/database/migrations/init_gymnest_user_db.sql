@@ -11,7 +11,7 @@ CREATE TABLE `users` (
      `username` VARCHAR(255) NOT NULL UNIQUE,
      `passwordHash` VARCHAR(255) NOT NULL,
      `email` VARCHAR(255) NOT NULL UNIQUE,
-     `roleId` INT,
+     `roleId` INT NOT NULL,
      `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
      `colorScheme` VARCHAR(255) DEFAULT 'light',
      `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -24,14 +24,11 @@ CREATE TABLE `profiles` (
       `firstName` VARCHAR(255) NOT NULL,
       `lastName` VARCHAR(255) NOT NULL,
       `dateOfBirth` DATE,
-      `userId` INT UNIQUE NOT NULL,
+      `userId` INT NOT NULL,
       `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
       `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-GRANT ALL PRIVILEGES ON *.* TO 'userGymNestUserService'@'%' IDENTIFIED BY 'GymRootNestPaSSword456987' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
 
 CREATE INDEX idx_username ON users(Username);
 CREATE INDEX idx_email ON users(Email);

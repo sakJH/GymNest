@@ -17,7 +17,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
     restart: always
-    command: npm start
+    command: ["./wait-for-it.sh", "db-user-management-service:3306", "--", "npm", "start"]
     networks:
       - user-service-network
 
