@@ -9,7 +9,7 @@ import ActionsPage from './pages/ActionsPage';
 import MembershipPage from './pages/MembershipPage';
 import SchledulePage from './pages/SchledulePage';
 
-const clientId = "VÁŠ_CLIENT_ID_Z_GCP"; // TODO nebo jiz je v backendu?
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 function App() {
   return (
