@@ -97,9 +97,11 @@ REST - Synchronní
 > [!NOTE]
 > Verze: ...
 
-> [!CAUTION]
-> API Gateway
-> Vlastní (nebo existuje rychlé a jednoduché)
+### API-Gateway
+Express Gateway
+
+> [!NOTE]
+> Verze: 1.16.10
 
 ### Databáze
 MySQL
@@ -109,20 +111,7 @@ MySQL
 
 ### Docker
 **Dockerfile**
-```
-...
-```
-**Spuštění**
-docker build -t gymnest_db
-
-docker run --name gymnest_db_container -e MYSQL_ROOT_PASSWORD=PowerOfMicroservices -d gymnest_db
-
-
-docker-compose.yml
-> ...Doplnit
-
-> [!NOTE]
-> Verze
+Kompletní spuštění přes API-Gateway **docker-compose.yml**
 
 ### Platební brána
 PayPal 
