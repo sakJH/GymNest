@@ -17,4 +17,4 @@ COPY ./ ./
 EXPOSE 3000
 
 # Spustíme aplikaci
-CMD ["npm", "src/App.js"]
+CMD ["npm", "start"]
