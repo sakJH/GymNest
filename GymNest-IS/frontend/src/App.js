@@ -15,10 +15,10 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
-        <CssBaseline /> {/* Resetuje CSS pro konzistentní vzhled */} 
+        <CssBaseline /> {/* Reset CSS for consistency */}
         <Navbar />
         <Routes>
-          <Route path="/" element={<HomePage />} /> {/* Přidáno */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/akce" element={<ActionsPage />} />
           <Route path="/clenstvi" element={<MembershipPage />} />
           <Route path="/rozvrhy" element={<SchledulePage />} />
