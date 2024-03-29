@@ -49,6 +49,9 @@ policies:
       - action:
           secretOrPublicKeyFile: './path/to/your/publicKey.pem'
           checkCredentialExistence: false
+  - log:
+      - action:
+          message: "{req.method} {req.originalUrl} ${JSON.stringify(req.headers)}"
 
 pipelines:
   authPipeline:
