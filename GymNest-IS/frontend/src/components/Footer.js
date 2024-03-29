@@ -1,7 +1,12 @@
 import React from 'react';
 import { Box, Container, Typography, Link } from '@mui/material';
 
-function Footer() {
+/**
+ * Renders the footer component.
+ *
+ * @return {JSX.Element} The rendered footer component.
+ */
+const Footer = () => {
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
       <Container maxWidth="lg">

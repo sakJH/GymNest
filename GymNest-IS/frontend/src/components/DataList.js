@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { List, ListItem, ListItemText } from '@mui/material';
 
-function DataList() {
+/**
+ * will change
+ * @returns {JSX.Element}
+ */
+const DataList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {

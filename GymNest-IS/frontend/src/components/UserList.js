@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function UserList() {
+/**
+ * will change
+ * @returns {JSX.Element}
+ */
+const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { Button, ButtonGroup, Typography, Box } from '@mui/material';
+import { Button, Typography, Box } from '@mui/material';
 
 const initialOptions = {
     "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
@@ -36,19 +36,23 @@ const PayPalButton = () => {
     };
 
     return (
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box sx={{
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center',
+			gap: 2
+		}}>
             <Typography variant="h4">Vyber si délku předplatného</Typography>
-            <Box maxWidth="600px" width="100%" mb={2}>
-                <ButtonGroup variant="contained" color="primary" fullWidth>
-                    {subscriptionOptions.map((option, index) => (
-                        <Button key={index} onClick={() => handleSubscriptionSelect(option.value)} fullWidth>
-                            {option.duration}
-                        </Button>
-                    ))}
-                </ButtonGroup>
+            <Box>
+                {subscriptionOptions.map((option, index) => (
+                    <Button variant="outlined" key={index} onClick={() => handleSubscriptionSelect(option.value)} sx={{ margin: 1 }}>
+                        {option.duration}
+                    </Button>
+                ))}
             </Box>
             {isSubscriptionSelected && (
-                <Box maxWidth="600px" width="100%">
+                <Box maxWidth="400px" width="100%">
                     <PayPalScriptProvider options={initialOptions}>
                         <PayPalButtons
                             style={{ layout: "vertical", tagline: false }}
