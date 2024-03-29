@@ -1,14 +1,10 @@
 import React from 'react';
-import DataList from '../components/DataList';
-import UserList from '../components/UserList';
+import PayPalButton from '../components/PayPalButton';
 
 function MembershipPage() {
   return (
     <div>
-      <h2>Správa Členství</h2>
-      {/* Zde bude implementace funkcionality stránky */}
-      <DataList />
-      <UserList />
+      <PayPalButton />
     </div>
   );
 }
