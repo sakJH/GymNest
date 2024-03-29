@@ -5,7 +5,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, T
 function HomePage() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  // Stavové proměnné pro uchování uživatelského vstupu
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -14,7 +13,7 @@ function HomePage() {
 
   const handleLoginSuccess = (credentialResponse) => {
     console.log('Přihlášení/Registrace úspěšná! Credential Response:', credentialResponse);
-    handleClose(); // Zavře dialog po úspěšné autentizaci
+    handleClose();
   };
 
   const googleLogin = useGoogleLogin({
@@ -38,7 +37,7 @@ function HomePage() {
   };
 
   const checkPasswordStrength = (password) => {
-    // Jednoduchá kontrola síly hesla (můžete přidat další podmínky)
+    // Jednoduchá kontrola síly hesla
     if(password.length < 8) {
       return "Heslo musí být alespoň 8 znaků dlouhé.";
     }
@@ -49,15 +48,15 @@ function HomePage() {
   };
 
   const handleSubmit = () => {
-    if (!isLogin) { // Kontrola probíhá pouze při registraci
+    if (!isLogin) {
       const passwordStrengthError = checkPasswordStrength(password);
       if(passwordStrengthError) {
         setPasswordError(passwordStrengthError);
-        return; // Přeruší odeslání formuláře
+        return;
       }
     }
     console.log('Formulář odeslán', { email, password, firstName, lastName });
-    handleClose(); // Zavře dialog po odeslání formuláře
+    handleClose();
   };
 
   return (
