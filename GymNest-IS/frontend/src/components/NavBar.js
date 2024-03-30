@@ -19,26 +19,21 @@ const Navbar = () => {
       <Toolbar sx={{
 			display: 'flex',
 			alignItems: 'center',
-			justifyContent: 'center',
+			justifyContent: 'space-between',
 			gap: 2
       }}>
-        <Box style={{ display: 'flex', alignItems: 'left' }}>
-          {/* Logo a název aplikace */}
-          <Typography variant="h6" component={Link} to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant="h6" component={Link} to="/" sx={{ color: 'inherit' }}>
             GymNest
           </Typography>
-        </Box>
-
-        {/* Informace o uživateli */}
         {user && (
-          <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Typography color="inherit">Vitej uzivateli {user.name}</Typography>
-            <Chip label={`Kredity: ${user.credits}`} color="secondary" style={{ marginLeft: 10 }} />
-          </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', ml: 4 }}>
+              <Typography color="inherit">Vitej uzivateli {user.name}</Typography>
+              <Chip label={`Kredity: ${user.credits}`} color="secondary" sx={{ ml: 2 }} />
+            </Box>
         )}
-
-        {/* Navigační tlačítka zarovnaná do prava */}
-        <Box style={{ display: 'flex', alignItems: 'right' }}>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button color="inherit" component={Link} to="/">Domů</Button>
           <Button color="inherit" component={Link} to="/akce">Akce</Button>
           <Button color="inherit" component={Link} to="/clenstvi">Členství</Button>

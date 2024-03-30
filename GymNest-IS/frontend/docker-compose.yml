@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     volumes:
       - .:/usr/src/frontend
       - /usr/src/frontend/node_modules
