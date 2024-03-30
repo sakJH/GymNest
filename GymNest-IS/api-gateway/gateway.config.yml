@@ -32,6 +32,9 @@ apiEndpoints:
   schedules:
     host: '*'
     paths: '/schedules/*'
+  swagger:
+    host: '*'
+    paths: '/docs'
 
 serviceEndpoints:
   userService:
@@ -40,24 +43,33 @@ serviceEndpoints:
     url: 'http://membership-service:3002'
   bookingService:
     url: 'http://booking-service:3003'
+  swaggerService:
+    url: 'http://localhost:3000/docs'
 
 policies:
   - proxy:
       - action:
           changeOrigin: true
-  - jwt:
-      - action:
-          secretOrPublicKeyFile: './path/to/your/publicKey.pem'
-          checkCredentialExistence: false
+  #- jwt:
+  #    - action:
+  #        secretOrPublicKeyFile: '.env/' // TODO - To je špatně, ale nevím, jak to správně nastavit
+  #        checkCredentialExistence: false
   - log:
       - action:
           message: "{req.method} {req.originalUrl} ${JSON.stringify(req.headers)}"
+  - proxy:
+      - action:
+          serviceEndpoint: swaggerService
+          changeOrigin: true
 
 pipelines:
   authPipeline:
     apiEndpoints:
       - auth
     policies:
+      - log:
+          - action:
+              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - proxy:
           - action:
               serviceEndpoint: userService
@@ -67,6 +79,9 @@ pipelines:
       - profiles
       - roles
     policies:
+      - log:
+          - action:
+              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - proxy:
           - action:
               serviceEndpoint: userService
@@ -76,6 +91,9 @@ pipelines:
       - payments
       - subscriptions
     policies:
+      - log:
+          - action:
+              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - proxy:
           - action:
               serviceEndpoint: membershipService
@@ -85,6 +103,16 @@ pipelines:
       - activities
       - schedules
     policies:
+      - log:
+          - action:
+              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - proxy:
           - action:
               serviceEndpoint: bookingService
+  swaggerPipeline:
+    apiEndpoints:
+      - swagger
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: swaggerService
