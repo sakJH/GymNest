@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import ActionsPage from './pages/ActionsPage';
+import ActionsPage from './pages/ActivityPage';
 import MembershipPage from './pages/MembershipPage';
 import SchledulePage from './pages/SchledulePage';
 
