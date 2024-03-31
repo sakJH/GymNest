@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from '@mui/material';
+import { AuthContext } from './AuthContext';
 
-const ActivityList = ({ activities, onReserve }) => {
+const ActivityList = ({ activities, onReserve, onEdit, onDelete }) => {
+  const { role } = useContext(AuthContext); // Získání role uživatele
+
   return (
     <List>
       {activities.map((activity) => (
@@ -12,7 +15,19 @@ const ActivityList = ({ activities, onReserve }) => {
               secondary={`${new Date(activity.date).toLocaleDateString()} - ${activity.time}`}
             />
           </ListItemButton>
-          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onReserve(activity.id); }}>Rezervovat</Button>
+          {role === 'trenér' && (
+            <>
+              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }}>
+                Editovat
+              </Button>
+              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
+                Smazat
+              </Button>
+            </>
+          )}
+          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onReserve(activity.id); }}>
+            Rezervovat
+          </Button>
         </ListItem>
       ))}
       {activities.length === 0 && <Typography variant="subtitle1">Žádné akce nebyly nalezeny.</Typography>}
