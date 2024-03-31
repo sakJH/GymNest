@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "3000:3000"
+    expose:
+      - "3000"
     env_file:
       - .env
     volumes:
@@ -11,3 +13,7 @@ services:
       - /usr/src/frontend/node_modules
     environment:
       - NODE_ENV=development
+      - "REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID}"
+      - "REACT_APP_GOOGLE_CLIENT_SECRET=${REACT_APP_GOOGLE_CLIENT_SECRET}"
+      - "REACT_APP_PAYPAL_CLIENT_ID=${REACT_APP_PAYPAL_CLIENT_ID}"
+      - "REACT_APP_PAYPAL_CLIENT_SECRET=${REACT_APP_PAYPAL_CLIENT_SECRET}"
