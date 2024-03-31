@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Typography } from '@mui/material';
+import { useAuth } from './AuthContext';
 
 /**
  * AuthForm component for handling user authentication and form submission.
@@ -16,20 +17,28 @@ const AuthForm = () => {
 	const [lastName, setLastName] = useState('');
 	const [passwordError, setPasswordError] = useState('');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const { login, errorMessage, setErrorMessage } = useAuth();
 
   const googleLogin = useGoogleLogin({
-    onSuccess: tokenResponse => console.log('Google Přihlášení úspěšné!', tokenResponse),
-    onError: error => console.log('Google Přihlášení selhalo!', error),
+		onSuccess: tokenResponse => {
+			console.log('Google Přihlášení úspěšné!', tokenResponse);
+			login(tokenResponse.access_token); // Předání tokenu do vašeho AuthContext
+		},
+		onError: error => {
+			console.log('Google Přihlášení selhalo!', error);
+			setErrorMessage('Přihlášení přes Google se nezdařilo. Prosím, zkuste to znovu.'); // Zobrazení chyby uživateli
+	},
   });
 
-	const handleClickOpen = (login) => {
-		setIsLogin(login);
+	const handleClickOpen = (isLogin) => {
+		setIsLogin(isLogin);
 		setOpen(true);
 		resetForm();
 	};
 
 	const handleClose = () => {
 		setOpen(false);
+		setErrorMessage('');
 	};
 
 	const resetForm = () => {
@@ -38,6 +47,7 @@ const AuthForm = () => {
 		setFirstName('');
 		setLastName('');
 		setPasswordError('');
+		setErrorMessage('');
 	};
 
 	/**
@@ -56,16 +66,16 @@ const AuthForm = () => {
 		return "";
 	};
 
-	const handleSubmit = () => {
-		const passwordStrengthError = !isLogin ? checkPasswordStrength(password) : '';
-		if(passwordStrengthError) {
-			setPasswordError(passwordStrengthError);
-			return;
-		}
-		console.log('Formulář odeslán', { email, password, firstName, lastName });
-		setIsLoggedIn(true)
-		handleClose();
-	};
+  const handleSubmit = () => {
+    const passwordStrengthError = !isLogin ? checkPasswordStrength(password) : '';
+    if(passwordStrengthError) {
+      setPasswordError(passwordStrengthError);
+      return;
+    }
+    login("jwt_token", { email, firstName, lastName }); // Aktualizace stavu autentizace
+    setIsLoggedIn(true);
+    handleClose();
+  };
 
 	return (
 		<Box sx={{
@@ -75,6 +85,7 @@ const AuthForm = () => {
 			justifyContent: 'center',
 			gap: 2
 		}}>
+			{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 			{!isLoggedIn && (
 				<>
 					<Typography variant="h4">

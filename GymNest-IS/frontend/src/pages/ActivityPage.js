@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ActionList from '../components/ActivityList';
-import ActionFilter from '../components/ActivityFilter';
-import ActionDetail from '../components/ActivityDetail';
+import ActivityList from '../components/ActivityList';
+import ActivityFilter from '../components/ActivityFilter';
+import ActivityDetail from '../components/ActivityDetail';
 import { Paper, Typography } from '@mui/material';
 
-const ActionsPage = () => {
-  const [actions, setActions] = useState([]);
-  const [selectedAction, setSelectedAction] = useState(null);
+const ActivityPage = () => {
+  const [activities, setActivities] = useState([]);
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   useEffect(() => {
-    fetchActions();
+    fetchActivities();
   }, []);
 
-  const fetchActions = async () => {
+  const fetchActivities = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/actions');
-      setActions(response.data);
+      const response = await axios.get('http://localhost:8080/activities');
+      setActivities(response.data);
     } catch (error) {
-      console.error("Error fetching actions:", error);
+      console.error("Error fetching activities:", error);
     }
   };
 
-  const handleActionClick = (actionId) => {
-    const action = actions.find(a => a.id === actionId);
-    setSelectedAction(action);
+  const handleClick = (activityId) => {
+    const activity = activities.find(a => a.id === activityId);
+    setSelectedActivity(activity);
     setIsDetailOpen(true);
   };
 
@@ -35,12 +35,12 @@ const ActionsPage = () => {
 
   const handleFilter = async (filter) => {
     try {
-      const response = await axios.get('http://localhost:8080/actions', {
+      const response = await axios.get('http://localhost:8080/activities', {
         params: filter
       });
-      setActions(response.data);
+      setActivities(response.data);
     } catch (error) {
-      console.error("Error fetching actions:", error);
+      console.error("Error fetching activities:", error);
     }
   };
 
@@ -48,11 +48,11 @@ const ActionsPage = () => {
   return (
     <Paper elevation={3} sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>Akce</Typography>
-      <ActionFilter onFilter={handleFilter} />
-      <ActionList actions={actions} onReserve={handleActionClick} />
-      {selectedAction &&
-        <ActionDetail
-          action={selectedAction}
+      <ActivityFilter onFilter={handleFilter} />
+      <ActivityList activities={activities} onReserve={handleClick} />
+      {selectedActivity &&
+        <ActivityDetail
+          activity={selectedActivity}
           open={isDetailOpen}
           onClose={handleDetailClose}
         />
@@ -61,4 +61,4 @@ const ActionsPage = () => {
   );
 };
 
-export default ActionsPage;
+export default ActivityPage;

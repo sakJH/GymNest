@@ -1,23 +1,23 @@
 import React from 'react';
 import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from '@mui/material';
 
-const ActionList = ({ actions, onReserve }) => {
+const ActivityList = ({ activities, onReserve }) => {
   return (
     <List>
-      {actions.map((action) => (
-        <ListItem key={action.id} divider disablePadding>
-          <ListItemButton onClick={() => onReserve(action.id)}>
+      {activities.map((activity) => (
+        <ListItem key={activity.id} divider disablePadding>
+          <ListItemButton onClick={() => onReserve(activity.id)}>
             <ListItemText
-              primary={action.name}
-              secondary={`${new Date(action.date).toLocaleDateString()} - ${action.time}`}
+              primary={activity.name}
+              secondary={`${new Date(activity.date).toLocaleDateString()} - ${activity.time}`}
             />
           </ListItemButton>
-          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onReserve(action.id); }}>Rezervovat</Button>
+          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onReserve(activity.id); }}>Rezervovat</Button>
         </ListItem>
       ))}
-      {actions.length === 0 && <Typography variant="subtitle1">Žádné akce nebyly nalezeny.</Typography>}
+      {activities.length === 0 && <Typography variant="subtitle1">Žádné akce nebyly nalezeny.</Typography>}
     </List>
   );
 };
 
-export default ActionList;
+export default ActivityList;
