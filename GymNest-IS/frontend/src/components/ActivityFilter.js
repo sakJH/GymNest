@@ -33,14 +33,13 @@ const ActionFilter = ({ onFilter }) => {
 
   return (
     <Box
-      display="flex"
-      gap={2}
-      alignItems="center"
+    display="flex"
+    gap={2}
+    alignItems="center"
       sx={{
         marginTop: 2,
         width: '100%',
         maxWidth: 600,
-        marginX: 'auto'
       }}
     >
       <TextField
