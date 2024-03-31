@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        const response = await axios.get('http://localhost:8080/verify-token', { //TODO endpoit pro verifikaci tokenu??
+        const response = await axios.get('http://localhost:8080/api/auth/google', { //TODO TADY JSI MĚL CHYBU MATĚJI - takto se to píše a samo to pak doplňuje
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -34,18 +34,4 @@ router.get('/auth/google/callback',
         res.redirect('/');
     });
 
-// Přesměrování na Google pro autentizaci
-/**
- * @swagger
- * /google:
- *   get:
- *     summary: Přesměrování na Google pro autentizaci
- *     tags: [Auth]
- *     responses:
- *       200:
- *         description: Přesměrování na Google pro autentizaci
- */
-router.get('/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
-
 module.exports = router;

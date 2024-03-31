@@ -99,6 +99,7 @@ pipelines:
               serviceEndpoint: membershipService
   bookingPipeline:
     apiEndpoints:
+      - activity
       - bookings
       - activities
       - schedules
