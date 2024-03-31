@@ -64,7 +64,7 @@ Správa časového harmonogramu pro lekce a trenéry.
 ```
 ### API Gateway
 ```
-Vlastní API Gateway pro přesměrování dotazů na mikroslužby.
+API Gateway pro přesměrování dotazů na mikroslužby. Podpora logování 'routes'
 ```
 ### Další funkce
 ```
@@ -117,6 +117,10 @@ Kompletní spuštění přes API-Gateway **docker-compose.yml**
 PayPal 
 > [!IMPORTANT]
 > Pouze jako Sandbox mód
+
+### Dokumentace
+**Swagger**
+Dokumentace 'routes' v rámci celého projektu
 
 ## Návrh databáze
  ### 1.	Databáze Uživatelské správy (User Management Database):
