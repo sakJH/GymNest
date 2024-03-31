@@ -10,6 +10,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('jwtToken'));
+  const [role, setRole] = useState(localStorage.getItem('userRole'));
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -21,13 +22,12 @@ export const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Předpokládáme, že API vrací informace o uživateli, pokud je token platný
         setUser(response.data.user);
+        setRole(response.data.role);
+        localStorage.setItem('userRole', response.data.role);
       } catch (error) {
         console.error("Token verification failed:", error);
-        localStorage.removeItem('jwtToken');
-        setToken(null);
-        setUser(null);
+        logout()
         setErrorMessage("Vaše přihlášení vypršelo nebo je neplatné. Prosím, přihlaste se znovu.");
       }
     };
@@ -36,21 +36,26 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   // Funkce pro přihlášení uživatele
-  const login = (newToken, newUser) => {
+  const login = (newToken, newUser, newRole) => {
     localStorage.setItem('jwtToken', newToken);
+    localStorage.setItem('userRole', newRole);
     setToken(newToken);
     setUser(newUser);
+    setRole(newRole); // Nastavení role
   };
 
   // Funkce pro odhlášení uživatele
   const logout = () => {
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userRole');
     setToken(null);
     setUser(null);
+    setRole(null);
+    setErrorMessage('');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, errorMessage, setErrorMessage }}>
+    <AuthContext.Provider value={{ user, token, role, login, logout, errorMessage, setErrorMessage }}>
       {children}
     </AuthContext.Provider>
   );
