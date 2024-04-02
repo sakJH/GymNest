@@ -9,6 +9,7 @@
     "dotenv": "~16.4.5",
     "swagger-ui-express": "~5.0.0",
     "swagger-jsdoc": "~6.2.8",
-    "cors": "~2.8.5"
+    "cors": "~2.8.5",
+    "express-swagger-generator": "~1.1.17"
   }
 }

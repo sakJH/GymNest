@@ -46,6 +46,11 @@ class Profile extends Model {
 
 Profile.init({
     // Definice atributů modelu
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     firstName: {
         type: DataTypes.STRING,
         allowNull: false,

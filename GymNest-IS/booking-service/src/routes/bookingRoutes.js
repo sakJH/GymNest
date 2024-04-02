@@ -9,6 +9,7 @@ const router = express.Router();
  * /bookings:
  *   post:
  *     summary: Vytvoření nové rezervace
+ *     tags: [Bookings]
  *     description: Vytvoření nové rezervace s danými parametry
  *     requestBody:
  *       required: true
@@ -32,6 +33,7 @@ router.post('/bookings', BookingController.createBooking);
  * /bookings/update:
  *   put:
  *     summary: Aktualizace rezervace
+ *     tags: [Bookings]
  *     description: Aktualizace rezervace podle zadaných parametrů
  *     requestBody:
  *       required: true
@@ -55,6 +57,7 @@ router.put('/bookings/update', BookingController.updateBooking);
  * /bookings/cancel/{bookingId}:
  *   delete:
  *     summary: Zrušení rezervace
+ *     tags: [Bookings]
  *     description: Zrušení rezervace podle zadaného ID
  *     parameters:
  *       - in: path
@@ -79,6 +82,7 @@ router.delete('/bookings/cancel/:bookingId', BookingController.cancelBooking);
  * /bookings/{bookingId}:
  *   get:
  *     summary: Vyhledání rezervace
+ *     tags: [Bookings]
  *     description: Vyhledání rezervace podle zadaného ID
  *     parameters:
  *       - in: path
@@ -103,6 +107,7 @@ router.get('/bookings/:bookingId', BookingController.findBookingById);
  * /bookings/user/{userId}:
  *   get:
  *     summary: Vyhledání rezervací uživatele
+ *     tags: [Bookings]
  *     description: Vyhledání všech rezervací pro daného uživatele
  *     parameters:
  *       - in: path

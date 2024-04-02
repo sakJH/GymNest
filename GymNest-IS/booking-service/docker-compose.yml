@@ -12,10 +12,10 @@ services:
       - .:/usr/src/booking-service
       - /usr/src/booking-service/node_modules
     environment:
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST_BS}
+      DB_USER: ${DB_USER_BS}
+      DB_PASSWORD: ${DB_PASSWORD_BS}
+      DB_NAME: ${DB_NAME_BS}
     restart: always
     command: ["./wait-for-it.sh", "db-booking-service:3306", "--", "npm", "start"]
     networks:
@@ -30,13 +30,13 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME_BS}
+      MYSQL_USER: ${DB_USER_BS}
+      MYSQL_PASSWORD: ${DB_PASSWORD_BS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_BS}
     restart: always
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data_booking:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d/
     command: --default-authentication-plugin=mysql_native_password
     networks:
@@ -47,4 +47,4 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
+  db_data_booking:

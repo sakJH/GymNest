@@ -10,6 +10,7 @@ const router = express.Router();
  * /schedules:
  *   post:
  *     summary: Vytvoření nového harmonogramu
+ *     tags: [Schedules]
  *     description: Vytvoření nového harmonogramu s danými parametry
  *     requestBody:
  *       required: true
@@ -33,6 +34,7 @@ router.post('/schedules', ScheduleController.createSchedule);
  * /schedules:
  *   put:
  *     summary: Aktualizace harmonogramu
+ *     tags: [Schedules]
  *     description: Aktualizace harmonogramu podle zadaných parametrů
  *     requestBody:
  *       required: true
@@ -56,6 +58,7 @@ router.put('/schedules', ScheduleController.updateSchedule);
  * /schedules/{scheduleId}:
  *   delete:
  *     summary: Zrušení harmonogramu
+ *     tags: [Schedules]
  *     description: Zrušení harmonogramu podle zadaného ID
  *     parameters:
  *       - in: path
@@ -80,6 +83,7 @@ router.delete('/schedules/:scheduleId', ScheduleController.deleteSchedule);
  * /schedules/{scheduleId}:
  *   get:
  *     summary: Vyhledání harmonogramu podle ID
+ *     tags: [Schedules]
  *     description: Vyhledání harmonogramu podle zadaného ID
  *     parameters:
  *       - in: path
@@ -104,6 +108,7 @@ router.get('/schedules/:scheduleId', ScheduleController.findScheduleById);
  * /schedules:
  *   get:
  *     summary: Vyhledání všech harmonogramů
+ *     tags: [Schedules]
  *     description: Vyhledání všech harmonogramů
  *     responses:
  *       200:
@@ -111,5 +116,4 @@ router.get('/schedules/:scheduleId', ScheduleController.findScheduleById);
  */
 router.get('/schedules', ScheduleController.findAllSchedules);
 
-// Export routeru pro použití v hlavní aplikaci
 module.exports = router;

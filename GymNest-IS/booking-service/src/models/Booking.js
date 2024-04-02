@@ -70,7 +70,7 @@ class Booking extends Model {
 
 Booking.init({
     // Definice atributů modelu
-    bookingId: {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true

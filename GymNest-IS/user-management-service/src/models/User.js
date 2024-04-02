@@ -165,6 +165,11 @@ class User extends Model {
 
 User.init({
     // Definice atributů modelu
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -186,7 +191,7 @@ User.init({
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: 'Roles', // Název modelu Role
+            model: 'roles',
             key: 'id'
         }
     },

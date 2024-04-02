@@ -9,6 +9,7 @@ const router = express.Router();
  * /subscriptions/active:
  *   get:
  *     summary: Získání všech aktivních předplatných
+ *     tags: [Subscriptions]
  *     responses:
  *       200:
  *         description: Úspěšné získání všech aktivních předplatných
@@ -23,6 +24,7 @@ router.get('/subscriptions/active', SubscriptionController.findActiveSubscriptio
  * /subscriptions/{id}/pause:
  *   post:
  *     summary: Pozastavení předplatného podle ID
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -50,6 +52,7 @@ router.post('/subscriptions/:id/pause', SubscriptionController.pauseSubscription
  * /subscriptions/{id}/reactivate:
  *   post:
  *     summary: Reaktivace předplatného podle ID
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -77,6 +80,7 @@ router.post('/subscriptions/:id/reactivate', SubscriptionController.reactivateSu
  * /subscriptions/{id}/cancel:
  *   post:
  *     summary: Zrušení předplatného podle ID
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -104,6 +108,7 @@ router.post('/subscriptions/:id/cancel', SubscriptionController.cancelSubscripti
  * /subscriptions/type/{type}:
  *   get:
  *     summary: Získání předplatných podle typu
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: type
@@ -131,6 +136,7 @@ router.get('/subscriptions/type/:type', SubscriptionController.findSubscriptions
  * /subscriptions/expiring:
  *   get:
  *     summary: Získání předplatných, které brzy skončí
+ *     tags: [Subscriptions]
  *     responses:
  *       200:
  *         description: Seznam předplatných
@@ -151,6 +157,7 @@ router.get('/subscriptions/expiring', SubscriptionController.findExpiringSubscri
  * /subscriptions/{id}/renew:
  *   post:
  *     summary: Obnovení předplatného podle ID
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -178,6 +185,7 @@ router.post('/subscriptions/:id/renew', SubscriptionController.renewSubscription
  * /subscriptions/status/{status}:
  *   get:
  *     summary: Získání předplatných podle statusu
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: status
@@ -205,6 +213,7 @@ router.get('/subscriptions/status/:status', SubscriptionController.findSubscript
  * /subscriptions/{id}/changeType:
  *   post:
  *     summary: Změna typu předplatného
+ *     tags: [Subscriptions]
  *     parameters:
  *       - in: path
  *         name: id

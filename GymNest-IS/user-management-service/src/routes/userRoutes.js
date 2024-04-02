@@ -1,7 +1,5 @@
 const express = require('express');
 const UserController = require('../controllers/UserController');
-
-// Predpokladame existenci UserService
 const UserService = require('../services/UserService');
 
 const router = express.Router();

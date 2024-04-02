@@ -56,6 +56,11 @@ class Role extends Model {
 
 Role.init({
     // Definice atributů modelu
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     roleName: {
         type: DataTypes.STRING,
         allowNull: false,

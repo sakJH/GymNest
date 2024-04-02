@@ -10,6 +10,7 @@ const router = express.Router();
  * /activities:
  *   post:
  *     summary: Vytvoření nové aktivity
+ *     tags: [Activities]
  *     description: Vytvoření nové aktivity s danými parametry
  *     requestBody:
  *       required: true
@@ -33,6 +34,7 @@ router.post('/activities', ActivityController.createActivity);
  * /activities:
  *   put:
  *     summary: Aktualizace aktivity
+ *     tags: [Activities]
  *     description: Aktualizace aktivity podle zadaných parametrů
  *     requestBody:
  *       required: true
@@ -56,6 +58,7 @@ router.put('/activities', ActivityController.updateActivity);
  * /activities/{activityId}:
  *   delete:
  *     summary: Zrušení aktivity
+ *     tags: [Activities]
  *     description: Zrušení aktivity podle zadaného ID
  *     parameters:
  *       - in: path
@@ -80,6 +83,7 @@ router.delete('/activities/:activityId', ActivityController.deleteActivity);
  * /activities/{activityId}:
  *   get:
  *     summary: Vyhledání aktivity podle ID
+ *     tags: [Activities]
  *     description: Vyhledání aktivity podle zadaného ID
  *     parameters:
  *       - in: path
@@ -104,6 +108,7 @@ router.get('/activities/:activityId', ActivityController.findActivityById);
  * /activities:
  *   get:
  *     summary: Vyhledání všech aktivit
+ *     tags: [Activities]
  *     description: Vyhledání všech aktivit
  *     responses:
  *       200:
@@ -121,6 +126,7 @@ router.get('/activities', ActivityController.findAllActivities);
  * /activities/search:
  *   get:
  *     summary: Vyhledání aktivit podle typu a data
+ *     tags: [Activities]
  *     description: Vyhledání aktivit podle zadaného typu a data
  *     parameters:
  *       - in: query

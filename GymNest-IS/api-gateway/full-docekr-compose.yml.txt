@@ -1,0 +1,146 @@
+version: '3.8'
+services:
+  api-gateway:
+    build: .
+    ports:
+      - "8080:8080"
+
+  app-user-management-service:
+    build: ../user-management-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db-user-management-service
+    env_file:
+      - ../user-management-service/.env
+    volumes:
+      - .:/usr/src/user-management-service
+      - /usr/src/user-management-service/node_modules
+    environment:
+      DB_HOST: ${DB_HOST_US}
+      DB_USER: ${DB_USER_US}
+      DB_PASSWORD: ${DB_PASSWORD_US}
+      DB_NAME: ${DB_NAME_US}
+      JWT_SECRET: ${JWT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    restart: always
+    command: [ "./wait-for-it.sh", "db-user-management-service:3306", "--", "npm", "start" ]
+    networks:
+      - user-service-network
+  db-user-management-service:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    env_file:
+      - ../user-management-service/.env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME_US}
+      MYSQL_USER: ${DB_USER_US}
+      MYSQL_PASSWORD: ${DB_PASSWORD_US}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_US}
+    restart: always
+    volumes:
+      - db_data_user:/var/lib/mysql
+      - ../user-management-service/database/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - user-service-network
+
+  app-management-service:
+    build: ../membership-service
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db-membership-service
+    env_file:
+      - ../membership-service/.env
+    volumes:
+      - .:/usr/src/member-service
+      - /usr/src/member-service/node_modules
+    environment:
+      DB_HOST: ${DB_HOST_MS}
+      DB_USER: ${DB_USER_MS}
+      DB_PASSWORD: ${DB_PASSWORD_MS}
+      DB_NAME: ${DB_NAME_MS}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
+    restart: always
+    command: [ "./wait-for-it.sh", "db-user-membership-service:3307", "--", "npm", "start" ]
+    networks:
+      - membership-service-network
+  db-membership-service:
+    image: mysql:5.7
+    ports:
+      - "3307:3307"
+    expose:
+      - "3307"
+    env_file:
+      - ../membership-service/.env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME_MS}
+      MYSQL_USER: ${DB_USER_MS}
+      MYSQL_PASSWORD: ${DB_PASSWORD_MS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_MS}
+    restart: always
+    volumes:
+      - db_data_membership:/var/lib/mysql
+      - ../database/migrations:/docker-entrypoint-initdb.d/
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - membership-service-network
+
+  app-booking-service:
+    build: ../booking-service
+    ports:
+      - "3003:3003"
+    depends_on:
+      - db-booking-service
+    env_file:
+      - ../booking-service/.env
+    volumes:
+      - .:/usr/src/booking-service
+      - /usr/src/booking-service/node_modules
+    environment:
+      DB_HOST: ${DB_HOST_BS}
+      DB_USER: ${DB_USER_BS}
+      DB_PASSWORD: ${DB_PASSWORD_BS}
+      DB_NAME: ${DB_NAME_BS}
+    restart: always
+    command: [ "./wait-for-it.sh", "db-booking-service:3306", "--", "npm", "start" ]
+    networks:
+      - booking-service-network
+  db-booking-service:
+    image: mysql:5.7
+    ports:
+      - "3308:3308"
+    expose:
+      - "3308"
+    env_file:
+      - ../booking-service/.env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME_BS}
+      MYSQL_USER: ${DB_USER_BS}
+      MYSQL_PASSWORD: ${DB_PASSWORD_BS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_BS}
+    restart: always
+    volumes:
+      - db_data_booking:/var/lib/mysql
+      - ../database/migrations:/docker-entrypoint-initdb.d/
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - booking-service-network
+
+networks:
+  user-service-network:
+    driver: bridge
+  membership-service-network:
+      driver: bridge
+  booking-service-network:
+    driver: bridge
+
+volumes:
+  db_data_user:
+  db_data_membership:
+  db_data_booking:

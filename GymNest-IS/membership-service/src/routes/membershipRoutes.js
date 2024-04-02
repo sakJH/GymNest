@@ -1,5 +1,6 @@
 const express = require('express');
 const MembershipController = require('../controllers/MembershipController');
+const MembershipService = require('../services/MembershipService');
 
 const router = express.Router();
 
@@ -9,6 +10,7 @@ const router = express.Router();
  * /memberships:
  *   post:
  *     summary: Vytvoření nového členství
+ *     tags: [Memberships]
  *     requestBody:
  *       required: true
  *       content:
@@ -35,6 +37,7 @@ router.post('/memberships', MembershipController.createMembership);
  * /memberships/{id}:
  *   put:
  *     summary: Aktualizace členství podle ID
+ *     tags: [Memberships]
  *     parameters:
  *       - in: path
  *         name: id
@@ -70,6 +73,7 @@ router.put('/memberships/:id', MembershipController.updateMembership);
  * /memberships/{id}:
  *   get:
  *     summary: Získání členství podle ID
+ *     tags: [Memberships]
  *     parameters:
  *       - in: path
  *         name: id
@@ -97,6 +101,7 @@ router.get('/memberships/:id', MembershipController.findMembershipById);
  * /memberships/{id}:
  *   delete:
  *     summary: Odstranění členství podle ID
+ *     tags: [Memberships]
  *     parameters:
  *       - in: path
  *         name: id
@@ -120,6 +125,7 @@ router.delete('/memberships/:id', MembershipController.deleteMembership);
  * /memberships:
  *   get:
  *     summary: Získání všech členství
+ *     tags: [Memberships]
  *     responses:
  *       200:
  *         description: Úspěšné získání všech členství
@@ -140,6 +146,7 @@ router.get('/memberships', MembershipController.findAllMemberships);
  * /memberships/user/{userId}:
  *   get:
  *     summary: Získání všech členství daného uživatele
+ *     tags: [Memberships]
  *     parameters:
  *       - in: path
  *         name: userId

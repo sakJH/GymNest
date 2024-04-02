@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `schedules` (
 
 -- Vytvoření tabulky 'bookings'
 CREATE TABLE IF NOT EXISTS `bookings` (
-    `bookingId` INT AUTO_INCREMENT PRIMARY KEY,
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `userId` INT NOT NULL,
     `activityId` INT NOT NULL,
     `scheduleId` INT NOT NULL,

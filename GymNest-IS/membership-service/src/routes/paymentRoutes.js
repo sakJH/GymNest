@@ -121,6 +121,7 @@ router.post('/payments/:paymentId/refund', PaymentController.processRefund);
  * /payments/status/{status}:
  *   get:
  *     summary: Vyhledání plateb podle stavu
+ *     tags: [Payments]
  *     parameters:
  *       - in: path
  *         name: status

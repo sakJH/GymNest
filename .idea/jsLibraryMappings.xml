@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/GymNest-IS/booking-service/booking-service" libraries="{Node.js Core}" />
-    <file url="file://$PROJECT_DIR$/GymNest-IS/membership-service/membership-service" libraries="{Node.js Core}" />
-    <file url="file://$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service" libraries="{Node.js Core}" />
-  </component>
-</project>

@@ -454,22 +454,33 @@ frontend/
 ├── public/
 │   ├── favicon.ico                 # Ikona pro záložku
 │   ├── index.html                  # Hlavní HTML soubor
+│   ├── logo.png                    # Logo aplikace
 │   ├── manifest.json               # Konfigurace pro PWA
 │   └── robots.txt                  # Soubor pro blokování robotů
 │
 ├── src/
 │   ├── components/                 # Opakovaně použitelné komponenty
-│   │   ├── AppAppBar.js            # Komponenta pro horní lištu aplikace
-│   │   ├── FAQ.js                  # Komponenta s často kladenými otázkami
-│   │   ├── Features.js             # Komponenta s výčtem funkcí aplikace
-│   │   ├── Footer.js               # Komponenta pro patičku aplikace
-│   │   ├── Hero.js                 # Komponenta s úvodním obrázkem a textem
-│   │   ├── Highlight.js            # Komponenta s výrazným textem
-│   │   ├── Pricing.js              # Komponenta s cenovými plány
-│   │   ├── ToggleColorMode.js      # Komponenta pro přepínání barevného schématu
+│   │   ├── ActivityCreate.js       # Formulář pro vytvoření aktivity
+│   │   ├── ActivityDetail.js       # Detail aktivity
+│   │   ├── ActivityFilter.js       # Filtr aktivit
+│   │   ├── ActivityList.js         # Seznam aktivit
+│   │   ├── AuthContent.js          # Obsah pro přihlášení a registraci
+│   │   ├── AuthForm.js             # Formulář pro přihlášení a registraci
+│   │   ├── DataList.js             # Seznam dat
+│   │   ├── Footer.js               # Patička
+│   │   ├── MembershipsStatus.js    # Stav členství
+│   │   ├── NavBar.js               # Navigační lišta
+│   │   ├── PaymentHistory.js       # Historie plateb
+│   │   ├── PayPalButton.js         # Tlačítko pro PayPal platbu
+│   │   ├── PrivateSchedule.js      # Soukromý rozvrh
+│   │   ├── PublicSchedule.js       # Veřejný rozvrh
+│   │   ├── UserList.js             # Seznam uživatelů
 │   │
 │   ├── pages/                      # Stránky aplikace
-│   │   ├── LandingPage.js          # Úvodní stránka aplikace
+│   │   ├── ActivityPage.js         # Stránka s aktivitami
+│   │   ├── HomePage.js             # Úvodní stránka
+│   │   ├── MembershipPage.js       # Stránka s členstvím
+│   │   ├── SchedulePage.js         # Stránka s rozvrhem
 │   │
 │   ├── themes/                     # Přizpůsobení Material-UI tématu
 │   │   └── getLPTheme.js           # Téma pro úvodní stránku

@@ -10,6 +10,7 @@ const router = express.Router();
  * /notifications:
  *   post:
  *     summary: Vytvoření nové notifikace
+ *     tags: [Notifications]
  *     description: Vytvoření nové notifikace s danými parametry
  *     requestBody:
  *       required: true
@@ -33,6 +34,7 @@ router.post('/notifications', NotificationController.createNotification);
  * /notifications:
  *   put:
  *     summary: Aktualizace notifikace
+ *     tags: [Notifications]
  *     description: Aktualizace notifikace podle zadaných parametrů
  *     requestBody:
  *       required: true
@@ -56,6 +58,7 @@ router.put('/notifications', NotificationController.updateNotification);
  * /notifications/{notificationId}:
  *   delete:
  *     summary: Smazání notifikace
+ *     tags: [Notifications]
  *     description: Smazání notifikace podle zadaného ID
  *     parameters:
  *       - in: path
@@ -80,6 +83,7 @@ router.delete('/notifications/:notificationId', NotificationController.deleteNot
  * /notifications/{notificationId}:
  *   get:
  *     summary: Vyhledání notifikace
+ *     tags: [Notifications]
  *     description: Vyhledání notifikace podle zadaného ID
  *     parameters:
  *       - in: path
@@ -108,6 +112,7 @@ router.get('/notifications/:notificationId', NotificationController.findNotifica
  * /notifications:
  *   get:
  *     summary: Vyhledání všech notifikací
+ *     tags: [Notifications]
  *     description: Vyhledání všech notifikací pro daného uživatele
  *     responses:
  *       200:
@@ -131,6 +136,7 @@ router.get('/notifications', NotificationController.findAllNotifications);
  * /notifications/{notificationId}/read:
  *   patch:
  *     summary: Označení notifikace jako přečtené
+ *     tags: [Notifications]
  *     description: Označení notifikace s daným ID jako přečtenou
  *     parameters:
  *       - in: path

@@ -71,12 +71,24 @@ class Membership extends Model {
 
 Membership.init({
     // Definice atributů modelu
-    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    membershipType: { type: DataTypes.STRING, allowNull: false },
-    membershipPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-    startDate: { type: DataTypes.DATEONLY, allowNull: false },
-    endDate: { type: DataTypes.DATEONLY, allowNull: false },
+    id: {
+        type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true
+    },
+    userId: {
+        type: DataTypes.INTEGER, allowNull: false
+    },
+    membershipType: {
+        type: DataTypes.STRING, allowNull: false
+    },
+    membershipPrice: {
+        type: DataTypes.DECIMAL(10, 2), allowNull: false
+    },
+    startDate: {
+        type: DataTypes.DATEONLY, allowNull: false
+    },
+    endDate: {
+        type: DataTypes.DATEONLY, allowNull: false
+    },
     // Další atributy
 }, {
     sequelize,

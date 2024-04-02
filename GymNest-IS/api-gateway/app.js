@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
 
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -18,15 +19,8 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Aplikace CORS middleware s nastavením
 app.use(express.json()); // Pro zpracování JSON requestů
 
-// Swagger dokumentace
-const options = {
-    swaggerDefinition,
-    apis: ['./src/routes/*.js'], // cesta k souborům s dokumentací pro Swagger
-};
-const swaggerSpec = swaggerJsdoc(options);
-
 // Zpřístupnění Swagger UI na /docs
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Základní route
 app.get('/', (req, res) => {
