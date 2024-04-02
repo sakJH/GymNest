@@ -19,9 +19,6 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Aplikace CORS middleware s nastavením
 app.use(express.json()); // Pro zpracování JSON requestů
 
-// Zpřístupnění Swagger UI na /docs
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // Základní route
 app.get('/', (req, res) => {
     res.send('API Gateway is running');

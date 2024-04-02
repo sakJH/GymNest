@@ -19,6 +19,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PORT: ${PORT}
     restart: always
     command: ["./wait-for-it.sh", "db-user-management-service:3306", "--", "npm", "start"]
     networks:

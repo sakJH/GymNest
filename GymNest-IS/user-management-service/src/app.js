@@ -3,6 +3,7 @@ const sequelize = require('./sequelize');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
+require('dotenv').config();
 
 const User = require('./models/User'); // Import modelu User
 const Profile =  require('./models/Profile'); // Import modelu Profile
@@ -13,8 +14,10 @@ const profileRoutes = require('./routes/profileRoutes');
 const roleRoutes = require('./routes/roleRoutes')
 const authRoutes = require('./routes/authRoutes');
 
+// Import passportu a jeho konfigurace
 const passport = require('passport');
 require('./auth/passportConfig')(passport);
+
 
 User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
 Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });

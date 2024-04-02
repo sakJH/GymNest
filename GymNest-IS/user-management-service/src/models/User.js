@@ -3,6 +3,8 @@ const sequelize = require('../sequelize');
 const bcrypt = require('bcryptjs');
 
 class User extends Model {
+
+
     static async hashPassword(password) {
         return bcrypt.hash(password, 10);
     }
@@ -161,6 +163,7 @@ class User extends Model {
     }
 
     // TODO - Další metody?
+
 }
 
 User.init({

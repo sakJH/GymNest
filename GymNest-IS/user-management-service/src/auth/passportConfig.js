@@ -3,6 +3,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const { User } = require('../models/User'); // Cesta k modelu User
 const dotenv = require('dotenv');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -29,11 +30,25 @@ module.exports = (passport) => {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: "http://localhost:3000/auth/google/callback"
         },
-        function(accessToken, refreshToken, profile, cb) {
-            // Zde najděte nebo vytvořte uživatele v databázi a vraťte ho pomocí cb
-            User.findOrCreate({ googleId: profile.id }, function (err, user) {
-                return cb(err, user);
-            });
+        async (accessToken, refreshToken, profile, cb) => {
+            try {
+                let user = await User.findOne({ where: { googleId: profile.id } });
+
+                if (!user) {
+                    user = await User.create({
+                        googleId: profile.id,
+                        email: profile.emails[0].value,
+                        name: profile.displayName
+                        // další potřebná pole podle vašeho modelu User
+                    });
+                }
+                // Generování JWT tokenu
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+
+                cb(null, { user, token }); // Předání uživatele a tokenu do callbacku
+            } catch (error) {
+                cb(error, null);
+            }
         }
     ));
 };
