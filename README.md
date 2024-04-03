@@ -107,7 +107,7 @@ Express Gateway
 MySQL
 
 > [!NOTE]
-> Verze: 5.7
+> Verze: 8.3.0
 
 ### Docker
 **Dockerfile**

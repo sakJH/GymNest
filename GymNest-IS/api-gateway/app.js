@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080;
 
 // Konfigurace CORS
 const corsOptions = {
-    origin: '*', // Povolit requesty ze všech originů
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:8080 '], // Povolit requesty pouze z tohoto originu
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Povolit tyto HTTP metody
     allowedHeaders: 'Content-Type,Authorization', // Povolit tyto hlavičky
 };

@@ -14,7 +14,7 @@ const MembershipPage = () => {
   useEffect(() => {
     const fetchMembershipInfo = async () => {
       try {
-        const membershipResponse = await axios.get('http://localhost:8080/membership/info', { //TODO url
+        const membershipResponse = await axios.get('http://localhost:8080/api/memberships/user/', { //TODO jak s tím {userId}?
           headers: {
             'Authorization': `Bearer ${token}`, // Předání JWT tokenu v headeru
           }
@@ -27,7 +27,7 @@ const MembershipPage = () => {
 
     const fetchPaymentHistory = async () => {
       try {
-        const paymentHistoryResponse = await axios.get('http://localhost:8080/membership/payments', { //TODO url
+        const paymentHistoryResponse = await axios.get('http://localhost:8080/api/payments/subscription/', { //TODO jak s tím {userId}?
           headers: {
             'Authorization': `Bearer ${token}`, // Předání JWT tokenu v headeru
           }

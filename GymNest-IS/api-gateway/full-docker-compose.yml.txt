@@ -29,7 +29,7 @@ services:
     networks:
       - user-service-network
   db-user-management-service:
-    image: mysql:5.7
+    image: mysql:8.3.0
     ports:
       - "3306:3306"
     expose:
@@ -71,7 +71,7 @@ services:
     networks:
       - membership-service-network
   db-membership-service:
-    image: mysql:5.7
+    image: mysql:8.3.0
     ports:
       - "3307:3307"
     expose:
@@ -112,7 +112,7 @@ services:
     networks:
       - booking-service-network
   db-booking-service:
-    image: mysql:5.7
+    image: mysql:8.3.0
     ports:
       - "3308:3308"
     expose:

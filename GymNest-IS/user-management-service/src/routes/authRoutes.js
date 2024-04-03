@@ -262,6 +262,7 @@ router.get('/auth/logout', AuthController.logout);
  *         description: Neautorizovaný přístup.
  */
 router.get('/auth/refresh-token', AuthController.refreshToken);
+// TODO - dělat to vůbec?
 
 // Ověření emailu
 /**

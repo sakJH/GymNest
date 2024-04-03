@@ -24,7 +24,7 @@ services:
       - membership-service-network
 
   db-membership-service:
-    image: mysql:5.7
+    image: mysql:8.3.0
     ports:
       - "3307:3307"
     expose:

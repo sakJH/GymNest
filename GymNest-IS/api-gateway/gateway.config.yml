@@ -1,48 +1,67 @@
 http:
   port: 8080
 
+admin:
+  port: 9876
+  host: localhost
+
 apiEndpoints:
   auth:
-    host: '*'
-    paths: '/auth/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: ['api/auth', 'api/auth/*']
+  authGoogle:
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: ['api/auth/google/','api/auth/google/*']
   users:
-    host: '*'
-    paths: '/users/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: ['api/users/', 'api/users/*']
   profiles:
-    host: '*'
-    paths: '/profiles/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/profiles/*'
   roles:
-    host: '*'
-    paths: '/roles/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/roles/*'
   memberships:
-    host: '*'
-    paths: '/memberships/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/memberships/*'
   payments:
-    host: '*'
-    paths: '/payments/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/payments/*'
   subscriptions:
-    host: '*'
-    paths: '/subscriptions/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/subscriptions/*'
   bookings:
-    host: '*'
-    paths: '/bookings/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/bookings/*'
   activities:
-    host: '*'
-    paths: '/activities/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/activities/*'
   schedules:
-    host: '*'
-    paths: '/schedules/*'
+    host: localhost
+    methods: ['POST', 'GET']
+    paths: 'api/schedules/*'
   swagger:
-    host: '*'
+    host: localhost
+    methods: ['POST', 'GET']
     paths: '/docs'
 
 serviceEndpoints:
   userService:
-    url: 'http://user-management-service:3001'
+    url: 'http://localhost:3001'
   membershipService:
-    url: 'http://membership-service:3002'
+    url: 'http://localhost:3002'
   bookingService:
-    url: 'http://booking-service:3003'
+    url: 'http://localhost:3003'
   swaggerService:
     url: 'http://localhost:3000/docs'
 
@@ -50,10 +69,10 @@ policies:
   - proxy:
       - action:
           changeOrigin: true
-  #- jwt:
-  #    - action:
-  #        secretOrPublicKeyFile: '.env/' // TODO - To je špatně, ale nevím, jak to správně nastavit
-  #        checkCredentialExistence: false
+  - jwt:
+      - action:
+          secretOrPublicKeyFile: ${JWT_SECRET}
+          checkCredentialExistence: false
   - log:
       - action:
           message: "{req.method} {req.originalUrl} ${JSON.stringify(req.headers)}"
@@ -61,20 +80,19 @@ policies:
       - action:
           serviceEndpoint: swaggerService
           changeOrigin: true
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - oauth2
+  - proxy
+  - rate-limit
 
 pipelines:
-  authPipeline:
-    apiEndpoints:
-      - auth
-    policies:
-      - log:
-          - action:
-              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
-      - proxy:
-          - action:
-              serviceEndpoint: userService
   userPipeline:
     apiEndpoints:
+      - auth
+      - authGoogle
       - users
       - profiles
       - roles
