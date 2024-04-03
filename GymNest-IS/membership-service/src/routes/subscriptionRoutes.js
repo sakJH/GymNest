@@ -16,7 +16,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.get('/subscriptions/active', SubscriptionController.findActiveSubscriptions);
+router.get('/subscriptions/getActive', SubscriptionController.findActiveSubscriptions);
 
 // Pozastavení předplatného podle ID
 /**
@@ -128,7 +128,7 @@ router.post('/subscriptions/:id/cancel', SubscriptionController.cancelSubscripti
  *       500:
  *         description: Chyba serveru
  */
-router.get('/subscriptions/type/:type', SubscriptionController.findSubscriptionsByType);
+router.get('/subscriptions/getAllByType/:type', SubscriptionController.findSubscriptionsByType);
 
 // Získání předplatných, které brzy skončí
 /**
@@ -149,7 +149,7 @@ router.get('/subscriptions/type/:type', SubscriptionController.findSubscriptions
  *       500:
  *         description: Chyba serveru
  */
-router.get('/subscriptions/expiring', SubscriptionController.findExpiringSubscriptions);
+router.get('/subscriptions/getAllExpiring', SubscriptionController.findExpiringSubscriptions);
 
 // Obnovení předplatného podle ID
 /**
@@ -205,7 +205,7 @@ router.post('/subscriptions/:id/renew', SubscriptionController.renewSubscription
  *       500:
  *         description: Chyba serveru
  */
-router.get('/subscriptions/status/:status', SubscriptionController.findSubscriptionsByStatus);
+router.get('/subscriptions/getByStatus/:status', SubscriptionController.findSubscriptionsByStatus);
 
 // Změna typu předplatného
 /**

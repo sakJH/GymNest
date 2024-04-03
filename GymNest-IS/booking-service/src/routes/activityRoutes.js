@@ -26,7 +26,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/activities', ActivityController.createActivity);
+router.post('/activities/create', ActivityController.createActivity);
 
 // Definice cesty pro aktualizaci aktivity
 /**
@@ -50,7 +50,7 @@ router.post('/activities', ActivityController.createActivity);
  *       500:
  *         description: Chyba serveru
  */
-router.put('/activities', ActivityController.updateActivity);
+router.put('/activities/update', ActivityController.updateActivity);
 
 // Definice cesty pro zrušení aktivity podle jejího ID
 /**
@@ -75,7 +75,7 @@ router.put('/activities', ActivityController.updateActivity);
  *       500:
  *         description: Chyba serveru
  */
-router.delete('/activities/:activityId', ActivityController.deleteActivity);
+router.delete('/activities/delete/:activityId', ActivityController.deleteActivity);
 
 // Definice cesty pro vyhledání aktivity podle jejího ID
 /**
@@ -100,7 +100,7 @@ router.delete('/activities/:activityId', ActivityController.deleteActivity);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/activities/:activityId', ActivityController.findActivityById);
+router.get('/activities/find/:activityId', ActivityController.findActivityById);
 
 // Definice cesty pro získání seznamu všech aktivit
 /**
@@ -118,7 +118,7 @@ router.get('/activities/:activityId', ActivityController.findActivityById);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/activities', ActivityController.findAllActivities);
+router.get('/activities/all', ActivityController.findAllActivities);
 
 // Definice cesty pro vyhledání aktivit podle typu a data
 /**
@@ -149,6 +149,6 @@ router.get('/activities', ActivityController.findAllActivities);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/activities/search', ActivityController.findActivitiesByTypeAndDate);
+router.get('/activities/searchTypeAndDate', ActivityController.findActivitiesByTypeAndDate);
 
 module.exports = router;

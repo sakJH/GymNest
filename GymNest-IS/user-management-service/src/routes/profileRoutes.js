@@ -3,6 +3,14 @@ const ProfileController = require('../controllers/ProfileController');
 
 const router = express.Router();
 
+/**
+ * getProfiles {userId}
+ * createProfile
+ * updateProfile {userId}
+ * deleteProfile {userId}
+ *
+ */
+
 // Získání profilu uživatele podle userId
 /**
  * @swagger
@@ -52,7 +60,7 @@ router.get('/profiles/:userId', ProfileController.getProfile);
  *       400:
  *         description: Neplatný požadavek
  */
-router.post('/profiles', ProfileController.createProfile);
+router.post('/profiles/create', ProfileController.createProfile);
 
 // Aktualizace profilu uživatele podle userId
 /**

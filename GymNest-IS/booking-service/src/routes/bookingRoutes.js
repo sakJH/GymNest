@@ -25,7 +25,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/bookings', BookingController.createBooking);
+router.post('/bookings/create', BookingController.createBooking);
 
 // Cesta pro aktualizaci existující rezervace
 /**

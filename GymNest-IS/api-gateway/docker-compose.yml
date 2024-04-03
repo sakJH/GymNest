@@ -3,13 +3,14 @@ services:
   api-gateway:
     build: .
     ports:
-      - "8080:8080"
+      - "${PORT}:${PORT}"
     env_file:
       - .env
     environment:
       PORT: ${PORT}
       JWT_SECRET: ${JWT_SECRET}
       DEBUG: express-gateway:*
+      LOG_LEVEL: debug
     volumes:
       - .:/usr/src/api-gateway
       - /usr/src/api-gateway/node_modules

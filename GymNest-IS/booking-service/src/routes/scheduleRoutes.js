@@ -26,7 +26,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/schedules', ScheduleController.createSchedule);
+router.post('/schedules/create', ScheduleController.createSchedule);
 
 // Aktualizace existujícího harmonogramu
 /**
@@ -50,7 +50,7 @@ router.post('/schedules', ScheduleController.createSchedule);
  *       500:
  *         description: Chyba serveru
  */
-router.put('/schedules', ScheduleController.updateSchedule);
+router.put('/schedules/update', ScheduleController.updateSchedule);
 
 // Definování cesty pro zrušení harmonogramu podle jeho ID
 /**
@@ -75,7 +75,7 @@ router.put('/schedules', ScheduleController.updateSchedule);
  *       500:
  *         description: Chyba serveru
  */
-router.delete('/schedules/:scheduleId', ScheduleController.deleteSchedule);
+router.delete('/schedules/cancel/:scheduleId', ScheduleController.deleteSchedule);
 
 // Definování cesty pro vyhledání konkrétního harmonogramu podle jeho ID
 /**
@@ -100,7 +100,7 @@ router.delete('/schedules/:scheduleId', ScheduleController.deleteSchedule);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/schedules/:scheduleId', ScheduleController.findScheduleById);
+router.get('/schedules/find/:scheduleId', ScheduleController.findScheduleById);
 
 // Definování cesty pro získání seznamu všech harmonogramů
 /**
@@ -114,6 +114,6 @@ router.get('/schedules/:scheduleId', ScheduleController.findScheduleById);
  *       200:
  *         description: Seznam harmonogramů byl úspěšně nalezen
  */
-router.get('/schedules', ScheduleController.findAllSchedules);
+router.get('/schedules/all', ScheduleController.findAllSchedules);
 
 module.exports = router;

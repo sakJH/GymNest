@@ -20,7 +20,7 @@ app.use(cors(corsOptions)); // Aplikace CORS middleware s nastavením
 app.use(express.json()); // Pro zpracování JSON requestů
 
 // Základní route
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('API Gateway is running');
 });
 

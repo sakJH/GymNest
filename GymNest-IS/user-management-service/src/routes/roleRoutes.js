@@ -3,6 +3,15 @@ const RoleController = require('../controllers/RoleController');
 const router = express.Router();
 
 /**
+ * Initializace rolí
+ * Získání všech rolí
+ * Získání uživatelů podle názvu role
+ * Přidání role k uživateli
+ * Odebrání role uživateli a přidělení výchozí role
+ */
+
+// Inicializace rolí
+/**
  * @swagger
  * /roles:
  *   post:
@@ -16,6 +25,7 @@ const router = express.Router();
  */
 router.post('/roles/initialize', RoleController.initializeRoles);
 
+// Získání všech rolí
 /**
  * @swagger
  * /roles:
@@ -28,8 +38,9 @@ router.post('/roles/initialize', RoleController.initializeRoles);
  *       500:
  *         description: Došlo k chybě na serveru
  */
-router.get('/roles', RoleController.getAllRoles);
+router.get('/roles/getAll', RoleController.getAllRoles);
 
+// Získání uživatelů podle názvu role
 /**
  * @swagger
  * /roles/{roleName}/users:
@@ -51,6 +62,7 @@ router.get('/roles', RoleController.getAllRoles);
  */
 router.get('/roles/:roleName/users', RoleController.findUsersByRole);
 
+// Přidání role k uživateli
 /**
  * @swagger
  * /users/{userId}/role:
@@ -78,6 +90,7 @@ router.get('/roles/:roleName/users', RoleController.findUsersByRole);
  */
 router.put('/users/:userId/role', RoleController.setDefaultRole);
 
+// Odebrání role uživateli a přidělení výchozí role
 /**
  * @swagger
  * /users/{userId}/role:

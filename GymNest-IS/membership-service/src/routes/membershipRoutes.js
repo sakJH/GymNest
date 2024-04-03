@@ -4,12 +4,12 @@ const MembershipService = require('../services/MembershipService');
 
 const router = express.Router();
 
-// Vytvoření nového členství
+// Vytvoření nového členství pro uživatele
 /**
  * @swagger
  * /memberships:
  *   post:
- *     summary: Vytvoření nového členství
+ *     summary: Vytvoření nového členství pro uživatele
  *     tags: [Memberships]
  *     requestBody:
  *       required: true
@@ -29,7 +29,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/memberships', MembershipController.createMembership);
+router.post('/memberships/create', MembershipController.createMembership);
 
 // Aktualizace členství podle ID
 /**
@@ -65,7 +65,7 @@ router.post('/memberships', MembershipController.createMembership);
  *       500:
  *         description: Chyba serveru
  */
-router.put('/memberships/:id', MembershipController.updateMembership);
+router.put('/memberships/update/:id', MembershipController.updateMembership);
 
 // Získání členství podle ID
 /**
@@ -93,7 +93,7 @@ router.put('/memberships/:id', MembershipController.updateMembership);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/memberships/:id', MembershipController.findMembershipById);
+router.get('/memberships/get/:id', MembershipController.findMembershipById);
 
 // Odstranění členství podle ID
 /**
@@ -117,7 +117,7 @@ router.get('/memberships/:id', MembershipController.findMembershipById);
  *       500:
  *         description: Chyba serveru
  */
-router.delete('/memberships/:id', MembershipController.deleteMembership);
+router.delete('/memberships/delete/:id', MembershipController.deleteMembership);
 
 // Získání všech členství
 /**
@@ -138,7 +138,7 @@ router.delete('/memberships/:id', MembershipController.deleteMembership);
  *       500:
  *         description: Chyba serveru
  */
-router.get('/memberships', MembershipController.findAllMemberships);
+router.get('/memberships/all', MembershipController.findAllMemberships);
 
 // Získání všech členství daného uživatele
 /**

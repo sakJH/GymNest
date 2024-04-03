@@ -4,6 +4,20 @@ const UserController = require('../controllers/UserController');
 const router = express.Router();
 
 /**
+ * Vytvoření uživatele
+ * Odstanění uživatele podle uživatelského jména
+ * Aktualizace uživatele podle uživatelského jména
+ * Přihlášení uživatele
+ * Odhlášení uživatele
+ * Získání všech uživatelů
+ * Získání uživatele podle uživatelského jména
+ * Získání uživatele podle emailu
+ * Aktualizace preferencí podle ID
+ * Reset preferencí uživatele na výchozí hodnoty
+ */
+
+// Vytvoření uživatele
+/**
  * @swagger
  * /users:
  *   post:
@@ -26,8 +40,9 @@ const router = express.Router();
  *       500:
  *         description: Došlo k chybě na serveru
  */
-router.post('/users', UserController.createUser);
+router.post('/users/create', UserController.createUser);
 
+// Odstranění uživatele podle uživatelského jména
 /**
  * @swagger
  * /users/{username}:
@@ -49,6 +64,7 @@ router.post('/users', UserController.createUser);
  */
 router.delete('/users/:username', UserController.deleteUserByUsername);
 
+// Aktualizace uživatele podle uživatelského jména
 /**
  * @swagger
  * /users/{username}:
@@ -76,6 +92,7 @@ router.delete('/users/:username', UserController.deleteUserByUsername);
  */
 router.put('/users/:username', UserController.updateUserByUsername);
 
+// Přihlášení uživatele
 /**
  * @swagger
  * /users/login:
@@ -101,6 +118,7 @@ router.put('/users/:username', UserController.updateUserByUsername);
  */
 router.post('/users/login', UserController.loginUser);
 
+// Odhlášení uživatele
 /**
  * @swagger
  * /users:
@@ -117,8 +135,9 @@ router.post('/users/login', UserController.loginUser);
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/users', UserController.getAllUsers);
+router.get('/users/logout', UserController.getAllUsers);
 
+// Získání uživatele podle uživatelského jména - TODO: ano/ne?
 /**
  * @swagger
  * /users/{username}:
@@ -168,8 +187,9 @@ router.get('/users', UserController.getAllUsers);
  *       404:
  *         description: Uživatel nebyl nalezen
  */
-//router.get('/users/email/:email', UserController.getUserByEmail);
+router.get('/users/email/:email', UserController.getUserByEmail);
 
+// Aktualizace preferencí podle ID
 /**
  * @swagger
  * /users/{userId}/preferences:
@@ -197,6 +217,7 @@ router.get('/users', UserController.getAllUsers);
  */
 router.put('/users/:userId/preferences', UserController.updatePreferences);
 
+// Reset preferencí uživatele na výchozí hodnoty
 /**
  * @swagger
  * /users/{userId}/preferences/reset:

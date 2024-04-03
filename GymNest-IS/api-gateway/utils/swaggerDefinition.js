@@ -7,13 +7,30 @@ const swaggerDefinition = {
         description: 'Popis mého API',
         contact: {
             name: 'Jan Sakač',
-            email: 'sakacja1@uhk.cz'
+            email: 'sakacja1@uhk.cz',
         },
     },
     servers: [
         {
-            url: 'http://localhost:3000/api',
-            description: 'API Gateway server'
+            urls: [
+                {
+                    url: 'http://localhost:8080/api',
+                    description: 'API Gateway server'
+                },
+                {
+                    url: 'http://localhost:3001/api',
+                    description: 'User Management server'
+                },
+                {
+                    url: 'http://localhost:3002/api',
+                    description: 'Membership server'
+                },
+                {
+                    url: 'http://localhost:3003/api',
+                    description: 'Booking server'
+                },
+            ]
+
         }
     ],
 };

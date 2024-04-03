@@ -26,7 +26,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/notifications', NotificationController.createNotification);
+router.post('/notifications/create', NotificationController.createNotification);
 
 // Definice cesty pro aktualizaci notifikace
 /**
@@ -50,7 +50,7 @@ router.post('/notifications', NotificationController.createNotification);
  *       500:
  *         description: Chyba serveru
  */
-router.put('/notifications', NotificationController.updateNotification);
+router.put('/notifications/update', NotificationController.updateNotification);
 
 // Definice cesty pro smazání notifikace podle ID
 /**
@@ -75,7 +75,7 @@ router.put('/notifications', NotificationController.updateNotification);
  *       500:
  *         description: Chyba serveru
  */
-router.delete('/notifications/:notificationId', NotificationController.deleteNotification);
+router.delete('/notifications/delete/:notificationId', NotificationController.deleteNotification);
 
 // Definice cesty pro vyhledání notifikace podle ID
 /**
@@ -104,7 +104,7 @@ router.delete('/notifications/:notificationId', NotificationController.deleteNot
  *       500:
  *         description: Chyba serveru
  */
-router.get('/notifications/:notificationId', NotificationController.findNotificationById);
+router.get('/notifications/find/:notificationId', NotificationController.findNotificationById);
 
 // Definice cesty pro získání všech notifikací pro daného uživatele
 /**
@@ -128,7 +128,7 @@ router.get('/notifications/:notificationId', NotificationController.findNotifica
  *       500:
  *         description: Chyba serveru
  */
-router.get('/notifications', NotificationController.findAllNotifications);
+router.get('/notifications/all/:userId', NotificationController.findAllNotifications);
 
 // Definice cesty pro označení notifikace jako přečtené
 /**
