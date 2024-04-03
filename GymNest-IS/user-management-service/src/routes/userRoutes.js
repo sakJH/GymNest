@@ -118,7 +118,7 @@ router.put('/users/:username', UserController.updateUserByUsername);
  */
 router.post('/users/login', UserController.loginUser);
 
-// Odhlášení uživatele
+// Získání všech uživatelů uživatele
 /**
  * @swagger
  * /users:
@@ -135,7 +135,7 @@ router.post('/users/login', UserController.loginUser);
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/users/logout', UserController.getAllUsers);
+router.get('/users/all', UserController.getAllUsers);
 
 // Získání uživatele podle uživatelského jména - TODO: ano/ne?
 /**
@@ -187,7 +187,20 @@ router.get('/users/logout', UserController.getAllUsers);
  *       404:
  *         description: Uživatel nebyl nalezen
  */
-router.get('/users/email/:email', UserController.getUserByEmail);
+//router.get('/users/email/:email', UserController.getUserByEmail);
+
+// Odhlášení uživatele
+/**
+ * @swagger
+ * /users/logout:
+ *   get:
+ *     summary: Odhlášení uživatele
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Uživatel byl úspěšně odhlášen
+ */
+router.get('/users/logout', UserController.logoutUser);
 
 // Aktualizace preferencí podle ID
 /**

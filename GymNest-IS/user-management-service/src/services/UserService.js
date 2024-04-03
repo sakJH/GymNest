@@ -92,6 +92,15 @@ class UserService {
         }
     }
 
+    static async logoutUser(username){
+        try {
+            return await User.logoutUser(username);
+        } catch (error) {
+            console.error('Služba - Chyba při odhlašování uživatele:', error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = UserService;

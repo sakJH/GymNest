@@ -162,6 +162,21 @@ class User extends Model {
         }
     }
 
+    // Metoda pro odhlášení uživatele
+    static async logoutUser(userId) {
+        try {
+            const user = await this.findByPk(userId);
+            if (!user) {
+                throw new Error('Uživatel nebyl nalezen.');
+            }
+            console.log(`Uživatel s ID "${userId}" byl odhlášen.`);
+            return user;
+        } catch (error) {
+            console.error('Chyba při odhlášení uživatele:', error);
+            throw error;
+        }
+    }
+
     // TODO - Další metody?
 
 }

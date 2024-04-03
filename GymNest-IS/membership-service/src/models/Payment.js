@@ -73,6 +73,17 @@ class Payment extends Model {
         // TODO - dodělat nebo smazat
     }
 
+    // Vyhledání plateb podle uživatele
+    static async findPaymentsByUserId(userId) {
+        try {
+            return await this.findAll({
+                where: {userId}
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     //TODO - další metody???
 }
 

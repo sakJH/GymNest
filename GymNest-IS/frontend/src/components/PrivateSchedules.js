@@ -13,7 +13,7 @@ const PrivateSchedules = () => {
     useEffect(() => {
         const fetchPrivateSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/schedules/private', {
+                const response = await axios.get('http://localhost:3003/api/schedules/find/', { // TODO až do odvolání přímá komunikace - žádná api-gateway
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}` // token v localstorage
                     }

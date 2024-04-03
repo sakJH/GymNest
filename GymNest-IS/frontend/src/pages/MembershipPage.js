@@ -11,10 +11,12 @@ const MembershipPage = () => {
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
 
+  const apiAddress =  'http://localhost:3002/api';
+
   useEffect(() => {
     const fetchMembershipInfo = async () => {
       try {
-        const membershipResponse = await axios.get('http://localhost:8080/api/memberships/user/', { //TODO jak s tím {userId}?
+        const membershipResponse = await axios.get(`${apiAddress}/memberships/all`, { // TODO až do odvolání přímá komunikace - žádná api-gateway
           headers: {
             'Authorization': `Bearer ${token}`, // Předání JWT tokenu v headeru
           }
@@ -27,8 +29,8 @@ const MembershipPage = () => {
 
     const fetchPaymentHistory = async () => {
       try {
-        const paymentHistoryResponse = await axios.get('http://localhost:8080/api/payments/subscription/', { //TODO jak s tím {userId}?
-          headers: {
+        const paymentHistoryResponse = await axios.get(`${apiAddress}/payments/all`, { // TODO až do odvolání přímá komunikace - žádná api-gateway
+          headers: {                                            //TODO - přidat parametr pro filtrování plateb podle uživatele - userId
             'Authorization': `Bearer ${token}`, // Předání JWT tokenu v headeru
           }
         });

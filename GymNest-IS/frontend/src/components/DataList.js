@@ -10,7 +10,7 @@ const DataList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/data') // FAKE API TEST
+    axios.get('http://localhost:8080/api') // TODO až do odvolání přímá komunikace - žádná api-gateway
       .then(response => {
         setData(response.data);
       })

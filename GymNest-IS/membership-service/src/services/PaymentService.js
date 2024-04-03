@@ -26,6 +26,10 @@ class PaymentService {
         return await Payment.generatePaymentReport(parameters);
     }
 
+    async findPaymentsByUserId(userId) {
+        return await Payment.findPaymentsByUserId(userId);
+    }
+
 }
 
 module.exports = new PaymentService();

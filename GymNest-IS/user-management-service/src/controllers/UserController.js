@@ -85,6 +85,16 @@ class UserController {
             res.status(500).send(error.message);
         }
     }
+
+    // Odhlášení uživatele
+    static async logoutUser(req, res) {
+        try {
+            const user = await UserService.logoutUser(req.params.username);
+            res.json(user);
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
 }
 
 module.exports = UserController;

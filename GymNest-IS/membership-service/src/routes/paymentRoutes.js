@@ -145,4 +145,34 @@ router.post('/payments/:paymentId/refund', PaymentController.processRefund);
  */
 router.get('/payments/status/:status', PaymentController.findPaymentsByStatus);
 
+// Vyhledání plateb podle ID uživatele
+/**
+ * @swagger
+ * /payments/all/{userId}:
+ *   get:
+ *     summary: Vyhledání plateb podle ID uživatele
+ *     tags: [Payments]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: ID uživatele
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Seznam plateb
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Payment'
+ *       400:
+ *         description: Chybný formát požadavku
+ *       500:
+ *         description: Chyba serveru
+ */
+router.get('/payments/all/:userId', PaymentController.findPaymentsByUserId);
+
 module.exports = router;

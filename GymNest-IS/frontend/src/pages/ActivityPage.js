@@ -18,9 +18,11 @@ const ActivityPage = () => {
     fetchActivities();
   }, []);
 
+  const apiAddress =  'http://localhost:3003/api';
+
   const fetchActivities = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/activities');
+      const response = await axios.get(`${apiAddress}/activities/all`); // TODO až do odvolání přímá komunikace - žádná api-gateway
       setActivities(response.data);
     } catch (error) {
       console.error("Error fetching activities:", error);
@@ -39,8 +41,8 @@ const ActivityPage = () => {
 
   const handleFilter = async (filter) => {
     try {
-      const response = await axios.get('http://localhost:8080/activities', {
-        params: filter
+      const response = await axios.get(`${apiAddress}/activities/find/`, { // TODO až do odvolání přímá komunikace - žádná api-gateway
+        params: filter                                               //Tady to upravit - localhost:3003/api/activities/find/${activityId}
       });
       setActivities(response.data);
     } catch (error) {
@@ -53,7 +55,7 @@ const ActivityPage = () => {
 
   const handleCreate = async (newActivity) => {
     try {
-      await axios.post('http://localhost:8080/activities', newActivity);
+      await axios.post(`${apiAddress}/api/activities/create`, newActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po přidání nové
     } catch (error) {
       console.error("Error creating activity:", error);
@@ -62,7 +64,7 @@ const ActivityPage = () => {
 
   const handleEdit = async (activityId, updatedActivity) => {
     try {
-      await axios.put(`http://localhost:8080/activities/${activityId}`, updatedActivity);
+      await axios.put(`${apiAddress}/api/activities/update/${activityId}`, updatedActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po editaci
     } catch (error) {
       console.error("Error editing activity:", error);
@@ -71,7 +73,7 @@ const ActivityPage = () => {
 
   const handleDelete = async (activityId) => {
     try {
-      await axios.delete(`http://localhost:8080/activities/${activityId}`);
+      await axios.delete(`${apiAddress}/api/activities/delete/${activityId}`); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po smazání
       if (selectedActivity && selectedActivity.id === activityId) {
         setIsDetailOpen(false); // Zavřít detail, pokud byla smazaná aktuálně zobrazená akce

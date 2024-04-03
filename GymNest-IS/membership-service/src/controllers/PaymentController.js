@@ -73,6 +73,17 @@ class PaymentController {
         }
     }
 
+    // Získání všech plateb uživatele
+    async findPaymentsByUserId(req, res) {
+        try {
+            const { userId } = req.params;
+            const payments = await PaymentService.findPaymentsByUserId(userId);
+            res.json(payments);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = new PaymentController();
