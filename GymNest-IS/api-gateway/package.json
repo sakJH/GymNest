@@ -2,7 +2,7 @@
   "name": "express-gateway",
   "version": "1.0.0",
   "scripts": {
-    "start:app": "node app.js",
+    "start:app": "node server.js",
     "start:gateway": "express-gateway start",
     "start": "npm-run-all --parallel start:app start:gateway"
   },

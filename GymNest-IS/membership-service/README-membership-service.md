@@ -12,7 +12,7 @@
 2. services/MembershipService.js
 3. controllers/MembershipController.js
 4. routes/membershipRoutes.js
-5. Přidáno membershipRoutes do app.js
+5. Přidáno membershipRoutes do server.js
 6. vytvoření sequelize migration pro Membership
 
 > [!CAUTION]
@@ -26,7 +26,7 @@ TODO -> Validace Membership
 2. services/SubscriptionService.js
 3. controllers/SubscriptionController.js
 4. routes/subscriptionRoutes.js
-5. Přidáno subscriptionRoutes do app.js
+5. Přidáno subscriptionRoutes do server.js
 
 > [!CAUTION]
 > TODO -> Subsciption tree je dokončen, ale není otestovaný!
@@ -39,7 +39,7 @@ TODO -> Validace Subscription
 2. services/PaymentService.js
 3. controllers/PaymentController.js
 4. routes/paymentRoutes.js
-5. Přidáno paymentRoutes do app.js
+5. Přidáno paymentRoutes do server.js
 
 > [!CAUTION]
 > TODO -> Payment tree je dokončen, ale není otestovaný!

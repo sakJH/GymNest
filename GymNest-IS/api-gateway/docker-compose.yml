@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  app-api-gateway:
+    build: .
+    depends_on:
+      - express-gateway-service
+    ports:
+      - "${PORT_API}:${PORT_API}"
+    env_file:
+      - .env
+    environment:
+      PORT: ${PORT_API}
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      ADMIN_GATEWAY_PASSWORD: ${ADMIN_GATEWAY_PASSWORD}
+      REDIS_PROD_PASSWORD: ${REDIS_PROD_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
+      LOG_LEVEL: debug
+      DEBUG: express-gateway*
+    volumes:
+      - .:/usr/src/api-gateway
+      - /usr/src/api-gateway/node_modules
+    networks:
+      - api-gateway-network
+
+  express-gateway-service:
+    image: express-gateway:latest
+    ports:
+      - "3005:3005"
+    env_file:
+      - .env
+    environment:
+      PORT: ${PORT_API}
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      ADMIN_GATEWAY_PASSWORD: ${ADMIN_GATEWAY_PASSWORD}
+      REDIS_PROD_PASSWORD: ${REDIS_PROD_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
+      LOG_LEVEL: debug
+      DEBUG: express-gateway*
+    volumes:
+      - .:/usr/src/express-gateway
+      - /usr/src/express-gateway/node_modules
+      - ./config:/usr/src/express-gateway/config
+    networks:
+      - api-gateway-network
+
+networks:
+  api-gateway-network:
+    driver: bridge

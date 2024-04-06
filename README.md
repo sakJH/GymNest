@@ -328,7 +328,7 @@ user-management-service/
 │   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
 │   │
 │   ├── sequelize.js                   # Soubor s nastavením pro DB 
-│   └── app.js                         # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
 │   ├── bin/
@@ -336,7 +336,7 @@ user-management-service/
 │   ├── public/
 │   ├── routes/
 │   ├── views/
-│   ├── app.js
+│   ├── server.js
 │   ├── package.json
 │   └── package-lock.json
 │
@@ -382,7 +382,7 @@ membership-service/
 │   │   ├── swaggerDefinition.js    # Definice Swagger dokumentace
 │   │   └── paypalClient.js         # Pomocné funkce pro PayPal API
 │   │
-│   └── app.js                      # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                      # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── .env                            # Konfigurace pro připojení k databázi
 ├── package.json                    # Definice závislostí a skriptů
@@ -435,7 +435,7 @@ booking-service/
 │   │   └── swaggerDefinition.js       # Definice Swagger dokumentace
 │   │
 │   ├── sequelize.js                    # Soubor s nastavením pro DB (pro SQL databáze)
-│   └── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                          # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── .env                                # Soubor s proměnnými prostředí
 ├── package.json                        # Definice závislostí a skriptů
@@ -507,17 +507,21 @@ express-gateway/
 │
 ├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
 │
+├── config/                         # Adresář pro konfigurační soubory Express Gateway
+│   ├── models/                     # Modely pro konfiguraci
+│   ├── gateway.config.yml          # Konfigurace API Gateway
+│   ├── system.config.yml           # Konfigurace API Gateway       
+│
 ├── utils/                          # Adresář pro pomocné funkce
 │   ├── swaggerDefinition.js        # Definice Swagger dokumentace
 │
 ├── .env                            # 
-├── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
+├── server.js                       # Vstupní bod mikroservisy, nastavení Express serveru
 ├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
-├── gateway.config.yml              # Konfigurace API Gateway
+├── full-docker-compose.yml.txt     # Docker Compose konfigurace pro orchestraci kontejnerů
 ├── package.json                    # Definice závislostí a skriptů
 ├── package-lock.json               # Definice závislostí a skriptů
-├── system.config.yml               # Konfigurace API Gateway
 └── wait-for-it.sh                  # Skript pro čekání na spuštění služeb
 ```
 

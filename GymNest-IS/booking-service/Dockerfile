@@ -17,4 +17,4 @@ COPY ./ ./
 EXPOSE 3003
 
 # Definice příkazu, který se spustí při startu kontejneru.
-CMD [ "node", "src/app.js" ]
+CMD [ "node", "src/server.js" ]

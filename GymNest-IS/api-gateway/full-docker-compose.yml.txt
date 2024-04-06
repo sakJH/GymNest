@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
 
-  app-user-management-service:
+  server-user-management-service:
     build: ../user-management-service
     ports:
       - "3001:3001"
@@ -48,7 +48,7 @@ services:
     networks:
       - user-service-network
 
-  app-management-service:
+  server-management-service:
     build: ../membership-service
     ports:
       - "3002:3002"
@@ -91,7 +91,7 @@ services:
     networks:
       - membership-service-network
 
-  app-booking-service:
+  server-booking-service:
     build: ../booking-service
     ports:
       - "3003:3003"

@@ -2,7 +2,7 @@
 FROM node:21
 
 # Vytvoření adresáře aplikace v kontejneru a nastavení aktuálního adresáře
-WORKDIR /usr/src/express-gateway
+WORKDIR /usr/src/api-gateway
 
 # Kopírování souborů definujících závislosti aplikace
 COPY ./package*.json ./
@@ -14,7 +14,7 @@ RUN npm install
 COPY ./ ./
 
 # Aplikace běží na portu 8080
-EXPOSE 3004
+EXPOSE $PORT_API
 
 # Definice příkazu, který se spustí při startu kontejneru
-CMD ["node", "app.js"]
+CMD ["node", "server.js"]

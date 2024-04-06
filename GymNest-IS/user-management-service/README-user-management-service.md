@@ -12,7 +12,7 @@
 2. services/UserService.js
 3. controllers/UserController.js
 4. routes/userRoutes.js
-5. Přidáno userRoutes do app.js 
+5. Přidáno userRoutes do server.js 
 
 > [!CAUTION]
 > TODO -> User tree je dokončen, ale není otestovaný!
@@ -22,11 +22,11 @@
 
 **Postup**
 1. models/Profile.js
-2. app.js - asociace mezi User a Profile (1:1)
+2. server.js - asociace mezi User a Profile (1:1)
 3. services/ProfileService.js
 4. controllers/ProfileController.js
 5. routes/profileRoutes.js
-6. Přidáno profileRoutes do app.js 
+6. Přidáno profileRoutes do server.js 
 
 > [!CAUTION]
 > TODO -> Profile tree je dokončen, ale není otestovaný!
@@ -39,7 +39,7 @@
 2. services/RoleService.js
 3. controllers/RoleController.js
 4. routes/roleRoutes.js
-5. Přidáno roleRoutes do app.js
+5. Přidáno roleRoutes do server.js
 
 > [!CAUTION]
 > TODO -> Role tree je dokončen, ale není otestovaný!

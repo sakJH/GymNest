@@ -14,23 +14,23 @@ log:
 
 apiEndpoints:
   auth:
-    host: *
+    host: localhost
     methods: ['POST', 'GET', 'PUT', 'DELETE']
     paths: ['/auth', '/auth/*']
   authGoogle:
-    host: *
+    host: localhost
     methods: ['POST', 'GET', 'PUT', 'DELETE']
     paths: ['/auth/google/','/auth/google/*']
   users:
-    host: *
+    host: localhost
     methods: ['POST', 'GET', 'PUT', 'DELETE']
     paths: ['/users/', '/users/*']
   profiles:
-    host: *
+    host: localhost
     methods: ['POST', 'GET', 'PUT', 'DELETE']
     paths: '/profiles/*'
   roles:
-    host: *
+    host: localhost
     methods: ['POST', 'GET', 'PUT', 'DELETE']
     paths: '/roles/*'
   memberships:
