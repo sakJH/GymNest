@@ -507,13 +507,18 @@ api-gateway/
 │
 ├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
 │
+├── utils/                          # Adresář pro pomocné funkce
+│   ├── swaggerDefinition.js        # Definice Swagger dokumentace
+│
 ├── .env                            # 
 ├── app.js                          # Vstupní bod mikroservisy, nastavení Express serveru
 ├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
 ├── gateway.config.yml              # Konfigurace API Gateway
 ├── package.json                    # Definice závislostí a skriptů
-└── package-lock.json               # Definice závislostí a skriptů
+├── package-lock.json               # Definice závislostí a skriptů
+├── system.config.yml               # Konfigurace API Gateway
+└── wait-for-it.sh                  # Skript pro čekání na spuštění služeb
 ```
 
 ## Use Case
