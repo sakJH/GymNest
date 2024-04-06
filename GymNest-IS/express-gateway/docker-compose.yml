@@ -1,7 +1,8 @@
 version: '3.8'
 services:
-  api-gateway:
-    build: .
+  express-gateway:
+    build: ./express-gateway
+      - context:
     ports:
       - "${PORT}:${PORT}"
     env_file:
@@ -9,14 +10,19 @@ services:
     environment:
       PORT: ${PORT}
       JWT_SECRET: ${JWT_SECRET}
-      DEBUG: express-gateway:*
-      LOG_LEVEL: debug
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      ADMIN_GATEWAY_PASSWORD: ${ADMIN_GATEWAY_PASSWORD}
+      REDIS_PROD_PASSWORD: ${REDIS_PROD_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
     volumes:
       - .:/usr/src/api-gateway
       - /usr/src/api-gateway/node_modules
     networks:
-      - api-gateway-network
+      - express-gateway-network
 
 networks:
-  api-gateway-network:
+  express-gateway-network:
     driver: bridge

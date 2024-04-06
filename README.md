@@ -276,7 +276,7 @@ Editace akce: Formulář pro upravení detailů existující akce s možností u
 ### GymNest-IS
 ```
 GymNest-IS/
-│── api-gateway/
+│── express-gateway/
 │── booking-service/
 │── frontend/
 │── membership-service/
@@ -503,7 +503,7 @@ frontend/
 
 ### API Gateway
 ```
-api-gateway/
+express-gateway/
 │
 ├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
 │

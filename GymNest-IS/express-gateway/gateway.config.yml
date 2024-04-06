@@ -1,28 +1,42 @@
 http:
   port: ${PORT}
 
-admin:
-  port: 9876              # Port pro administrační rozhraní Express Gateway
-  hostname: localhost     # Hostname pro administrační rozhraní
+log:
+  - name: default
+    level: info
+    streams:
+      - stream: stdout
+        level: debug
 
 apiEndpoints:
-  api:
-    host: 'localhost'
-    paths: '/auth/*'
+  auth:
+    host: *
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: ['/auth', '/auth/*']
+
 serviceEndpoints:
-  service:
-    url: 'http://localhost:3001'
+  userService:
+    url: 'http://localhost:3001/api'
+
 policies:
-  - proxy
+  - proxy:
+      - action:
+          changeOrigin: true
+  - log:
+      - action:
+          message: "{req.method} {req.originalUrl} ${JSON.stringify(req.headers)}"
+
 pipelines:
-  default:
+  userPipeline:
     apiEndpoints:
-      - api
+      - auth
     policies:
+      - log:
+          - action:
+              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - proxy:
           - action:
-              serviceEndpoint: service
-              changeOrigin: true
+              serviceEndpoint: userService
 
 #http:
 #  port: ${PORT}
@@ -30,6 +44,13 @@ pipelines:
 #admin:
 #  port: 9876
 #  host: localhost
+#
+#log:
+#  - name: default
+#    level: info
+#    streams:
+#      - stream: stdout
+#        level: debug
 #
 #apiEndpoints:
 #  auth:
@@ -52,44 +73,44 @@ pipelines:
 #    host: *
 #    methods: ['POST', 'GET', 'PUT', 'DELETE']
 #    paths: '/roles/*'
-##  memberships:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'memberships/*'
-##  payments:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'api/payments/*'
-##  subscriptions:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'api/subscriptions/*'
-##  bookings:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'api/bookings/*'
-##  activities:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'api/activities/*'
-##  schedules:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: 'api/schedules/*'
-##  swagger:
-##    host: localhost
-##    methods: ['POST', 'GET', 'PUT', 'DELETE']
-##    paths: '/docs'
+#  memberships:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'memberships/*'
+#  payments:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'api/payments/*'
+#  subscriptions:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'api/subscriptions/*'
+#  bookings:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'api/bookings/*'
+#  activities:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'api/activities/*'
+#  schedules:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: 'api/schedules/*'
+#  swagger:
+#    host: localhost
+#    methods: ['POST', 'GET', 'PUT', 'DELETE']
+#    paths: '/docs'
 #
 #serviceEndpoints:
 #  userService:
 #    url: 'http://localhost:3001/api'
-##  membershipService:
-##    url: 'http://localhost:3002/api'
-##  bookingService:
-##    url: 'http://localhost:3003/api'
-##  swaggerService:
-##    url: 'http://localhost:3000/docs'
+#  membershipService:
+#    url: 'http://localhost:3002/api'
+#  bookingService:
+#    url: 'http://localhost:3003/api'
+#  swaggerService:
+#    url: 'http://localhost:3000/docs'
 #
 #policies:
 #  - proxy:
@@ -102,16 +123,16 @@ pipelines:
 #  - log:
 #      - action:
 #          message: "{req.method} {req.originalUrl} ${JSON.stringify(req.headers)}"
-##  - proxy:
-##      - action:
-##          serviceEndpoint: swaggerService
-##          changeOrigin: true
-##  - basic-auth
-##  - cors
-##  - expression
-##  - key-auth
-##  - oauth2
-##  - rate-limit
+#  - proxy:
+#      - action:
+#          serviceEndpoint: swaggerService
+#          changeOrigin: true
+#  - basic-auth
+#  - cors
+#  - expression
+#  - key-auth
+#  - oauth2
+#  - rate-limit
 #
 #pipelines:
 #  userPipeline:
@@ -121,42 +142,42 @@ pipelines:
 #      - users
 #      - profiles
 #      - roles
-##    policies:
-##      - log:
-##          - action:
-##              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+#    policies:
+#      - log:
+#          - action:
+#              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
 #      - proxy:
 #          - action:
 #              serviceEndpoint: userService
-##  membershipPipeline:
-##    apiEndpoints:
-##      - memberships
-##      - payments
-##      - subscriptions
-##    policies:
-###      - log:
-###          - action:
-###              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
-##      - proxy:
-##          - action:
-##              serviceEndpoint: membershipService
-##  bookingPipeline:
-##    apiEndpoints:
-##      - activity
-##      - bookings
-##      - activities
-##      - schedules
-##    policies:
-###      - log:
-###          - action:
-###              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
-##      - proxy:
-##          - action:
-##              serviceEndpoint: bookingService
-###  swaggerPipeline:
-###    apiEndpoints:
-###      - swagger
-###    policies:
-###      - proxy:
-###          - action:
-###              serviceEndpoint: swaggerService
+#  membershipPipeline:
+#    apiEndpoints:
+#      - memberships
+#      - payments
+#      - subscriptions
+#    policies:
+#      - log:
+#          - action:
+#              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+#      - proxy:
+#          - action:
+#              serviceEndpoint: membershipService
+#  bookingPipeline:
+#    apiEndpoints:
+#      - activity
+#      - bookings
+#      - activities
+#      - schedules
+#    policies:
+#      - log:
+#          - action:
+#              message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+#      - proxy:
+#          - action:
+#              serviceEndpoint: bookingService
+#  swaggerPipeline:
+#    apiEndpoints:
+#      - swagger
+#    policies:
+#      - proxy:
+#          - action:
+#              serviceEndpoint: swaggerService

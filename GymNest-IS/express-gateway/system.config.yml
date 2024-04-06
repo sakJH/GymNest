@@ -1,34 +1,51 @@
-http:
-  port: ${PORT}
+db:
+  redis:
+    host: localhost
+    port: 6379
+    password: ${REDIS_PASSWORD}
+    db: 0
 
-apiEndpoints:
-  api:
-    host: 'localhost'
-    paths: '/api/*'
+users:
+  admin:
+    username: adminGateway
+    password: ${ADMIN_GATEWAY_PASSWORD}
 
-serviceEndpoints:
+roles:
+  - name: admin
+    permissions:
+      - gateway:admin
+  - name: user
+    permissions:
+      - gateway:user
+
+services:
   userService:
-    url: 'http://localhost:3001'
+    url: 'http://localhost:3001/api'
+  membershipService:
+    url: 'http://localhost:3002/api'
+  bookingService:
+    url: 'http://localhost:3003/api'
+  swaggerService:
+    url: 'http://localhost:3000/docs'
 
 policies:
-  - log
-  - proxy
-  - cors
-  - rate-limit
+  cors:
+    - action:
+        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:8080']
+  rateLimit:
+    - action:
+        max: 100
+        windowMs: 60000 # 1 minute
 
-pipelines:
-  default:
-    apiEndpoints:
-      - api
-    policies:
-      - log:
-          - action:
-              message: "Method: ${req.method}, URL: ${req.originalUrl}, IP: ${req.ip}, Body: ${JSON.stringify(req.body)}, Response Time: ${res.responseTime}ms"
-      - cors:
-          - action:
-              origin: '*'
-              methods: 'GET,POST,PUT,DELETE'
-      - proxy:
-          - action:
-              serviceEndpoint: userService
-              changeOrigin: true
+# Následující sekce není standardně součástí system.config.yml pro Express Gateway,
+# ale je zde uvedena pro ilustraci možného rozšíření konfigurace.
+environments:
+  development:
+    db:
+      redis:
+        db: 1
+  production:
+    db:
+      redis:
+        host: redis-prod
+        password: ${REDIS_PROD_PASSWORD}
