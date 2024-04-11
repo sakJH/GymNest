@@ -17,7 +17,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD_BS}
       DB_NAME: ${DB_NAME_BS}
     restart: always
-    command: ["./wait-for-it.sh", "db-booking-service:3306", "--", "npm", "start"]
+    command: ["./wait-for-it.sh", "db-booking-service:3308", "--", "npm", "start"]
     networks:
       - booking-service-network
 

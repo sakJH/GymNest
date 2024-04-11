@@ -1,3 +1,4 @@
+# gateway.config.yml
 http:
   port: ${PORT_EXPRESS_GATEWAY}
 
@@ -98,9 +99,9 @@ pipelines:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
       - cors:
           - action:
-              origin: [ 'http://localhost:3000' ]
+              origin: [ '*' ]
               methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
-              allowedHeaders: [ 'Content-Type', 'Authorization', 'Access-Control-Allow-Origin: origin' ]
+              allowedHeaders: [ '*' ]
               credentials: true
       - proxy:
           - action:
@@ -122,12 +123,12 @@ pipelines:
           - action:
               serviceEndpoint: userService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              credentials: true
+      - cors:
+          - action:
+              origin: [ '*' ]
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
+              allowedHeaders: [ '*' ]
+              credentials: true
   membershipPipeline:
     apiEndpoints:
       - memberships
@@ -141,12 +142,12 @@ pipelines:
           - action:
               serviceEndpoint: membershipService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              credentials: true
+      - cors:
+          - action:
+              origin: [ '*' ]
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
+              allowedHeaders: [ '*' ]
+              credentials: true
   bookingPipeline:
     apiEndpoints:
       - activity
@@ -161,12 +162,12 @@ pipelines:
           - action:
               serviceEndpoint: bookingService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              credentials: true
+      - cors:
+          - action:
+              origin: [ '*' ]
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
+              allowedHeaders: [ '*' ]
+              credentials: true
   swaggerPipeline:
     apiEndpoints:
       - swagger
@@ -175,9 +176,9 @@ pipelines:
           - action:
               serviceEndpoint: swaggerService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              credentials: true
+      - cors:
+          - action:
+              origin: [ '*' ]
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
+              allowedHeaders: [ '*' ]
+              credentials: true

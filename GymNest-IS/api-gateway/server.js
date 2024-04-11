@@ -10,12 +10,19 @@ const server = express();
 const port_api = process.env.PORT_API || 8080;
 
 //Konfigurace CORS
-const corsOptions = {
-    origin: ['http://localhost:3000'],
-    optionsSuccessStatus: 200,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
+// const corsOptions = {
+//     origin: ['http://localhost:3000'],
+//     optionsSuccessStatus: 200,
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// };
+
+function setCorsHeaders(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+}
 
 // Swagger dokumentace
 const options = {
@@ -24,14 +31,15 @@ const options = {
 };
 const swaggerSpec = swaggerJsdoc(options);
 
-server.use(cors(corsOptions));
+// server.use(cors(corsOptions));
+server.use(setCorsHeaders);
 server.use(express.json());
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-server.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-    next();
-});
+// server.use((req, res, next) => {
+//     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//     res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+//     next();
+// });
 
 server.get('/api', (req, res) => {
     res.send('API is running');
