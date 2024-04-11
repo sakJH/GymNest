@@ -73,7 +73,7 @@ apiEndpoints:
 
 serviceEndpoints:
   apiService:
-    url: 'http://app-api-gateway:3004'
+    url: 'http://app-api-gateway:3005'
   userService:
     url: 'http://app-user-management-service:3001/api'
   membershipService:
@@ -83,11 +83,11 @@ serviceEndpoints:
   swaggerService:
     url: 'http://frontend:3000/docs'
 
-policies:
-  cors:
-    - action:
-        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005']
-  rateLimit:
-    - action:
-        max: 100
-        windowMs: 60000 # 1 minute
+#policies:
+#  cors:
+#    - action:
+#        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005']
+#  rateLimit:
+#    - action:
+#        max: 100
+#        windowMs: 60000 # 1 minute
