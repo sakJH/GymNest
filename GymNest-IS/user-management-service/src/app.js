@@ -7,12 +7,12 @@ const swaggerDefinition = require('./utils/swaggerDefinition');
 require('dotenv').config();
 
 //Konfigurace CORS
-const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005'],
-    optionsSuccessStatus: 200,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['*']
-};
+// const corsOptions = {
+//     origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005'],
+//     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     exposedHeaders: ['*'],
+// };
 
 const User = require('./models/User'); // Import modelu User
 const Profile =  require('./models/Profile'); // Import modelu Profile
@@ -33,6 +33,7 @@ Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+// app.use(cors(corsOptions));
 
 const options = {
     swaggerDefinition,
@@ -47,7 +48,7 @@ app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
 app.use('/api', authRoutes);
 app.use(passport.initialize());
-app.use(cors(corsOptions));
+
 
 // Zpřístupnění Swagger UI na /docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

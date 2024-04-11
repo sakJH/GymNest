@@ -12,16 +12,17 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
 
 //Konfigurace CORS
-const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005'],
-    optionsSuccessStatus: 200,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['*']
-};
+// const corsOptions = {
+//     origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005'],
+//     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     exposedHeaders: ['*'],
+// };
 
 // Vytvoření instance Express aplikace
 const app = express();
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
 const options = {
     swaggerDefinition,
     apis: ['./src/routes/*.js'],
@@ -30,7 +31,7 @@ const swaggerSpec = swaggerJsdoc(options);
 
 // Middleware pro parsování JSON těl požadavků
 app.use(express.json());
-app.use(cors(corsOptions));
+
 
 // Nastavení rout pro správu rezervací
 app.use('/api', bookingRoutes);
