@@ -1,51 +1,36 @@
+http:
+  port: ${PORT_EXPRESS_GATEWAY}
+
+admin:
+  port: 9876
+  host: localhost
+
 db:
   redis:
-    host: localhost
-    port: 6379
-    password: ${REDIS_PASSWORD}
-    db: 0
+    emulate: true
+    namespace: EG
 
-users:
-  admin:
-    username: adminGateway
-    password: ${ADMIN_GATEWAY_PASSWORD}
+log:
+  - name: default
+    level: info
+    streams:
+      - stream: stdout
+        level: debug
 
-roles:
-  - name: admin
-    permissions:
-      - gateway:admin
-  - name: user
-    permissions:
-      - gateway:user
+apiEndpoints:
+  api:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
 
-services:
-  userService:
-    url: 'http://localhost:3001/api'
-  membershipService:
-    url: 'http://localhost:3002/api'
-  bookingService:
-    url: 'http://localhost:3003/api'
-  swaggerService:
-    url: 'http://localhost:3000/docs'
+serviceEndpoints:
+  apiService:
+    url: 'http://app-api-gateway:3004'
 
 policies:
   cors:
     - action:
-        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:8080']
+        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005']
   rateLimit:
     - action:
         max: 100
         windowMs: 60000 # 1 minute
-
-# Následující sekce není standardně součástí system.config.yml pro Express Gateway,
-# ale je zde uvedena pro ilustraci možného rozšíření konfigurace.
-environments:
-  development:
-    db:
-      redis:
-        db: 1
-  production:
-    db:
-      redis:
-        host: redis-prod
-        password: ${REDIS_PROD_PASSWORD}

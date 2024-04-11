@@ -17,7 +17,7 @@ const SchedulePage = () => {
     fetchSchedules();
   }, [filter]);
 
-  const apiAddress =  'http://localhost:3003/api';
+  const apiAddress =  'http://localhost:3005/api';
 
   const fetchSchedules = async () => {
     try {

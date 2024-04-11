@@ -11,7 +11,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/users/all', {  }); // TODO až do odvolání přímá komunikace - žádná api-gateway
+        const response = await axios.get('http://localhost:3005/api/users/all', {  }); // TODO až do odvolání přímá komunikace - žádná api-gateway
         setUsers(response.data);
       } catch (error) {
         console.error('Chyba při získávání dat o uživatelích:', error);

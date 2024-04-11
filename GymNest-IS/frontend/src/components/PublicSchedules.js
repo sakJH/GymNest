@@ -13,7 +13,7 @@ const PublicSchedules = () => {
     useEffect(() => {
         const fetchSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:3003/api/schedules/find/'); //// TODO až do odvolání přímá komunikace - žádná api-gateway
+                const response = await axios.get('http://localhost:3005/api/schedules/find/');
                 setSchedules(response.data);
             } catch (error) {
                 console.error("Error fetching public schedules:", error);

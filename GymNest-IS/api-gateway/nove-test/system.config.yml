@@ -1,0 +1,92 @@
+http:
+  port: ${PORT}
+
+admin:
+  port: 9876
+  host: localhost
+
+db:
+  redis:
+    emulate: true
+    namespace: EG
+
+log:
+  - name: default
+    level: info
+    streams:
+      - stream: stdout
+        level: debug
+
+apiEndpoints:
+  api:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+  auth:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: ['/auth', '/auth/*']
+  authGoogle:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: ['/auth/google/','/auth/google/*']
+  users:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: ['/users/', '/users/*']
+  profiles:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: '/profiles/*'
+  roles:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: '/roles/*'
+  memberships:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'memberships/*'
+  payments:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'api/payments/*'
+  subscriptions:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'api/subscriptions/*'
+  bookings:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'api/bookings/*'
+  activities:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'api/activities/*'
+  schedules:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: 'api/schedules/*'
+  swagger:
+    host: '*'
+    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    paths: '/docs'
+
+serviceEndpoints:
+  apiService:
+    url: 'http://app-api-gateway:3004'
+  userService:
+    url: 'http://app-user-management-service:3001/api'
+  membershipService:
+    url: 'http://app-membership-service:3002/api'
+  bookingService:
+    url: 'http://app-booking-service:3003/api'
+  swaggerService:
+    url: 'http://frontend:3000/docs'
+
+policies:
+  cors:
+    - action:
+        origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005']
+  rateLimit:
+    - action:
+        max: 100
+        windowMs: 60000 # 1 minute

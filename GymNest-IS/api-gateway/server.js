@@ -7,14 +7,14 @@ const swaggerDefinition = require('./utils/swaggerDefinition');
 require('dotenv').config();
 
 const server = express();
-const port = process.env.PORT_API || 8080;
+const port_api = process.env.PORT_API || 8080;
 
 //Konfigurace CORS
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:8080'],
+    origin: ['http://localhost:3000'],
     optionsSuccessStatus: 200,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type,Authorization', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods']
+    allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 // Swagger dokumentace
@@ -37,6 +37,6 @@ server.get('/api', (req, res) => {
     res.send('API is running');
 });
 
-server.listen(port, () => {
-    console.log(`Server poslouchá na adrese http://localhost:${port}`);
+server.listen(port_api, () => {
+    console.log(`Server poslouchá na adrese http://localhost:${port_api}`);
 });

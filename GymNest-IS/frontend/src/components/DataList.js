@@ -10,7 +10,7 @@ const DataList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api') // TODO až do odvolání přímá komunikace - žádná api-gateway
+    axios.get('http://localhost:3005/api') // TODO - co to má dělat? Proč to má komunikovat s API?
       .then(response => {
         setData(response.data);
       })

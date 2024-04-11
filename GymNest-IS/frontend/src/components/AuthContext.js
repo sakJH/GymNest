@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-const apiAddress =  'http://localhost:3001/api';
+const apiAddress =  'http://localhost:3005/api';
 
 // Poskytovatel kontextu
 export const AuthProvider = ({ children }) => {
@@ -19,7 +19,8 @@ export const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        const response = await axios.get(`${apiAddress}/api/auth/google`, {
+        //const response = await axios.get(`${apiAddress}/api/auth/google`, {
+        const response = await axios.get(`http://localhost:3005/api/auth/google`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

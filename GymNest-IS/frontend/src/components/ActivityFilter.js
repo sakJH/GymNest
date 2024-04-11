@@ -13,7 +13,7 @@ const ActionFilter = ({ onFilter }) => {
     const fetchFilterOptions = async () => {
       try {
         // TODO endpoint, pro typy akcí??
-        const response = await axios.get('http://localhost:8080/actions/types');
+        const response = await axios.get('http://localhost:3005/api/actions/types');
         setFilterOptions(prev => ({ ...prev, types: response.data }));
       } catch (error) {
         console.error("Error fetching filter options:", error);

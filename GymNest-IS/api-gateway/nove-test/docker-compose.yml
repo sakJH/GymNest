@@ -29,11 +29,11 @@ services:
   express-gateway-service:
     image: express-gateway:latest
     ports:
-      - "${PORT_EXPRESS_GATEWAY}:${PORT_EXPRESS_GATEWAY}"
+      - "3005:3005"
     env_file:
       - .env
     environment:
-      PORT: ${PORT_EXPRESS_GATEWAY}
+      PORT: 3005
       JWT_SECRET: ${JWT_SECRET}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       ADMIN_GATEWAY_PASSWORD: ${ADMIN_GATEWAY_PASSWORD}

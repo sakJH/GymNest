@@ -18,7 +18,7 @@ const ActivityPage = () => {
     fetchActivities();
   }, []);
 
-  const apiAddress =  'http://localhost:3003/api';
+  const apiAddress =  'http://localhost:3005/api';
 
   const fetchActivities = async () => {
     try {
