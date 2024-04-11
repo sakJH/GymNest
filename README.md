@@ -341,6 +341,7 @@ user-management-service/
 │   └── package-lock.json
 │
 ├── .env                               # Konfigurace pro připojení k databázi, JWT tokeny a Google auth
+├── .gitignore                         # Ignorované soubory pro Git
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
 ├── Dockerfile                         # Docker konfigurace pro službu
