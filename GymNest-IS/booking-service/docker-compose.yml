@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "3003:3003"
+    expose:
+      - "3003"
     depends_on:
       - db-booking-service
     env_file:

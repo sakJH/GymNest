@@ -1,6 +1,5 @@
 const express = require('express');
 const sequelize = require('./sequelize');
-const cors = require('cors');
 const bookingRoutes = require('./routes/bookingRoutes');
 
 const activityRoutes = require('./routes/activityRoutes');
@@ -11,17 +10,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
 
-//Konfigurace CORS
-// const corsOptions = {
-//     origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005'],
-//     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     exposedHeaders: ['*'],
-// };
-
 // Vytvoření instance Express aplikace
 const app = express();
-// app.use(cors(corsOptions));
 
 const options = {
     swaggerDefinition,

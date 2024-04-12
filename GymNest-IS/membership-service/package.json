@@ -16,7 +16,6 @@
     "mysql2": "~3.9.3",
     "@paypal/checkout-server-sdk": "~1.0.3",
     "swagger-ui-express": "~5.0.0",
-    "swagger-jsdoc": "~6.2.8",
-    "cors": "~2.8.5"
+    "swagger-jsdoc": "~6.2.8"
   }
 }

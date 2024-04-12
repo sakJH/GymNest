@@ -4,7 +4,7 @@ http:
 
 admin:
   port: 9876
-  host: localhost
+  host: express-gateway-service
 
 log:
   - name: default
@@ -17,66 +17,59 @@ apiEndpoints:
   api:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api"
   auth:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: ['/auth/', '/auth/*']
+    paths: "/api/auth/*"
   users:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: ['/users/', '/users/*']
+    paths: "/api/users/*"
   profiles:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: '/profiles/*'
+    paths: "/api/profiles/*"
   roles:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: '/roles/*'
+    paths: "/api/roles/*"
   memberships:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'memberships/*'
+    paths: "/api/memberships/*"
   payments:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'api/payments/*'
+    paths: "/api/payments/*"
   subscriptions:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'api/subscriptions/*'
+    paths: "/api/subscriptions/*"
   bookings:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'api/bookings/*'
+    paths: "/api/bookings/*"
   activities:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'api/activities/*'
+    paths: "/api/activities/*"
   schedules:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: 'api/schedules/*'
-  swagger:
-    host: "*"
-    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: '/docs'
+    paths: "/api/schedules/*"
 
 serviceEndpoints:
   apiService:
-    url: "http://app-api-gateway:3005"
+    url: "http://app-api-gateway:3004"# "http://express-gateway-service:3005" způsůbí log storm (problémy s přesměrováním)
   userService:
-    url: "http://app-user-management-service:3001/api"
+    url: "http://app-user-management-service:3001"
   membershipService:
-    url: "http://app-management-service:3002/api"
+    url: "http://app-membership-service:3002"#, "http://app-management-service:3002", "http://localhost:3002"]
   bookingService:
-    url: "http://app-booking-service:3003/api"
-  swaggerService:
-    url: "http://frontend:3000/docs"
-
+    url: "http://app-booking-service:3003"#, "http://localhost:3003"]
 policies:
   - proxy
-  - jwt
   - log
   - basic-auth
   - cors
@@ -95,15 +88,15 @@ pipelines:
               message: "Request to ${req.method} with ${req.path} ${req.originalUrl} with headers ${JSON.stringify(req.headers)} requesting IP: ${req.ip} origin ${req.headers.origin}"
       - cors:
           - action:
-              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-              methods: [ 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ]
-              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-              exposedHeaders: [ '*' ]
+              origin: "*"
+              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+              allowedHeaders: "Content-Type, Authorization"
+              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: apiService
               changeOrigin: true
-
+              message: "Proxying request to ${req.method} ${req.originalUrl} to apiService"
   userPipeline:
     apiEndpoints:
       - auth
@@ -114,16 +107,19 @@ pipelines:
       - log:
           - action:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+      - cors:
+          - action:
+              origin: "*"
+              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+              allowedHeaders: "Content-Type, Authorization"
+              exposedHeaders: [ "*" ]
+          - log:
+              - action:
+                  message: "CORS allowed for origin: ${req.headers.origin} with methods ${req.method} on ${req.originalUrl}"
       - proxy:
           - action:
               serviceEndpoint: userService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              exposedHeaders: [ '*' ]
   membershipPipeline:
     apiEndpoints:
       - memberships
@@ -133,16 +129,16 @@ pipelines:
       - log:
           - action:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+      - cors:
+          - action:
+              origin: "*"
+              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+              allowedHeaders: "Content-Type, Authorization"
+              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: membershipService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              exposedHeaders: [ '*' ]
   bookingPipeline:
     apiEndpoints:
       - activity
@@ -153,27 +149,14 @@ pipelines:
       - log:
           - action:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
+      - cors:
+          - action:
+              origin: "*"
+              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+              allowedHeaders: "Content-Type, Authorization"
+              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: bookingService
               changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              exposedHeaders: [ '*' ]
-  swaggerPipeline:
-    apiEndpoints:
-      - swagger
-    policies:
-      - proxy:
-          - action:
-              serviceEndpoint: swaggerService
-              changeOrigin: true
-#      - cors:
-#          - action:
-#              origin: [ 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:3005' ]
-#              methods: [ 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ]
-#              allowedHeaders: [ 'Content-Type', 'Authorization' ]
-#              exposedHeaders: [ '*' ]
+              message: "Proxying request to ${req.method} ${req.originalUrl} to apiService"

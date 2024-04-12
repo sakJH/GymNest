@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  app-management-service:
+  app-membership-service:
     build: .
     ports:
       - "3002:3002"
