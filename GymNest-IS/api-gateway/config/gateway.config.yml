@@ -17,7 +17,7 @@ apiEndpoints:
   api:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api"
+    paths: "/api/*"
   auth:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
@@ -96,7 +96,6 @@ pipelines:
           - action:
               serviceEndpoint: apiService
               changeOrigin: true
-              message: "Proxying request to ${req.method} ${req.originalUrl} to apiService"
   userPipeline:
     apiEndpoints:
       - auth
@@ -113,9 +112,6 @@ pipelines:
               methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
               allowedHeaders: "Content-Type, Authorization"
               exposedHeaders: [ "*" ]
-          - log:
-              - action:
-                  message: "CORS allowed for origin: ${req.headers.origin} with methods ${req.method} on ${req.originalUrl}"
       - proxy:
           - action:
               serviceEndpoint: userService
@@ -159,4 +155,3 @@ pipelines:
           - action:
               serviceEndpoint: bookingService
               changeOrigin: true
-              message: "Proxying request to ${req.method} ${req.originalUrl} to apiService"
