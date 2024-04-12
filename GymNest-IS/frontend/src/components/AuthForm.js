@@ -1,97 +1,48 @@
+// AuthForm.js
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box } from '@mui/material';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
 
-const AuthForm = () => {
-	const [open, setOpen] = useState(false);
+const AuthForm = ({ open, onClose }) => {
 	const [isLogin, setIsLogin] = useState(true);
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [passwordError, setPasswordError] = useState('');
 	const { login, errorMessage, setErrorMessage } = useAuth();
+
+	const toggleLoginRegister = () => {
+		setIsLogin(!isLogin); // Přepne stav mezi přihlášením a registrací
+	};
 
 	const googleLogin = useGoogleLogin({
 		onSuccess: tokenResponse => {
-			login(tokenResponse.access_token); // Předání tokenu do vašeho AuthContext
+			login(tokenResponse.access_token);
 		},
-		onError: error => {
-			setErrorMessage('Přihlášení přes Google se nezdařilo. Prosím, zkuste to znovu.');
+		onError: () => {
+			setErrorMessage('Přihlášení přes Google se nezdařilo.');
 		}
 	});
 
-	const handleClickOpen = (loginMode) => {
-		setIsLogin(loginMode);
-		setOpen(true);
-		resetForm();
-	};
+	const handleSubmit = async () => {
+		const endpoint = isLogin ? 'login' : 'register';
+		const userData = isLogin ? { email, password } : { email, password, username, firstName, lastName };
 
-	const handleClose = () => {
-		setOpen(false);
-		setErrorMessage('');
-		resetForm();
-	};
-
-	const resetForm = () => {
-		setEmail('');
-		setUsername('');
-		setPassword('');
-		setFirstName('');
-		setLastName('');
-		setPasswordError('');
-	};
-
-	const handleSubmit = () => {
-		if (isLogin) {
-			handleLogin();
-		} else {
-			handleRegister();
-		}
-	};
-
-	const handleLogin = async () => {
 		try {
-			const response = await axios.post(`http://localhost:3001/api/auth/login`, { email, password });
-			login(response.data.token, response.data.user, response.data.role);
-			handleClose();
+			const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, userData);
+			login(response.data.token, response.data.user);
+			onClose();
 		} catch (error) {
-			setErrorMessage('Nepodařilo se přihlásit. Zkontrolujte své údaje.');
-		}
-	};
-
-	const handleRegister = async () => {
-		try {
-			const response = await axios.post(`http://localhost:3001/api/auth/register`, { email, password, username, firstName, lastName });
-			login(response.data.token, response.data.user, response.data.role);
-			handleClose();
-		} catch (error) {
-			setErrorMessage('Nepodařilo se zaregistrovat. Zkontrolujte své údaje.');
+			setErrorMessage(`Nepodařilo se ${isLogin ? "přihlásit" : "zaregistrovat"}. Zkontrolujte své údaje.`);
 		}
 	};
 
 	return (
-		<Box sx={{
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center',
-			gap: 2
-		}}>
-			{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-			<Typography variant="h4">{isLogin ? "Přihlásit se" : "Registrovat se"}</Typography>
-			<Box>
-				<Button variant="outlined" onClick={() => handleClickOpen(true)} sx={{ marginRight: 1 }}>
-					Přihlásit se
-				</Button>
-				<Button variant="outlined" onClick={() => handleClickOpen(false)}>
-					Registrovat se
-				</Button>
-			</Box>
-			<Dialog open={open} onClose={handleClose}>
+		<>
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
 					<TextField autoFocus margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -105,16 +56,17 @@ const AuthForm = () => {
 					<TextField margin="dense" id="password" label="Heslo" type="password" fullWidth variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
 				</DialogContent>
 				<DialogActions style={{ justifyContent: 'space-between' }}>
-					<Button onClick={handleClose}>Zrušit</Button>
-					<Button onClick={handleSubmit} color="primary">
-						{isLogin ? "Přihlásit" : "Registrovat"}
+					<Button onClick={toggleLoginRegister} color="primary">
+						{isLogin ? "Chcete se registrovat?" : "Chcete se přihlásit?"}
 					</Button>
+					<Button onClick={onClose}>Zrušit</Button>
+					<Button onClick={handleSubmit} color="primary">{isLogin ? "Přihlásit" : "Registrovat"}</Button>
 					<Button onClick={googleLogin} variant="contained" style={{ backgroundColor: '#4285F4', color: 'white' }}>
 						{isLogin ? "Přihlásit se přes Google" : "Registrovat se přes Google"}
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</Box>
+		</>
 	);
 };
 
