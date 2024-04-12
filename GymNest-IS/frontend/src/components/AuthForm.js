@@ -1,4 +1,3 @@
-// AuthForm.js
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Typography } from '@mui/material';
@@ -9,11 +8,12 @@ const AuthForm = () => {
 	const [open, setOpen] = useState(false);
 	const [isLogin, setIsLogin] = useState(true);
 	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [passwordError, setPasswordError] = useState('');
-	const { login, logout, errorMessage, setErrorMessage } = useAuth();
+	const { login, errorMessage, setErrorMessage } = useAuth();
 
 	const googleLogin = useGoogleLogin({
 		onSuccess: tokenResponse => {
@@ -38,6 +38,7 @@ const AuthForm = () => {
 
 	const resetForm = () => {
 		setEmail('');
+		setUsername('');
 		setPassword('');
 		setFirstName('');
 		setLastName('');
@@ -64,7 +65,7 @@ const AuthForm = () => {
 
 	const handleRegister = async () => {
 		try {
-			const response = await axios.post(`http://localhost:3001/api/auth/register`, { email, password, firstName, lastName });
+			const response = await axios.post(`http://localhost:3001/api/auth/register`, { email, password, username, firstName, lastName });
 			login(response.data.token, response.data.user, response.data.role);
 			handleClose();
 		} catch (error) {
@@ -94,13 +95,14 @@ const AuthForm = () => {
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
 					<TextField autoFocus margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
-					<TextField margin="dense" id="password" label="Heslo" type="password" fullWidth variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
 					{!isLogin && (
 						<>
+							<TextField margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
 							<TextField margin="dense" id="firstname" label="Jméno" type="text" fullWidth variant="standard" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 							<TextField margin="dense" id="lastname" label="Příjmení" type="text" fullWidth variant="standard" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 						</>
 					)}
+					<TextField margin="dense" id="password" label="Heslo" type="password" fullWidth variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
 				</DialogContent>
 				<DialogActions style={{ justifyContent: 'space-between' }}>
 					<Button onClick={handleClose}>Zrušit</Button>
@@ -115,4 +117,5 @@ const AuthForm = () => {
 		</Box>
 	);
 };
+
 export default AuthForm;

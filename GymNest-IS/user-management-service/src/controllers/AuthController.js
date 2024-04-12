@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/User');
+const User = require('../models/User');
 const passport = require('passport');
 
 /**
@@ -22,7 +22,7 @@ class AuthController {
     static async login(req, res) {
         const { email, password } = req.body;
         try {
-            const user = await User.findOne({ where: { email } });
+            const user = await User.getUserByEmail(email);
             if (!user) {
                 return res.status(404).json({ message: 'Uživatel nenalezen' });
             }
@@ -38,14 +38,18 @@ class AuthController {
     }
 
     static async register(req, res) {
-        const { email, password, name } = req.body;
+        const { email, password, username } = req.body;
+
+        console.log('Registering user email:', email);
+        console.log('Hashing password:', password);
+        console.log('Registering user name:', username);
         try {
-            let user = await User.findOne({ where: { email } });
+            let user = await User.getUserByEmail(email);
             if (user) {
                 return res.status(400).json({ message: 'Uživatel s tímto emailem již existuje' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            user = await User.createUser({ email, passwordHash: hashedPassword, name });
+            user = await User.createUser({ username, passwordHash: hashedPassword, email, roleId: 1 });
             res.status(201).json({ message: 'Uživatel byl úspěšně vytvořen' });
         } catch (error) {
             console.error('Error during registration:', error);
@@ -56,7 +60,7 @@ class AuthController {
     static async forgotPassword(req, res) {
         const { email } = req.body;
         try {
-            const user = await User.findOne({ where: { email } });
+            const user = await User.getUserByEmail(email);
             if (!user) {
                 return res.status(404).json({ message: 'Uživatel s tímto emailem nebyl nalezen.' });
             }
@@ -122,7 +126,7 @@ class AuthController {
         const user = req.user; // Uživatel získaný z passport JWT strategie
 
         try {
-            const existingUser = await User.findOne({ where: { email: newEmail } });
+            const existingUser = await User.getUserByEmail(newEmail);
             if (existingUser) {
                 return res.status(400).json({ message: 'Tento email již používá jiný uživatel.' });
             }
@@ -141,7 +145,7 @@ class AuthController {
         const user = req.user; // Uživatel získaný z passport JWT strategie
 
         try {
-            const existingUser = await User.findOne({ where: { username: newUsername } });
+            const existingUser = await User.getUserByUsername(newUsername);
             if (existingUser) {
                 return res.status(400).json({ message: 'Toto uživatelské jméno již používá jiný uživatel.' });
             }
@@ -193,7 +197,7 @@ class AuthController {
     static async verifyEmail(req, res) {
         const { email } = req.query;
         try {
-            const user = await User.findOne({ where: { email } });
+            const user = await User.getUserByEmail(email);
             if (!user) {
                 return res.status(404).json({ message: 'Uživatel s tímto emailem nebyl nalezen.' });
             }
@@ -207,7 +211,7 @@ class AuthController {
     static async verifyUsername(req, res) {
         const { username } = req.query;
         try {
-            const user = await User.findOne({ where: { username } });
+            const user = await User.getUserByUsername(username);
             if (!user) {
                 return res.status(404).json({ message: 'Uživatel s tímto uživatelským jménem nebyl nalezen.' });
             }

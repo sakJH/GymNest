@@ -25,7 +25,12 @@ Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 const app = express();
 app.use(morgan('dev'));
-app.use(cors());
+app.options('*', cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Povolit pouze požadavky z této adresy
+    methods: ['GET', 'POST', 'PUT', 'HEAD'], // Povolit pouze tyto metody
+    credentials: true // Povolit sdílení přihlašovacích údajů
+}));
 
 const PORT = process.env.PORT || 3001;
 

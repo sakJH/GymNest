@@ -5,11 +5,13 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-const morgan = require('morgan');
-const cors = require('cors');
+
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
+const cors = require('cors');
+const morgan = require('morgan');
 
 // Vytvoření instance Express aplikace
 const app = express();
@@ -44,8 +46,8 @@ app.listen(PORT, () => {
     console.log(`Server běží na portu ${PORT}.`);
 });
 
-module.exports = app;
-
 sequelize.sync({ force: false }).then(() => {
     console.log('Databáze a tabulky byly synchronizovány');
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
+
+module.exports = app;

@@ -13,16 +13,14 @@ class User extends Model {
         return bcrypt.compare(password, this.passwordHash);
     }
 
-    static async createUser({ username, password, email, roleId }) {
+    static async createUser({ username, passwordHash, email, roleId }) {
         try {
-            const hashedPassword = await this.hashPassword(password);
-            const user = await this.create({
+            return await this.create({
                 username,
-                passwordHash: hashedPassword,
+                passwordHash,
                 email,
                 roleId
             });
-            return user;
         } catch (error) {
             console.error('Chyba při vytváření uživatele:', error);
             throw error;
@@ -117,14 +115,11 @@ class User extends Model {
 
     static async getUserByEmail(email) {
         try {
-            const user = await this.findOne({
-                where: { email },
-                attributes: { exclude: ['passwordHash'] } // Vyjma hesla
+            // Pokud uživatel není nalezen, jednoduše vraťte null
+            return await this.findOne({
+                where: {email},
+                attributes: {exclude: ['passwordHash']}  // Vyjma hesla
             });
-            if (!user) {
-                throw new Error(`Uživatel s emailem "${email}" nebyl nalezen.`);
-            }
-            return user;
         } catch (error) {
             console.error('Chyba při získávání uživatele podle emailu:', error);
             throw error;
