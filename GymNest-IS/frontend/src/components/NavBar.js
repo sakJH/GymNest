@@ -1,47 +1,44 @@
 // Navbar.js
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Chip, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-/**
- * This function renders a Navbar component with user information and navigation buttons.
- *
- * @return {JSX.Element} The Navbar component with user info and navigation buttons.
- */
 const Navbar = () => {
-  const [user, setUser] = useState({ name: "TEST", credits: 150 });
-
-  useEffect(() => {
-    setUser({ name: "TEST", credits: 150 });
-  }, []);
+  const { user, logout } = useAuth(); // Destructuring pro získání `logout` funkce
 
   return (
-    <AppBar position="static">
-      <Toolbar sx={{
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			gap: 2
-      }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" component={Link} to="/" sx={{ color: 'inherit' }}>
-            GymNest
-          </Typography>
-        {user && (
-            <Box sx={{ display: 'flex', alignItems: 'center', ml: 4 }}>
-              <Typography color="inherit">Vitej uzivateli {user.name}</Typography>
-              <Chip label={`Kredity: ${user.credits}`} color="secondary" sx={{ ml: 2 }} />
-            </Box>
-        )}
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button color="inherit" component={Link} to="/">Domů</Button>
-          <Button color="inherit" component={Link} to="/akce">Akce</Button>
-          <Button color="inherit" component={Link} to="/clenstvi">Členství</Button>
-          <Button color="inherit" component={Link} to="/rozvrhy">Rozvrhy</Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
+      <AppBar position="static">
+        <Toolbar sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 2
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h6" component={Link} to="/" sx={{ color: 'inherit', textDecoration: 'none' }}>
+              GymNest
+            </Typography>
+            {user && (
+                <Box sx={{ display: 'flex', alignItems: 'center', ml: 4 }}>
+                  <Typography color="inherit">Vítej uživateli, {user.name}</Typography>
+                  <Chip label={`Kredity: ${user.credits}`} color="secondary" sx={{ ml: 2 }} />
+                </Box>
+            )}
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button color="inherit" component={Link} to="/">Domů</Button>
+            <Button color="inherit" component={Link} to="/akce">Akce</Button>
+            <Button color="inherit" component={Link} to="/clenstvi">Členství</Button>
+            <Button color="inherit" component={Link} to="/rozvrhy">Rozvrhy</Button>
+            {!user ? (
+                <Button color="inherit" component={Link} to="/login">Přihlásit</Button>
+            ) : (
+                <Button color="inherit" onClick={logout}>Odhlásit</Button>
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
   );
 }
 

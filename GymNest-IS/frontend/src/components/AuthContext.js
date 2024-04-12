@@ -5,34 +5,39 @@ import axios from 'axios';
 // Vytvoření kontextu
 export const AuthContext = createContext();
 
+// Hook pro použití kontextu
 export const useAuth = () => useContext(AuthContext);
 
-const apiAddress =  'http://localhost:3001/api';
+const apiAddress = 'http://localhost:3001/api';
 
 // Poskytovatel kontextu
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    try {
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (e) {
+      console.error('Chyba při parsování uživatele z localStorage:', e);
+      return null;
+    }
+  });
+
   const [token, setToken] = useState(localStorage.getItem('jwtToken'));
-  const [role, setRole] = useState(localStorage.getItem('userRole'));
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        //const response = await axios.get(`${apiAddress}/api/auth/google`, {
-        const response = await axios.get(`${apiAddress}/auth/google`, {
+        const response = await axios.get(`${apiAddress}/auth/verify`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setUser(response.data.user);
-        setRole(response.data.role);
-        localStorage.setItem('userRole', response.data.role);
+        localStorage.setItem('user', JSON.stringify(response.data.user)); // Ukládání uživatele do localStorage
       } catch (error) {
         console.error("Token verification failed:", error);
-        logout()
-        setErrorMessage("Vaše přihlášení vypršelo nebo je neplatné. Prosím, přihlaste se znovu.");
+        logout(); // Odhlášení pokud verifikace selže
       }
     };
 
@@ -40,27 +45,24 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   // Funkce pro přihlášení uživatele
-  const login = (newToken, newUser, newRole) => {
+  const login = (newToken, newUser) => {
     localStorage.setItem('jwtToken', newToken);
-    localStorage.setItem('userRole', newRole);
+    localStorage.setItem('user', JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
-    setRole(newRole); // Nastavení role
   };
 
   // Funkce pro odhlášení uživatele
   const logout = () => {
     localStorage.removeItem('jwtToken');
-    localStorage.removeItem('userRole');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
-    setRole(null);
-    setErrorMessage('');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, role, login, logout, errorMessage, setErrorMessage }}>
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider value={{ user, token, login, logout }}>
+        {children}
+      </AuthContext.Provider>
   );
 };
