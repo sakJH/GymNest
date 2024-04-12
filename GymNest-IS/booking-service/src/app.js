@@ -5,13 +5,16 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-
+const morgan = require('morgan');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
 
 // Vytvoření instance Express aplikace
 const app = express();
+app.use(morgan('dev'));
+app.use(cors());
 
 const options = {
     swaggerDefinition,

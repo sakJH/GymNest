@@ -4,7 +4,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
 require('dotenv').config();
-
+const cors = require('cors');
+const morgan = require('morgan');
 const User = require('./models/User'); // Import modelu User
 const Profile =  require('./models/Profile'); // Import modelu Profile
 
@@ -23,6 +24,9 @@ User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
 Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 const app = express();
+app.use(morgan('dev'));
+app.use(cors());
+
 const PORT = process.env.PORT || 3001;
 
 const options = {

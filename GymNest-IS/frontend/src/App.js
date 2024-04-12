@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import ActionsPage from './pages/ActivityPage';
 import MembershipPage from './pages/MembershipPage';
-import SchledulePage from './pages/SchledulePage';
+import SchedulePage from './pages/SchedulePage';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/akce" element={<ActionsPage />} />
         <Route path="/clenstvi" element={<MembershipPage />} />
-        <Route path="/rozvrhy" element={<SchledulePage />} />
+        <Route path="/rozvrhy" element={<SchedulePage />} />
       </Routes>
       <Footer />
     </Router>

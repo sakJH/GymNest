@@ -35,3 +35,4 @@ ALTER TABLE `users` ADD FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`);
 ALTER TABLE `profiles` ADD FOREIGN KEY (`userId`) REFERENCES `users`(`id`);
 
 INSERT INTO roles (RoleName) VALUES ('člen'), ('trenér'), ('admin');
+INSERT INTO users (Username, PasswordHash, Email, RoleId, preferredCurrency, colorScheme) VALUES ('admin', 'admin', 'admin@email.com', 1, 'CZK', 'light');

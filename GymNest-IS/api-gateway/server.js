@@ -4,7 +4,9 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
+const morgan = require('morgan');
 require('dotenv').config();
+
 
 //Konfigurace CORS
 const corsOptions = {
@@ -16,8 +18,8 @@ const corsOptions = {
 
 const server = express();
 const port_api = process.env.PORT_API || 8080;
-
-server.use(cors(corsOptions));
+server.use(morgan('dev'));
+server.use(cors());
 
 // Swagger dokumentace
 const options = {

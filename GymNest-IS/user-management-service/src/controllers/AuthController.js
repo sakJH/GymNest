@@ -45,10 +45,11 @@ class AuthController {
                 return res.status(400).json({ message: 'Uživatel s tímto emailem již existuje' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            user = await User.create({ email, passwordHash: hashedPassword, name });
+            user = await User.createUser({ email, passwordHash: hashedPassword, name });
             res.status(201).json({ message: 'Uživatel byl úspěšně vytvořen' });
         } catch (error) {
-            res.status(500).json({ message: 'Došlo k chybě při registraci' });
+            console.error('Error during registration:', error);
+            res.status(500).json({ message: 'Došlo k chybě při registraci', error: error.message });
         }
     }
 

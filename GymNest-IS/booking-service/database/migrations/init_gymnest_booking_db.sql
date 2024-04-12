@@ -49,3 +49,25 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+-- Přidání aktivit
+INSERT INTO activities (name, description, type, duration) VALUES
+    ('Yoga', 'Jemná jóga pro začátečníky.', 'wellness', 60),
+    ('Spinning', 'Intenzivní spinning class pro pokročilé.', 'fitness', 45),
+    ('Pilates', 'Pilates focení na jádro a flexibilitu.', 'wellness', 50);
+
+-- Přidání rozvrhů
+INSERT INTO schedules (activityId, startTime, endTime, capacity) VALUES
+    (1, '2024-04-13 10:00:00', '2024-04-13 11:00:00', 10),
+    (2, '2024-04-13 12:00:00', '2024-04-13 12:45:00', 15),
+    (3, '2024-04-13 14:00:00', '2024-04-13 14:50:00', 8);
+
+-- Přidání rezervací
+INSERT INTO bookings (userId, activityId, scheduleId, status, bookingDate) VALUES
+    (1, 1, 1, 'scheduled', '2024-04-12'),
+    (2, 2, 2, 'scheduled', '2024-04-12'),
+    (3, 3, 3, 'scheduled', '2024-04-12');
+
+-- Přidání notifikací
+INSERT INTO notifications (userId, title, message, status) VALUES
+    (1, 'Upozornění na třídu', 'Vaše třída jogi začíná za 30 minut.', 'unread'),
+    (2, 'Rezervace potvrzena', 'Vaše rezervace na spinning byla úspěšně potvrzena.', 'unread');

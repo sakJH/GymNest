@@ -3,7 +3,8 @@ const sequelize = require('./sequelize');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');
-
+const cors = require('cors');
+const morgan = require('morgan');
 const membershipRoutes = require('./routes/membershipRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
@@ -16,6 +17,8 @@ const options = {
 const swaggerSpec = swaggerJsdoc(options);
 
 const app = express();
+app.use(morgan('dev'));
+app.use(cors());
 
 app.use(express.json()); // Middleware pro parsování JSON těl požadavků
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Box, Typography } from '@mui/material';
 import { startOfWeek, endOfWeek, addWeeks, format } from 'date-fns';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosNewIcon from '@mui/icons-material/ArrowForwardIosNew';
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Tooltip from '@mui/material/Tooltip';
 
 const WeekNavigator = ({ onChange }) => {
@@ -32,7 +32,7 @@ const WeekNavigator = ({ onChange }) => {
                 {format(startOfWeek(currentWeek), 'dd.MM.yyyy')} - {format(endOfWeek(currentWeek), 'dd.MM.yyyy')}
             </Typography>
             <Tooltip title="Následující týden">
-                <Button onClick={handleNextWeek} endIcon={<ArrowForwardIosNewIcon />}>
+                <Button onClick={handleNextWeek} endIcon={<ArrowForwardIosIcon />}>
                     Následující
                 </Button>
             </Tooltip>

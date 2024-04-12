@@ -17,7 +17,7 @@ apiEndpoints:
   api:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api/*"
+    paths: "/api"
   auth:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
