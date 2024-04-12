@@ -1,3 +1,4 @@
+// Navbar.js
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Chip, Box } from '@mui/material';
 import { Link } from 'react-router-dom';

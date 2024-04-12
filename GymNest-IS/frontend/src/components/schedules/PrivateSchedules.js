@@ -1,3 +1,4 @@
+// PrivateSchedules.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { List, ListItem, ListItemText, Typography, Paper } from '@mui/material';
@@ -13,7 +14,7 @@ const PrivateSchedules = () => {
     useEffect(() => {
         const fetchPrivateSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:3005/api/schedules/find/', {
+                const response = await axios.get('http://localhost:3003/api/schedules/find/', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}` // token v localstorage
                     }

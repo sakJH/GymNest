@@ -1,9 +1,10 @@
+// ActivityPage.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import ActivityList from '../components/ActivityList';
-import ActivityFilter from '../components/ActivityFilter';
-import ActivityDetail from '../components/ActivityDetail';
-import ActivityCreate from '../components/ActivityCreate';
+import ActivityList from '../components/activity/ActivityList';
+import ActivityFilter from '../components/activity/ActivityFilter';
+import ActivityDetail from '../components/activity/ActivityDetail';
+import ActivityCreate from '../components/activity/ActivityCreate';
 import { Paper, Typography, Button } from '@mui/material';
 import { AuthContext } from '../components/AuthContext';
 
@@ -18,11 +19,11 @@ const ActivityPage = () => {
     fetchActivities();
   }, []);
 
-  const apiAddress =  'http://localhost:3005/api';
+  const apiAddress =  'http://localhost:3003/api';
 
   const fetchActivities = async () => {
     try {
-      const response = await axios.get(`${apiAddress}/activities/all`); // TODO až do odvolání přímá komunikace - žádná api-gateway
+      const response = await axios.get(`${apiAddress}/activities/all`);
       setActivities(response.data);
     } catch (error) {
       console.error("Error fetching activities:", error);
@@ -41,7 +42,7 @@ const ActivityPage = () => {
 
   const handleFilter = async (filter) => {
     try {
-      const response = await axios.get(`${apiAddress}/activities/find/`, { // TODO až do odvolání přímá komunikace - žádná api-gateway
+      const response = await axios.get(`${apiAddress}/activities/find/`, {
         params: filter                                               //Tady to upravit - localhost:3003/api/activities/find/${activityId}
       });
       setActivities(response.data);

@@ -1,3 +1,4 @@
+// AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,7 +7,7 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-const apiAddress =  'http://localhost:3005/api';
+const apiAddress =  'http://localhost:3001/api';
 
 // Poskytovatel kontextu
 export const AuthProvider = ({ children }) => {
@@ -20,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       if (!token) return;
       try {
         //const response = await axios.get(`${apiAddress}/api/auth/google`, {
-        const response = await axios.get(`http://localhost:3005/api/auth/google`, {
+        const response = await axios.get(`${apiAddress}/auth/google`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

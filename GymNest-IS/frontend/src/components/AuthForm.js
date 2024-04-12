@@ -1,3 +1,4 @@
+// AuthForm.js
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Typography } from '@mui/material';

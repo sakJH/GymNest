@@ -1,6 +1,7 @@
+// ActivityDetail.js
 import React, { useContext } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
-import { AuthContext } from './AuthContext'; // Upravte cestu podle vaší struktury souborů
+import { AuthContext } from '../AuthContext'; // Upravte cestu podle vaší struktury souborů
 
 const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
   const { role } = useContext(AuthContext); // Použití role z AuthContext

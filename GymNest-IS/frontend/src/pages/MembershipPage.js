@@ -1,3 +1,4 @@
+// MembershipPage.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
@@ -11,7 +12,7 @@ const MembershipPage = () => {
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
 
-  const apiAddress =  'http://localhost:3005/api';
+  const apiAddress =  'http://localhost:3002/api';
 
   useEffect(() => {
     const fetchMembershipInfo = async () => {

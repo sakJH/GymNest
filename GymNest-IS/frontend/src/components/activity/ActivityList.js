@@ -1,6 +1,7 @@
+// ActivityList.js
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from '@mui/material';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../AuthContext';
 
 const ActivityList = ({ activities, onReserve, onEdit, onDelete }) => {
   const { role } = useContext(AuthContext); // Získání role uživatele
