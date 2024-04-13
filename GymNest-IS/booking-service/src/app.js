@@ -6,7 +6,6 @@ const activityRoutes = require('./routes/activityRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 
-
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = require('./utils/swaggerDefinition');

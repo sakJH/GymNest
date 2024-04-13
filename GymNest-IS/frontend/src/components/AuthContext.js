@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        const response = await axios.get(`${apiAddress}/auth/verify`, {
+        const response = await axios.get(`${apiAddress}/auth/google`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

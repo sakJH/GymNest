@@ -12,10 +12,12 @@ services:
       - .:/usr/src/member-service
       - /usr/src/member-service/node_modules
     environment:
+      NODE_ENV: development
       DB_HOST: ${DB_HOST_MS}
       DB_USER: ${DB_USER_MS}
       DB_PASSWORD: ${DB_PASSWORD_MS}
       DB_NAME: ${DB_NAME_MS}
+      JWT_SECRET: ${JWT_SECRET}
       PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
       PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
     restart: always

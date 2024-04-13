@@ -1,7 +1,7 @@
 // AuthForm.js
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Chip } from '@mui/material';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ const AuthForm = ({ open, onClose }) => {
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const { login, errorMessage, setErrorMessage } = useAuth();
+	const { user, login, logout, errorMessage, setErrorMessage, credits } = useAuth();
 
 	const toggleLoginRegister = () => {
 		setIsLogin(!isLogin); // Přepne stav mezi přihlášením a registrací
@@ -40,8 +40,21 @@ const AuthForm = ({ open, onClose }) => {
 		}
 	};
 
+	if (user) {
+		return (
+			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<Chip label={`${user.username} (${user.role})`} color="primary" />
+				<Chip label={`Kredity: ${user.credits}`} color="secondary" />
+				<Button color="inherit" onClick={logout}>Odhlásit</Button>
+			</Box>
+		);
+	}
+
 	return (
 		<>
+			<Button variant="outlined" onClick={toggleLoginRegister}>
+				Přepnout na {isLogin ? "Registraci" : "Přihlášení"}
+			</Button>
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
