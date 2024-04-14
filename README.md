@@ -3,45 +3,45 @@
 Dodělat Navbar
 - [ ] Změna na základě přihlášeného uživatele
 
-Backend 
+Backend
 - [ ] Funkčnost přihlášení, ověřit registraci
-- [ ] registrace přes Google 
+- [ ] registrace přes Google
 
 Dodělat SchedulePage
-- [ ] Ověřit fungování rozvrhu 
+- [ ] Ověřit fungování rozvrhu
 - [ ] přepínač na týden, 2 týdny a měsíc
 
 MembershipPage
 - [ ] základ pro fungování, spojení s Backendem
 - [ ] stav, atd
-- [ ] implementace PayPal 
-- [ ] změna měny 
+- [ ] implementace PayPal
+- [ ] změna měny
 - [ ] přehled všech členství dle cen
-- [ ] nákup členství 
+- [ ] nákup členství
 - [ ] Automatické obnovení členství s předvolbami uživatele
 - [ ] Uživatelské recenze a hodnocení různých členství.
 
 HomePage
-- [ ] Vytvořit něco pro nepřihlášené 
-- [ ] vytvořit page pro přihlášeného 
-- [ ] notifikace 
-- [ ] datum vyprchání členství 
-- [ ] tier členství 
+- [ ] Vytvořit něco pro nepřihlášené
+- [ ] vytvořit page pro přihlášeného
+- [ ] notifikace
+- [ ] datum vyprchání členství
+- [ ] tier členství
 - [ ] sekce o přihlášeném uživateli (jméno, heslo, username, změna hesla,...)
 
 ActivityPage
 - [ ] Konkrétní akce co jsou i v rozvrhu
-- [ ] přehled akcí 
+- [ ] přehled akcí
 - [ ] akce dle typu
-- [ ] filtr akcí 
-- [ ] notifikace 
+- [ ] filtr akcí
+- [ ] notifikace
 
-Footer 
-- [ ] Doplnění odkazů na sociální sítě 
+Footer
+- [x] Doplnění odkazů na sociální sítě
 
 ## MOIS semestrální projekt na FIM UHK.
 
-Autoři - Bc. Jan Sakač a Bc. Matěj Boura 
+Autoři - Bc. Jan Sakač a Bc. Matěj Boura
 
  **Osnova**
  1. [Úvod](#úvod)
@@ -49,10 +49,10 @@ Autoři - Bc. Jan Sakač a Bc. Matěj Boura
  3. [Technologie](#technologie)
  4. [Návrh databáze](#návrh-databáze)
  5. [Struktura Frontend](#struktura-frontend)
- 6. [Struktura IS](#struktura-is) 
+ 6. [Struktura IS](#struktura-is)
  7. [Use Case](#use-case)
- 8. [Autentizace a Autorizace v Mikroslužbách](#autentizace-a-autorizace-v-mikroslužbách) 
- 
+ 8. [Autentizace a Autorizace v Mikroslužbách](#autentizace-a-autorizace-v-mikroslužbách)
+
 **Požadavky na projekt**
 ```
 Funkční Design
@@ -68,14 +68,14 @@ Prototyp může být vytvořen v libovolné technologii
 - Doporučená technologie je REACT pro front-end a Java nebo NodeJS pro backend
 Front-end musí být vytvořen jako tzv. Single Page aplikace (SPA)
 Front-end musí splňovat základní zásady material designu
-Prototyp bude pro zajištění autentizace uživatelů komunikovat s jednotnou Autentikační službou 
+Prototyp bude pro zajištění autentizace uživatelů komunikovat s jednotnou Autentikační službou
 Součástí každého modulu je integrace na minimálně jednu další službu (např. platební brána, …)
 Zdrojové kódy budou předány přes GIT (GitLab / GitHub / …)
 ```
 
 **Popis projektu**
 
-GymNest je informační systém pro tělocvičny a sportovní centra který automatizuje správu uživatelů, členství a rezervace tříd. 
+GymNest je informační systém pro tělocvičny a sportovní centra který automatizuje správu uživatelů, členství a rezervace tříd.
 
 ## Návrh mikroslužeb
 
@@ -154,7 +154,7 @@ MySQL
 Kompletní spuštění přes API-Gateway **docker-compose.yml**
 
 ### Platební brána
-PayPal 
+PayPal
 > [!IMPORTANT]
 > Pouze jako Sandbox mód
 
@@ -247,8 +247,8 @@ Notifikace a upozornění související s rezervacemi.
 Na vrchu stránky přepínač- se 4. body (nebo podle oprávnění)
 
 1. Výchozí / první stránka
-Nabídka přihlášení 
-Týdenní (veřejné! a soukromé) rozvrhy 
+Nabídka přihlášení
+Týdenní (veřejné! a soukromé) rozvrhy
 
 Po přihlášení - dle oprávnění (člen / trenér / admin)
 --------------------
@@ -367,7 +367,7 @@ user-management-service/
 │   │   ├── swaggerDefinition.js       # Definice Swagger dokumentace
 │   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
 │   │
-│   ├── sequelize.js                   # Soubor s nastavením pro DB 
+│   ├── sequelize.js                   # Soubor s nastavením pro DB
 │   └── server.js                         # Vstupní bod mikroservisy, nastavení Express serveru
 │
 ├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
@@ -385,10 +385,10 @@ user-management-service/
 ├── user-management-service.iml        # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
 ├── Dockerfile                         # Docker konfigurace pro službu
-└── docker-compose.yml                 # Docker Compose konfigurace 
+└── docker-compose.yml                 # Docker Compose konfigurace
 ```
 
-#### Správa členství 
+#### Správa členství
 ```
 membership-service/
 │
@@ -536,7 +536,7 @@ frontend/
 │
 ├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
-├── frontend.iml                    # iml soubor 
+├── frontend.iml                    # iml soubor
 ├── package.json                    # Definice závislostí a skriptů
 ├── package-lock.json               # Definice závislostí a skriptů
 └── README.md                       # README soubor s dokumentací
@@ -551,12 +551,12 @@ express-gateway/
 ├── config/                         # Adresář pro konfigurační soubory Express Gateway
 │   ├── models/                     # Modely pro konfiguraci
 │   ├── gateway.config.yml          # Konfigurace API Gateway
-│   ├── system.config.yml           # Konfigurace API Gateway       
+│   ├── system.config.yml           # Konfigurace API Gateway
 │
 ├── utils/                          # Adresář pro pomocné funkce
 │   ├── swaggerDefinition.js        # Definice Swagger dokumentace
 │
-├── .env                            # 
+├── .env                            #
 ├── server.js                       # Vstupní bod mikroservisy, nastavení Express serveru
 ├── docker-compose.yml              # Docker Compose konfigurace
 ├── Dockerfile                      # Docker konfigurace pro službu
