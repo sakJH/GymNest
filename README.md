@@ -1,5 +1,45 @@
 # GymNest
- MOIS semestrální projekt na FIM UHK.
+## TODO - docasne
+Dodělat Navbar
+- [ ] Změna na základě přihlášeného uživatele
+
+Backend 
+- [ ] Funkčnost přihlášení, ověřit registraci
+- [ ] registrace přes Google 
+
+Dodělat SchedulePage
+- [ ] Ověřit fungování rozvrhu 
+- [ ] přepínač na týden, 2 týdny a měsíc
+
+MembershipPage
+- [ ] základ pro fungování, spojení s Backendem
+- [ ] stav, atd
+- [ ] implementace PayPal 
+- [ ] změna měny 
+- [ ] přehled všech členství dle cen
+- [ ] nákup členství 
+- [ ] Automatické obnovení členství s předvolbami uživatele
+- [ ] Uživatelské recenze a hodnocení různých členství.
+
+HomePage
+- [ ] Vytvořit něco pro nepřihlášené 
+- [ ] vytvořit page pro přihlášeného 
+- [ ] notifikace 
+- [ ] datum vyprchání členství 
+- [ ] tier členství 
+- [ ] sekce o přihlášeném uživateli (jméno, heslo, username, změna hesla,...)
+
+ActivityPage
+- [ ] Konkrétní akce co jsou i v rozvrhu
+- [ ] přehled akcí 
+- [ ] akce dle typu
+- [ ] filtr akcí 
+- [ ] notifikace 
+
+Footer 
+- [ ] Doplnění odkazů na sociální sítě 
+
+## MOIS semestrální projekt na FIM UHK.
 
 Autoři - Bc. Jan Sakač a Bc. Matěj Boura 
 
