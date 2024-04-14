@@ -20,6 +20,8 @@ MembershipPage
 - [ ] nákup členství
 - [ ] Automatické obnovení členství s předvolbami uživatele
 - [ ] Uživatelské recenze a hodnocení různých členství.
+- [ ] Možnost změny členství
+- [ ] Možnost zrušení členství
 
 HomePage
 - [ ] Vytvořit něco pro nepřihlášené
@@ -28,16 +30,28 @@ HomePage
 - [ ] datum vyprchání členství
 - [ ] tier členství
 - [ ] sekce o přihlášeném uživateli (jméno, heslo, username, změna hesla,...)
+- [ ] možnost změny hesla
 
 ActivityPage
+- Stránka pro uživatele i správce (trenéry)
+- Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
+- Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
+- [ ] Vytvoření nové akce
+- [ ] Upravení akce
+- [ ] Smazání akce
+- [ ] Počet lidí na aktivitu
+- [ ] Notifikace
 - [ ] Konkrétní akce co jsou i v rozvrhu
 - [ ] přehled akcí
 - [ ] akce dle typu
 - [ ] filtr akcí
-- [ ] notifikace
+- [ ] detail akce
+- [ ] přihlášení na akci
+- [ ] odhlášení z akce
 
 Footer
 - [x] Doplnění odkazů na sociální sítě
+
 
 ## MOIS semestrální projekt na FIM UHK.
 
