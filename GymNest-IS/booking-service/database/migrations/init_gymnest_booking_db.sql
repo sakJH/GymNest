@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Vytvoření tabulky 'schedules'
+-- Vytvoření tabulky 'schedule'
 CREATE TABLE IF NOT EXISTS `schedules` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `activityId` INT NOT NULL,

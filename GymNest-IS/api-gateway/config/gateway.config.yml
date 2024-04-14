@@ -57,7 +57,7 @@ apiEndpoints:
   schedules:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api/schedules/*"
+    paths: "/api/schedule/*"
 
 serviceEndpoints:
   apiService:
@@ -140,7 +140,7 @@ pipelines:
       - activity
       - bookings
       - activities
-      - schedules
+      - schedule
     policies:
       - log:
           - action:

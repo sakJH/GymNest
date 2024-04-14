@@ -65,7 +65,7 @@ apiEndpoints:
   schedules:
     host: '*'
     methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/schedules/*'
+    paths: 'api/schedule/*'
   swagger:
     host: '*'
     methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]

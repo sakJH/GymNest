@@ -46,7 +46,7 @@ class ScheduleService {
         try {
             return await Schedule.findAllSchedules();
         } catch (error) {
-            console.error("Error finding all schedules:", error);
+            console.error("Error finding all schedule:", error);
             throw error;
         }
     }

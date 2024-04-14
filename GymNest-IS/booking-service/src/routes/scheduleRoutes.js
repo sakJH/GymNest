@@ -7,7 +7,7 @@ const router = express.Router();
 // Definování cesty pro vytvoření nového harmonogramu
 /**
  * @swagger
- * /schedules:
+ * /schedule:
  *   post:
  *     summary: Vytvoření nového harmonogramu
  *     tags: [Schedules]
@@ -31,7 +31,7 @@ router.post('/schedules/create', ScheduleController.createSchedule);
 // Aktualizace existujícího harmonogramu
 /**
  * @swagger
- * /schedules:
+ * /schedule:
  *   put:
  *     summary: Aktualizace harmonogramu
  *     tags: [Schedules]
@@ -55,7 +55,7 @@ router.put('/schedules/update', ScheduleController.updateSchedule);
 // Definování cesty pro zrušení harmonogramu podle jeho ID
 /**
  * @swagger
- * /schedules/{scheduleId}:
+ * /schedule/{scheduleId}:
  *   delete:
  *     summary: Zrušení harmonogramu
  *     tags: [Schedules]
@@ -80,7 +80,7 @@ router.delete('/schedules/cancel/:scheduleId', ScheduleController.deleteSchedule
 // Definování cesty pro vyhledání konkrétního harmonogramu podle jeho ID
 /**
  * @swagger
- * /schedules/{scheduleId}:
+ * /schedule/{scheduleId}:
  *   get:
  *     summary: Vyhledání harmonogramu podle ID
  *     tags: [Schedules]
@@ -105,7 +105,7 @@ router.get('/schedules/find/:scheduleId', ScheduleController.findScheduleById);
 // Definování cesty pro získání seznamu všech harmonogramů
 /**
  * @swagger
- * /schedules:
+ * /schedule:
  *   get:
  *     summary: Vyhledání všech harmonogramů
  *     tags: [Schedules]

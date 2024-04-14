@@ -9,7 +9,7 @@ Backend
 
 Dodělat SchedulePage
 - [ ] Ověřit fungování rozvrhu
-- [ ] přepínač na týden, 2 týdny a měsíc
+- [x] přepínač na týden, 2 týdny a měsíc
 
 MembershipPage
 - [ ] základ pro fungování, spojení s Backendem

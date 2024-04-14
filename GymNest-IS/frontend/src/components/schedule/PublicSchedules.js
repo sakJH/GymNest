@@ -4,9 +4,9 @@ import axios from 'axios';
 import { List, ListItem, ListItemText, Typography, Paper } from '@mui/material';
 
 /**
- * Fetches public schedules and renders them in a list.
+ * Fetches public schedule and renders them in a list.
  *
- * @return {JSX.Element} The rendered list of public schedules.
+ * @return {JSX.Element} The rendered list of public schedule.
  */
 const PublicSchedules = () => {
     const [schedules, setSchedules] = useState([]);
@@ -17,7 +17,7 @@ const PublicSchedules = () => {
                 const response = await axios.get('http://localhost:3003/api/schedules/all');
                 setSchedules(response.data);
             } catch (error) {
-                console.error("Error fetching public schedules:", error);
+                console.error("Error fetching public schedule:", error);
             }
         };
 

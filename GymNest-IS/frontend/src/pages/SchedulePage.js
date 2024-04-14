@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 import { AuthContext } from '../components/AuthContext';
-import WeekNavigator from '../components/schedules/WeekNavigator';
-import ScheduleList from '../components/schedules/ScheduleList';
-import ScheduleDetail from '../components/schedules/ScheduleDetail';
-import { startOfWeek, endOfWeek, format } from 'date-fns';
+import WeekNavigator from '../components/./schedule/WeekNavigator';
+import ScheduleList from '../components/./schedule/ScheduleList';
+import ScheduleDetail from '../components/./schedule/ScheduleDetail';
+import { startOfWeek, endOfWeek, addWeeks, format, addMonths } from 'date-fns';
 
 const SchedulePage = () => {
   const [schedules, setSchedules] = useState([]);
@@ -13,16 +13,28 @@ const SchedulePage = () => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [viewMode, setViewMode] = useState('week'); // Přidání stavu pro režim zobrazení
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    fetchSchedules(currentWeek);
-  }, [currentWeek]);
+    fetchSchedules(currentWeek, viewMode);
+  }, [currentWeek, viewMode]);
 
-  const fetchSchedules = async (week) => {
+  const fetchSchedules = async (week, mode) => {
     setLoading(true);
-    const startDate = format(startOfWeek(week), 'yyyy-MM-dd');
-    const endDate = format(endOfWeek(week), 'yyyy-MM-dd');
+    let startDate, endDate;
+
+    if (mode === 'week') {
+      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
+      endDate = format(endOfWeek(week), 'yyyy-MM-dd');
+    } else if (mode === 'twoWeeks') {
+      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
+      endDate = format(endOfWeek(addWeeks(week, 1)), 'yyyy-MM-dd');
+    } else if (mode === 'month') {
+      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
+      endDate = format(endOfWeek(addMonths(week, 1)), 'yyyy-MM-dd');
+    }
+
     try {
       const response = await axios.get(`http://localhost:3003/api/schedules/all`, {
         params: { start: startDate, end: endDate },
@@ -41,7 +53,7 @@ const SchedulePage = () => {
   return (
       <Box sx={{ padding: 2 }}>
         <Typography variant="h4" gutterBottom>Rozvrhy</Typography>
-        <WeekNavigator onChange={setCurrentWeek} />
+        <WeekNavigator onChange={setCurrentWeek} onViewModeChange={setViewMode} />
         {loading ? (
             <CircularProgress />
         ) : error ? (
@@ -62,4 +74,5 @@ const SchedulePage = () => {
       </Box>
   );
 };
+
 export default SchedulePage;

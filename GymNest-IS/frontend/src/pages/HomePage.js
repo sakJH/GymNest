@@ -1,8 +1,8 @@
 // HomePage.js
 import React from 'react';
 // import AuthForm from '../components/AuthForm';
-import PrivateSchedules from '../components/schedules/PrivateSchedules';
-import PublicSchedules from '../components/schedules/PublicSchedules';
+import PrivateSchedules from '../components/./schedule/PrivateSchedules';
+import PublicSchedules from '../components/./schedule/PublicSchedules';
 
 function HomePage() {
 	return (

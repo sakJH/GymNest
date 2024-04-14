@@ -4,9 +4,9 @@ import axios from 'axios';
 import { List, ListItem, ListItemText, Typography, Paper } from '@mui/material';
 
 /**
- * Fetches private schedules from the server and displays them in a list.
+ * Fetches private schedule from the server and displays them in a list.
  *
- * @return {JSX.Element} The JSX element representing the list of private schedules.
+ * @return {JSX.Element} The JSX element representing the list of private schedule.
  */
 const PrivateSchedules = () => {
     const [schedules, setSchedules] = useState([]);
@@ -21,7 +21,7 @@ const PrivateSchedules = () => {
                 });
                 setSchedules(response.data);
             } catch (error) {
-                console.error("Error fetching private schedules:", error);
+                console.error("Error fetching private schedule:", error);
             }
         };
 
