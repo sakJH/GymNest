@@ -44,7 +44,8 @@ services:
     restart: always
     volumes:
       - db_data_user:/var/lib/mysql
-      - ./user-management-service/database/migrations:/docker-entrypoint-initdb.d
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
     networks:
       - user-service-network
 
