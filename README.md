@@ -33,14 +33,14 @@ HomePage - untested
 - [x] možnost změny hesla
 
 ActivityPage
-- [ ] Stránka pro uživatele i správce (trenéry)
+- [x] Stránka pro uživatele i správce (trenéry)
 - [ ] Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
-- [ ] Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
+- [x] Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
 - [x] Vytvoření nové akce
-- [ ] Upravení akce
+- [x] Upravení akce
 - [x] Smazání akce
-- [ ] Počet lidí na aktivitu
-- [ ] Notifikace
+- [x] Počet lidí na aktivitu - je omezeno kapacitou dane v schedules?
+- [x] Notifikace
 - [x] Konkrétní akce co jsou i v rozvrhu - v detailu dane akce
 - [x] přehled akcí
 - [x] akce dle typu - soucasti filtru

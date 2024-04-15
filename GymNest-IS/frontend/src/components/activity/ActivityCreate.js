@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, MenuItem } from '@mui/material';
 import axios from 'axios';
 
-const ActivityCreate = ({ open, onClose, onCreate }) => {
+const ActivityCreate = ({ open, onClose, onCreate, onUpdate, activity: initialActivity, isEditMode  }) => {
   const [activity, setActivity] = useState({
     name: '',
     description: '',
@@ -28,33 +28,52 @@ const ActivityCreate = ({ open, onClose, onCreate }) => {
     fetchActivityTypes();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'type' && value === 'add_new') {
-      setIsAddingNewType(true);
-      setActivity(prev => ({ ...prev, type: '' }));
+  useEffect(() => {
+    if (isEditMode && initialActivity) {
+      setActivity(initialActivity);  // Inicializace formuláře hodnotami stávající aktivity
     } else {
-      setActivity({ ...activity, [name]: value });
-      if (name === 'newType') {
-        setIsAddingNewType(false);
-        setActivity(prev => ({ ...prev, type: value }));
-      }
+      setActivity({ name: '', description: '', type: '', duration: '' });  // Reset pokud se otevře pro novou aktivitu
     }
-  };
+  }, [initialActivity, isEditMode]);
 
   const handleSubmit = () => {
-    if (activity.type === '' && newType !== '') {
-      activity.type = newType;
+    // Přidání logiky pro zpracování nového typu
+    const updatedActivity = {
+      ...activity,
+      type: isAddingNewType && newType ? newType : activity.type
+    };
+
+    if (isEditMode) {
+      onUpdate(updatedActivity);  // Volání funkce pro aktualizaci
+    } else {
+      onCreate(updatedActivity);  // Volání funkce pro vytvoření nové aktivity
     }
-    onCreate(activity);
-    onClose();
+    onClose();  // Zavření dialogového okna po odeslání formuláře
+    resetForm();  // Resetování formuláře
+  };
+
+  const resetForm = () => {
     setActivity({ name: '', description: '', type: '', duration: '' });
+    setIsAddingNewType(false);
     setNewType('');
+  };
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      if (name === 'type' && value === 'add_new') {
+        setIsAddingNewType(true);
+      } else if (name === 'type') {
+        setActivity({ ...activity, type: value });
+      } else if (name === 'newType') {
+        setNewType(value);
+      } else {
+        setActivity({ ...activity, [name]: value });
+      }
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Vytvořit novou akci</DialogTitle>
+      <DialogTitle>{isEditMode ? 'Upravit aktivitu' : 'Vytvořit novou akci'}</DialogTitle>
       <DialogContent>
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TextField label="Název" name="name" value={activity.name} onChange={handleChange} required />
@@ -63,7 +82,7 @@ const ActivityCreate = ({ open, onClose, onCreate }) => {
             select
             label="Typ"
             name="type"
-            value={activity.type}
+            value={isAddingNewType ? 'add_new' : activity.type}
             onChange={handleChange}
             required
           >
@@ -80,7 +99,7 @@ const ActivityCreate = ({ open, onClose, onCreate }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Zrušit</Button>
-        <Button onClick={handleSubmit}>Vytvořit</Button>
+        <Button onClick={handleSubmit}>{isEditMode ? 'Uložit' : 'Vytvořit'}</Button>
       </DialogActions>
     </Dialog>
   );
