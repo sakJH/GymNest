@@ -58,6 +58,7 @@ const AuthForm = ({ open, onClose }) => {
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
+				{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 					<TextField autoFocus margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
 					{!isLogin && (
 						<>

@@ -93,6 +93,20 @@ class Activity extends Model {
         }
     }
 
+    // Metoda pro vyhledání aktivit podle typu
+    static async findActivitiesByType(type) {
+        try {
+            const activities = await this.findAll({
+                where: {
+                    type: type
+                }
+            });
+            return activities;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // TODO: Další metody dle potřeby???
 }
 

@@ -42,12 +42,14 @@ const ActivityPage = () => {
 
   const handleFilter = async (filter) => {
     try {
-      const response = await axios.get(`${apiAddress}/activities/find/`, {
-        params: filter                                               //Tady to upravit - localhost:3003/api/activities/find/${activityId}
+      const { type, date } = filter;  // Předpokládáme, že filter obsahuje tyto hodnoty
+      let url = `${apiAddress}/activities/searchTypeAndDate`;  // Příklad správné URL
+      const response = await axios.get(url, {
+        params: { type, date }
       });
-      setActivities(response.data);
+      setActivities(response.data);  // Nastavíme stav s nově načtenými aktivitami
     } catch (error) {
-      console.error("Error fetching activities:", error);
+      console.error("Error fetching filtered activities:", error);
     }
   };
 

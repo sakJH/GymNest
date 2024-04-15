@@ -44,7 +44,7 @@ ActivityPage
 - [ ] Konkrétní akce co jsou i v rozvrhu
 - [ ] přehled akcí
 - [ ] akce dle typu
-- [ ] filtr akcí
+- [x] filtr akcí
 - [ ] detail akce
 - [ ] přihlášení na akci
 - [ ] odhlášení z akce

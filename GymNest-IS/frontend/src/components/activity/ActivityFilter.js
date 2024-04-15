@@ -1,9 +1,8 @@
-// ActionFilter.js
 import React, { useState, useEffect } from 'react';
 import { TextField, MenuItem, Button, Box } from '@mui/material';
 import axios from 'axios';
 
-const ActionFilter = ({ onFilter }) => {
+const ActivityFilter = ({ onFilter }) => {
   const [filterOptions, setFilterOptions] = useState({ types: [] });
   const [filter, setFilter] = useState({
     type: '',
@@ -11,17 +10,18 @@ const ActionFilter = ({ onFilter }) => {
   });
 
   useEffect(() => {
-    const fetchFilterOptions = async () => {
+    const fetchActivities = async () => {
       try {
-        // TODO endpoint, pro typy akcí??
-        const response = await axios.get('http://localhost:3005/api/actions/types');
-        setFilterOptions(prev => ({ ...prev, types: response.data }));
+        const response = await axios.get('http://localhost:3003/api/activities/all');
+        const activities = response.data;
+        const uniqueTypes = [...new Set(activities.map(activity => activity.type))];
+        setFilterOptions(prev => ({ ...prev, types: uniqueTypes }));
       } catch (error) {
-        console.error("Error fetching filter options:", error);
+        console.error("Error fetching activities:", error);
       }
     };
 
-    fetchFilterOptions();
+    fetchActivities();
   }, []);
 
   const handleChange = (e) => {
@@ -32,11 +32,15 @@ const ActionFilter = ({ onFilter }) => {
     }));
   };
 
+  const handleSubmit = () => {
+    onFilter(filter);
+  };
+
   return (
     <Box
-    display="flex"
-    gap={2}
-    alignItems="center"
+      display="flex"
+      gap={2}
+      alignItems="center"
       sx={{
         marginTop: 2,
         width: '100%',
@@ -51,8 +55,8 @@ const ActionFilter = ({ onFilter }) => {
         onChange={handleChange}
         fullWidth
       >
-        {filterOptions.types.map((option) => (
-          <MenuItem key={option} value={option}>{option}</MenuItem>
+        {filterOptions.types.map((type) => (
+          <MenuItem key={type} value={type}>{type}</MenuItem>
         ))}
       </TextField>
       <TextField
@@ -66,7 +70,7 @@ const ActionFilter = ({ onFilter }) => {
       />
       <Button
         variant="outlined"
-        onClick={() => onFilter(filter)}
+        onClick={handleSubmit}
         sx={{
           minWidth: 100,
           height: '56px',
@@ -78,4 +82,4 @@ const ActionFilter = ({ onFilter }) => {
   );
 };
 
-export default ActionFilter;
+export default ActivityFilter;

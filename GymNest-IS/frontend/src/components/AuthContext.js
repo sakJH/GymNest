@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [token, setToken] = useState(localStorage.getItem('jwtToken'));
+  const [errorMessage, setErrorMessage] = useState('');  // Nový stav pro chybové zprávy
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -35,8 +36,10 @@ export const AuthProvider = ({ children }) => {
         });
         setUser(response.data.user);
         localStorage.setItem('user', JSON.stringify(response.data.user)); // Ukládání uživatele do localStorage
+        setErrorMessage('');  // Resetování chybové zprávy pokud je verifikace úspěšná
       } catch (error) {
         console.error("Token verification failed:", error);
+        setErrorMessage("Verifikace tokenu selhala"); // Nastavení chybové zprávy
         logout(); // Odhlášení pokud verifikace selže
       }
     };
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-      <AuthContext.Provider value={{ user, token, login, logout }}>
+      <AuthContext.Provider value={{ user, token, login, logout, errorMessage, setErrorMessage }}>
         {children}
       </AuthContext.Provider>
   );

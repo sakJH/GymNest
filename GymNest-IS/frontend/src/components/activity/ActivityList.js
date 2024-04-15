@@ -1,4 +1,3 @@
-// ActivityList.js
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from '@mui/material';
 import { AuthContext } from '../AuthContext';
@@ -13,7 +12,7 @@ const ActivityList = ({ activities, onReserve, onEdit, onDelete }) => {
           <ListItemButton onClick={() => onReserve(activity.id)}>
             <ListItemText
               primary={activity.name}
-              secondary={`${new Date(activity.date).toLocaleDateString()} - ${activity.time}`}
+              secondary={`Type: ${activity.type}, Duration: ${activity.duration} minutes, Created At: ${new Date(activity.createdAt).toLocaleString()}`}
             />
           </ListItemButton>
           {role === 'trenér' && (

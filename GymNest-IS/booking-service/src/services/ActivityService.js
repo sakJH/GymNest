@@ -31,7 +31,10 @@ class ActivityService {
         return await Activity.findActivitiesByTypeAndDate(type, date);
     }
 
-
+    // Vyhledání aktivit podle typu
+    async findActivitiesByType(type) {
+    return await Activity.findActivitiesByType(type);
+    }
 }
 
 module.exports = new ActivityService();

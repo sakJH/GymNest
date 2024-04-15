@@ -56,7 +56,13 @@ class ActivityController {
     async findActivitiesByTypeAndDate(req, res) {
         try {
             const { type, date } = req.query;
-            const activities = await ActivityService.findActivitiesByTypeAndDate(type, date);
+            let activities;
+            if (date) {
+                activities = await ActivityService.findActivitiesByTypeAndDate(type, date);
+            } else {
+                // Pokud datum není poskytnuto, vyhledejte všechny aktivity daného typu bez ohledu na datum
+                activities = await ActivityService.findActivitiesByType(type);
+            }
             res.json(activities);
         } catch (error) {
             res.status(500).json({ message: error.message });
