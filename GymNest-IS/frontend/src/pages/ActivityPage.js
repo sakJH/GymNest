@@ -58,7 +58,7 @@ const ActivityPage = () => {
 
   const handleCreate = async (newActivity) => {
     try {
-      await axios.post(`${apiAddress}/api/activities/create`, newActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
+      await axios.post(`${apiAddress}/activities/create`, newActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po přidání nové
     } catch (error) {
       console.error("Error creating activity:", error);
@@ -67,7 +67,7 @@ const ActivityPage = () => {
 
   const handleEdit = async (activityId, updatedActivity) => {
     try {
-      await axios.put(`${apiAddress}/api/activities/update/${activityId}`, updatedActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
+      await axios.put(`${apiAddress}/activities/update/${activityId}`, updatedActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po editaci
     } catch (error) {
       console.error("Error editing activity:", error);
@@ -76,7 +76,7 @@ const ActivityPage = () => {
 
   const handleDelete = async (activityId) => {
     try {
-      await axios.delete(`${apiAddress}/api/activities/delete/${activityId}`); // TODO až do odvolání přímá komunikace - žádná api-gateway
+      await axios.delete(`${apiAddress}/activities/delete/${activityId}`); // TODO až do odvolání přímá komunikace - žádná api-gateway
       fetchActivities(); // Znovu načíst aktivity po smazání
       if (selectedActivity && selectedActivity.id === activityId) {
         setIsDetailOpen(false); // Zavřít detail, pokud byla smazaná aktuálně zobrazená akce
@@ -95,6 +95,9 @@ const ActivityPage = () => {
           Vytvořit novou akci
         </Button>
       )}
+      <Button variant="contained" onClick={handleCreateFormOpen} sx={{ mb: 2 }}>
+          Vytvořit novou akci
+      </Button> // TODO - jen  na testing
       <ActivityFilter onFilter={handleFilter} />
       <ActivityList
         activities={activities}

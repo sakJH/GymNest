@@ -1,18 +1,56 @@
-// ActivityDetail.js
-import React, { useContext } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
-import { AuthContext } from '../AuthContext'; // Upravte cestu podle vaší struktury souborů
+import React, { useContext, useState, useEffect } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
+import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
+/**
+ * Renders a dialog component displaying detailed information about an activity.
+ *
+ * @param {Object} props - The props object containing the activity, open, onClose, onEdit, and onDelete properties.
+ * @param {Object} props.activity - The activity object to display details for.
+ * @param {boolean} props.open - Whether the dialog is open or not.
+ * @param {function} props.onClose - The function to call when the dialog is closed.
+ * @param {function} props.onEdit - The function to call when the edit button is clicked.
+ * @param {function} props.onDelete - The function to call when the delete button is clicked.
+ * @return {JSX.Element} The rendered dialog component.
+ */
 const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
   const { role } = useContext(AuthContext); // Použití role z AuthContext
+  const [schedules, setSchedules] = useState([]);
+
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      try {
+        const response = await axios.get('http://localhost:3003/api/schedules/all');
+        const filteredSchedules = response.data.filter(sch => sch.activityId === activity.id);
+        setSchedules(filteredSchedules);
+      } catch (error) {
+        console.error("Error fetching schedules:", error);
+      }
+    };
+
+    fetchSchedules();
+  }, [activity.id]);
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{activity.name}</DialogTitle>
       <DialogContent>
-        <Typography gutterBottom>Datum: {new Date(activity.date).toLocaleDateString()}</Typography>
-        <Typography gutterBottom>Čas: {activity.time}</Typography>
+        <Typography gutterBottom>Typ: {activity.type}</Typography>
+        <Typography gutterBottom>Trvání: {activity.duration} minut</Typography>
+        <Typography gutterBottom>Vytvořeno: {new Date(activity.createdAt).toLocaleString()}</Typography>
         <Typography gutterBottom>Popis: {activity.description}</Typography>
+        <Typography variant="h6" gutterBottom>Naplánované Harmonogramy:</Typography>
+        <List>
+          {schedules.map((schedule) => (
+            <ListItem key={schedule.id}>
+              <ListItemText
+                primary={`Začíná: ${new Date(schedule.startTime).toLocaleString()}`}
+                secondary={`Končí: ${new Date(schedule.endTime).toLocaleString()} - Kapacita: ${schedule.capacity}`}
+              />
+            </ListItem>
+          ))}
+        </List>
       </DialogContent>
       <DialogActions>
         {role === 'trenér' && (
@@ -21,6 +59,10 @@ const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
             <Button onClick={() => onDelete(activity.id)} color="error">Smazat</Button>
           </>
         )}
+        <>
+          <Button onClick={() => onEdit(activity.id)}>Editovat</Button>
+          <Button onClick={() => onDelete(activity.id)} color="error">Smazat</Button>
+        </> // TODO - jen  na testing
         <Button onClick={onClose}>Zavřít</Button>
       </DialogActions>
     </Dialog>

@@ -36,16 +36,16 @@ ActivityPage
 - [ ] Stránka pro uživatele i správce (trenéry)
 - [ ] Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
 - [ ] Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
-- [ ] Vytvoření nové akce
+- [x] Vytvoření nové akce
 - [ ] Upravení akce
-- [ ] Smazání akce
+- [x] Smazání akce
 - [ ] Počet lidí na aktivitu
 - [ ] Notifikace
-- [ ] Konkrétní akce co jsou i v rozvrhu
-- [ ] přehled akcí
-- [ ] akce dle typu
+- [x] Konkrétní akce co jsou i v rozvrhu - v detailu dane akce
+- [x] přehled akcí
+- [x] akce dle typu - soucasti filtru
 - [x] filtr akcí
-- [ ] detail akce
+- [x] detail akce
 - [ ] přihlášení na akci
 - [ ] odhlášení z akce
 
