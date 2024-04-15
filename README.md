@@ -33,9 +33,9 @@ HomePage
 - [ ] možnost změny hesla
 
 ActivityPage
-- Stránka pro uživatele i správce (trenéry)
-- Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
-- Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
+- [ ] Stránka pro uživatele i správce (trenéry)
+- [ ] Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
+- [ ] Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
 - [ ] Vytvoření nové akce
 - [ ] Upravení akce
 - [ ] Smazání akce
