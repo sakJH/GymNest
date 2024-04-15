@@ -29,10 +29,10 @@ const PublicSchedules = () => {
             <Typography variant="h6" gutterBottom>Veřejné Rozvrhy</Typography>
             <List>
                 {schedules.map(schedule => (
-                    <ListItem key={schedule.ScheduleID}>
+                    <ListItem key={schedule.id}>
                         <ListItemText
-                            primary={schedule.ActivityName}
-                            secondary={`${new Date(schedule.StartTime).toLocaleTimeString()} to ${new Date(schedule.EndTime).toLocaleTimeString()}`}
+                            primary={`Activity ${schedule.activityId}`}
+                            secondary={`${new Date(schedule.startTime).toLocaleString('cs-CZ', { dateStyle: 'medium', timeStyle: 'short' })} do ${new Date(schedule.endTime).toLocaleString('cs-CZ', { dateStyle: 'medium', timeStyle: 'short' })}`}
                         />
                     </ListItem>
                 ))}

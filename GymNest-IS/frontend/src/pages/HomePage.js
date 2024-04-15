@@ -1,14 +1,16 @@
 // HomePage.js
 import React from 'react';
-// import AuthForm from '../components/AuthForm';
 import PrivateSchedules from '../components/./schedule/PrivateSchedules';
 import PublicSchedules from '../components/./schedule/PublicSchedules';
+import UserNotifications from '../components/user/UserNotifications';
+import UserInfo from '../components/user/UserInfo';
 
 function HomePage() {
 	return (
 			<div>
-					{/*<AuthForm />*/}
-					<PrivateSchedules/>
+					<UserInfo />
+					<UserNotifications />
+					<PrivateSchedules />
 					<PublicSchedules />
 			</div>
 	);

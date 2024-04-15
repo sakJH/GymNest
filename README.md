@@ -23,14 +23,14 @@ MembershipPage
 - [ ] Možnost změny členství
 - [ ] Možnost zrušení členství
 
-HomePage
-- [ ] Vytvořit něco pro nepřihlášené
-- [ ] vytvořit page pro přihlášeného
-- [ ] notifikace
-- [ ] datum vyprchání členství
-- [ ] tier členství
-- [ ] sekce o přihlášeném uživateli (jméno, heslo, username, změna hesla,...)
-- [ ] možnost změny hesla
+HomePage - untested
+- [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy
+- [x] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
+- [x] notifikace
+- [x] datum vyprchání členství
+- [x] tier členství
+- [x] sekce o přihlášeném uživateli (jméno, heslo, username, změna hesla,...)
+- [x] možnost změny hesla
 
 ActivityPage
 - [ ] Stránka pro uživatele i správce (trenéry)
