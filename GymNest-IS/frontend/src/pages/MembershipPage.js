@@ -33,7 +33,7 @@ const MembershipPage = () => {
     const fetchPaymentHistory = async () => {
       if (token && user && user.id) {
         try {
-          const paymentHistoryResponse = await axios.get(`${apiAddress}/payments/all/${user.id}`, {
+          const paymentHistoryResponse = await axios.get(`${apiAddress}/memberships/user/${user.id}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
             }
