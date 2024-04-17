@@ -1,5 +1,20 @@
 # GymNest
 ## TODO - docasne
+Dokumentace
+- [ ] pdf - obsah:
+  - [ ] Manažerské shrnutí
+  - [ ] Věcná část projektu
+  - [ ] Funkční analýza
+  - [ ] Big Picture, Úvod
+  - [ ] UC model
+  - [ ] Technický design
+  - [ ] Popis architektury
+  - [ ] Doménový / datový model
+  - [ ] Návrh infrastruktury
+- [ ] uml - zaklad - classy, use-case
+
+- [ ] unit testy - bonus
+
 Dodělat Navbar
 - [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
 
