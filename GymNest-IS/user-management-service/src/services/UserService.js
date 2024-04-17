@@ -3,10 +3,20 @@ const User = require('../models/User');
 class UserService {
     static async createUser(userData) {
         const { username, password, email, roleId } = userData;
+        const passwordHash = await bcrypt.hash(password, 10);  // Předpokládáme, že používáte bcrypt pro hashování hesla
         try {
-            return await User.createUser({ username, password, email, roleId });
+            return await User.createUser({ username, passwordHash, email, roleId });
         } catch (error) {
-            console.error('Služba - Chyba při vytváření uživatele:', error);
+            console.error('Service - Error creating user:', error);
+            throw error;
+        }
+    }
+
+    static async loginUser(username, password) {
+        try {
+            return await User.loginUser(username, password);
+        } catch (error) {
+            console.error('Služba - Chyba při přihlašování uživatele:', error);
             throw error;
         }
     }
@@ -38,14 +48,7 @@ class UserService {
         }
     }
 
-    static async loginUser(username, password) {
-        try {
-            return await User.loginUser(username, password);
-        } catch (error) {
-            console.error('Služba - Chyba při přihlašování uživatele:', error);
-            throw error;
-        }
-    }
+
 
     static async getAllUsers() {
         try {

@@ -1,61 +1,161 @@
 const MembershipService = require('../services/MembershipService');
 
 class MembershipController {
+
     async createMembership(req, res) {
         try {
             const membership = await MembershipService.createMembership(req.body);
             res.status(201).json(membership);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error('Error in createMembership:', error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     async updateMembership(req, res) {
+        const { id } = req.params;
+        const updateData = req.body;
         try {
-            const membership = await MembershipService.updateMembership(req.params.id, req.body);
-            res.json(membership);
+            const result = await MembershipService.updateMembership(id, updateData);
+            res.status(200).json(result);
         } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-
-    async findMembershipById(req, res) {
-        try {
-            const membership = await MembershipService.findMembershipById(req.params.id);
-            if (membership) {
-                res.json(membership);
-            } else {
-                res.status(404).json({ message: 'Membership not found' });
-            }
-        } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error('Error in updateMembership:', error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     async deleteMembership(req, res) {
+        const { id } = req.params;
         try {
-            const result = await MembershipService.deleteMembership(req.params.id);
-            res.json(result);
+            const result = await MembershipService.deleteMembership(id);
+            res.status(200).json(result);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error('Error in deleteMembership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async findMembershipById(req, res) {
+        const { id } = req.params;
+        try {
+            const membership = await MembershipService.findMembershipById(id);
+            res.status(200).json(membership);
+        } catch (error) {
+            console.error('Error in findMembershipById:', error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     async findAllMemberships(req, res) {
         try {
             const memberships = await MembershipService.findAllMemberships();
-            res.json(memberships);
+            res.status(200).json(memberships);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error('Error in findAllMemberships:', error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     async findMembershipsByUserId(req, res) {
+        const { userId } = req.params;
         try {
-            const memberships = await MembershipService.findMembershipsByUserId(req.params.userId);
-            res.json(memberships);
+            const memberships = await MembershipService.findMembershipsByUserId(userId);
+            res.status(200).json(memberships);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            console.error('Error in findMembershipsByUserId:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async findActive(req, res) {
+        try {
+            const activeMemberships = await MembershipService.findActive();
+            res.status(200).json(activeMemberships);
+        } catch (error) {
+            console.error('Error retrieving active memberships:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Metody pro změnu stavu členství
+    async pauseSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const pausedMembership = await MembershipService.pauseSubscription(id);
+            res.status(200).json(pausedMembership);
+        } catch (error) {
+            console.error('Error pausing membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async reactivateSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const reactivatedMembership = await MembershipService.reactivateSubscription(id);
+            res.status(200).json(reactivatedMembership);
+        } catch (error) {
+            console.error('Error reactivating membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async cancelSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const cancelledMembership = await MembershipService.cancelSubscription(id);
+            res.status(200).json(cancelledMembership);
+        } catch (error) {
+            console.error('Error cancelling membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Metody pro vyhledávání členství
+    async findByType(req, res) {
+        const { type } = req.params;
+        try {
+            const membershipsByType = await MembershipService.findByType(type);
+            res.status(200).json(membershipsByType);
+        } catch (error) {
+            console.error('Error retrieving memberships by type:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async findByStatus(req, res) {
+        const { status } = req.params;
+        try {
+            const membershipsByStatus = await MembershipService.findByStatus(status);
+            res.status(200).json(membershipsByStatus);
+        } catch (error) {
+            console.error('Error retrieving memberships by status:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Metoda pro nalezení všech členství, které brzy vyprší
+    async findExpiringSoon(req, res) {
+        const { days } = req.params;
+        try {
+            const expiringSoonMemberships = await MembershipService.findExpiringSoon(days);
+            res.status(200).json(expiringSoonMemberships);
+        } catch (error) {
+            console.error('Error retrieving memberships expiring soon:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Metody pro změnu typu členství
+    async changeMembershipType(req, res) {
+        const { id } = req.params;
+        const { newType } = req.body;
+        try {
+            const updatedMembership = await MembershipService.changeMembershipType(id, newType);
+            res.status(200).json(updatedMembership);
+        } catch (error) {
+            console.error('Error changing membership type:', error);
+            res.status(500).json({ message: error.message });
         }
     }
 

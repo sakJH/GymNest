@@ -2,6 +2,7 @@ const UserService = require('../services/UserService');
 const express = require('express');
 
 class UserController {
+
     // Vytvoření nového uživatele
     static async createUser(req, res) {
         try {
@@ -9,6 +10,17 @@ class UserController {
             res.status(201).json(user);
         } catch (error) {
             res.status(500).send(error.message);
+        }
+    }
+
+    // Přihlašování uživatele
+    static async loginUser(req, res) {
+        try {
+            const { username, password } = req.body;
+            const { user, token } = await UserService.loginUser(username, password);
+            res.json({ user, token });  // Vrací uživatele a token
+        } catch (error) {
+            res.status(400).send(error.message);
         }
     }
 
@@ -42,17 +54,6 @@ class UserController {
             res.json(user);
         } catch (error) {
             res.status(500).send(error.message);
-        }
-    }
-
-    // Přihlašování uživatele
-    static async loginUser(req, res) {
-        try {
-            const { username, password } = req.body;
-            const user = await UserService.loginUser(username, password);
-            res.json(user); // Zde byste měli vracet token nebo jiné přihlašovací údaje
-        } catch (error) {
-            res.status(401).send(error.message);
         }
     }
 

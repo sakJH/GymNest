@@ -65,7 +65,7 @@ router.put('/bookings/update', BookingController.updateBooking);
  *         required: true
  *         description: ID rezervace
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Rezervace byla úspěšně zrušena
@@ -90,7 +90,7 @@ router.delete('/bookings/cancel/:bookingId', BookingController.cancelBooking);
  *         required: true
  *         description: ID rezervace
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Rezervace byla úspěšně nalezena
@@ -115,7 +115,7 @@ router.get('/bookings/:bookingId', BookingController.findBookingById);
  *         required: true
  *         description: ID uživatele
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Rezervace byly úspěšně nalezeny

@@ -42,14 +42,14 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               email:
- *                 type: string
+ *                 membershipType: string
  *                 format: email
  *                 description: Emailová adresa uživatele.
  *               password:
- *                 type: string
+ *                 membershipType: string
  *                 format: password
  *                 description: Heslo uživatele.
  *     responses:
@@ -72,18 +72,18 @@ router.post('/auth/login', AuthController.login);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               email:
- *                 type: string
+ *                 membershipType: string
  *                 format: email
  *                 description: Emailová adresa pro registraci.
  *               password:
- *                 type: string
+ *                 membershipType: string
  *                 format: password
  *                 description: Heslo pro registraci.
  *               name:
- *                 type: string
+ *                 membershipType: string
  *                 description: Jméno uživatele.
  *     responses:
  *       200:
@@ -105,10 +105,10 @@ router.post('/auth/register', AuthController.register);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               email:
- *                 type: string
+ *                 membershipType: string
  *                 format: email
  *                 description: Emailová adresa uživatele pro reset hesla.
  *     responses:
@@ -131,13 +131,13 @@ router.post('/auth/forgot-password', AuthController.forgotPassword);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               token:
- *                 type: string
+ *                 membershipType: string
  *                 description: Token pro reset hesla.
  *               newPassword:
- *                 type: string
+ *                 membershipType: string
  *                 format: password
  *                 description: Nové heslo uživatele.
  *     responses:
@@ -162,14 +162,14 @@ router.post('/auth/reset-password', AuthController.resetPassword);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               oldPassword:
- *                 type: string
+ *                 membershipType: string
  *                 format: password
  *                 description: Současné heslo uživatele.
  *               newPassword:
- *                 type: string
+ *                 membershipType: string
  *                 format: password
  *                 description: Nové heslo, které si uživatel přeje nastavit.
  *     responses:
@@ -194,10 +194,10 @@ router.post('/auth/change-password', passport.authenticate('jwt', { session: fal
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               newEmail:
- *                 type: string
+ *                 membershipType: string
  *                 format: email
  *                 description: Nová emailová adresa, kterou si uživatel přeje nastavit.
  *     responses:
@@ -222,10 +222,10 @@ router.post('/auth/change-email', passport.authenticate('jwt', { session: false 
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               newUsername:
- *                 type: string
+ *                 membershipType: string
  *                 description: Nové uživatelské jméno, které si uživatel přeje nastavit.
  *     responses:
  *       200:

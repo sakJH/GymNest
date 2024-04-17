@@ -22,7 +22,7 @@ const router = express.Router();
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele pro získání profilu
  *     responses:
@@ -73,7 +73,7 @@ router.post('/profiles/create', ProfileController.createProfile);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele pro aktualizaci profilu
  *     requestBody:
@@ -107,7 +107,7 @@ router.put('/profiles/:userId', ProfileController.updateProfile);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele pro odstranění profilu
  *     responses:

@@ -66,7 +66,7 @@ router.put('/activities/update', ActivityController.updateActivity);
  *         required: true
  *         description: ID aktivity, která má být zrušena
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Aktivita byla úspěšně zrušena
@@ -91,7 +91,7 @@ router.delete('/activities/delete/:activityId', ActivityController.deleteActivit
  *         required: true
  *         description: ID aktivity, která má být vyhledána
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Aktivita byla úspěšně nalezena
@@ -130,17 +130,17 @@ router.get('/activities/all', ActivityController.findAllActivities);
  *     description: Vyhledání aktivit podle zadaného typu a data
  *     parameters:
  *       - in: query
- *         name: type
+ *         name: membershipType
  *         required: true
  *         description: Typ aktivity, která má být vyhledána
  *         schema:
- *           type: string
+ *           membershipType: string
  *       - in: query
  *         name: date
  *         required: true
  *         description: Datum, pro které má být aktivita vyhledána
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Aktivity byly úspěšně nalezeny

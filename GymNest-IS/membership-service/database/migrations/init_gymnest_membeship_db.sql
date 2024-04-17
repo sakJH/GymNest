@@ -1,27 +1,15 @@
 CREATE DATABASE IF NOT EXISTS GymNestMembershipDB;
 USE GymNestMembershipDB;
 
--- Vytvoření tabulky 'subscriptions'
-CREATE TABLE IF NOT EXISTS `subscriptions` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `type` VARCHAR(255) NOT NULL,
-    `price` DECIMAL(10, 2) NOT NULL,
-    `startDate` DATE NOT NULL,
-    `endDate` DATE NOT NULL,
-    `userId` INT NOT NULL,
-    `status` VARCHAR(255) NOT NULL DEFAULT 'active',
-    `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Vytvoření tabulky 'memberships'
+-- Vytvoření aktualizované tabulky 'memberships'
 CREATE TABLE IF NOT EXISTS `memberships` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `userId` INT NOT NULL,
-    `membershipType` VARCHAR(255) NOT NULL,
-    `membershipPrice` DECIMAL(10, 2) NOT NULL,
+    membershipType VARCHAR(255) NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
     `startDate` DATE NOT NULL,
     `endDate` DATE NOT NULL,
+    `status` VARCHAR(255) NOT NULL DEFAULT 'active',
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -32,11 +20,17 @@ CREATE TABLE IF NOT EXISTS `payments` (
     `amount` DECIMAL(10, 2) NOT NULL,
     `paymentDate` DATE NOT NULL,
     `status` VARCHAR(255) NOT NULL,
-    `subscriptionId` INT NOT NULL,
+    `membershipId` INT NOT NULL,
     `description` TEXT,
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`subscriptionId`) REFERENCES `subscriptions` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`membershipId`) REFERENCES `memberships` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `payments` ADD FOREIGN KEY (`subscriptionId`) REFERENCES `subscriptions`(`id`);
+INSERT INTO `memberships` (`userId`, membershipType, `price`, `startDate`, `endDate`, `status`)
+VALUES
+    (1, 'Standard', 199.99, '2024-04-01', '2024-10-01', 'active'),
+    (2, 'Premium', 299.99, '2024-04-01', '2024-10-01', 'active'),
+    (3, 'Family', 399.99, '2024-05-01', '2024-11-01', 'active'),
+    (4, 'Standard', 199.99, '2024-03-01', '2024-09-01', 'active'),
+    (5, 'Lifetime', 999.99, '2024-04-01', '2099-12-31', 'active');

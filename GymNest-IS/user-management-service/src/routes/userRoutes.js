@@ -28,12 +28,12 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               username:
- *                 type: string
+ *                 membershipType: string
  *               password:
- *                 type: string
+ *                 membershipType: string
  *     responses:
  *       200:
  *         description: Uživatel byl úspěšně vytvořen
@@ -53,7 +53,7 @@ router.post('/users/create', UserController.createUser);
  *       - in: path
  *         name: username
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Uživatelské jméno uživatele pro odstranění
  *     responses:
@@ -75,7 +75,7 @@ router.delete('/users/:username', UserController.deleteUserByUsername);
  *       - in: path
  *         name: username
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Uživatelské jméno uživatele pro aktualizaci
  *     requestBody:
@@ -104,12 +104,12 @@ router.put('/users/:username', UserController.updateUserByUsername);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             membershipType: object
  *             properties:
  *               username:
- *                 type: string
+ *                 membershipType: string
  *               password:
- *                 type: string
+ *                 membershipType: string
  *     responses:
  *       200:
  *         description: Uživatel byl úspěšně přihlášen
@@ -131,7 +131,7 @@ router.post('/users/login', UserController.loginUser);
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
@@ -148,7 +148,7 @@ router.get('/users/all', UserController.getAllUsers);
  *       - in: path
  *         name: username
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Uživatelské jméno uživatele pro získání
  *     responses:
@@ -174,7 +174,7 @@ router.get('/users/all', UserController.getAllUsers);
  *       - in: path
  *         name: email
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Email uživatele pro získání
  *     responses:
@@ -213,7 +213,7 @@ router.get('/users/logout', UserController.logoutUser);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele pro aktualizaci preferencí
  *     requestBody:
@@ -241,7 +241,7 @@ router.put('/users/:userId/preferences', UserController.updatePreferences);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele pro reset preferencí
  *     responses:

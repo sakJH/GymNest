@@ -66,7 +66,7 @@ router.put('/schedules/update', ScheduleController.updateSchedule);
  *         required: true
  *         description: ID harmonogramu
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Harmonogram byl úspěšně zrušen
@@ -91,7 +91,7 @@ router.delete('/schedules/cancel/:scheduleId', ScheduleController.deleteSchedule
  *         required: true
  *         description: ID harmonogramu
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Harmonogram byl úspěšně nalezen

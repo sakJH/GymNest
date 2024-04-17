@@ -1,9 +1,10 @@
+//Membership.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
 class Membership extends Model {
+
     static async createMembership(data) {
-        // Metoda pro vytvoření nového členství
         try {
             return await this.create(data);
         } catch (error) {
@@ -23,9 +24,7 @@ class Membership extends Model {
         }
     }
 
-
     static async findMembershipById(id) {
-        // Metoda pro vyhledání členství podle ID
         try {
             return await this.findByPk(id);
         } catch (error) {
@@ -34,7 +33,6 @@ class Membership extends Model {
     }
 
     static async deleteMembership(id) {
-        // Metoda pro odstranění členství podle ID
         try {
             const membership = await this.findByPk(id);
             if (!membership) {
@@ -48,7 +46,6 @@ class Membership extends Model {
     }
 
     static async findAllMemberships() {
-        // Metoda pro získání všech členství
         try {
             return await this.findAll();
         } catch (error) {
@@ -57,7 +54,6 @@ class Membership extends Model {
     }
 
     static async findMembershipsByUserId(userId) {
-        // Metoda pro vyhledání všech členství daného uživatele
         try {
             return await this.findAll({ where: { userId } });
         } catch (error) {
@@ -65,12 +61,102 @@ class Membership extends Model {
         }
     }
 
-    // TODO - další metody???
+    // Původní metody z Subscription
+
+    // Metoda pro získání aktivních předplatných
+    static async findActive() {
+        return await this.findAll({
+            where: {
+                status: 'active'
+            }
+        });
+    }
+
+    // Metoda pro pozastavení předplatného
+    static async pauseSubscription(id) {
+        const subscription = await this.findByPk(id);
+        if (!subscription) throw new Error('Subscription not found');
+
+        subscription.status = 'paused';
+        await subscription.save();
+        return subscription;
+    }
+
+    // Metoda pro reaktivaci předplatného
+    static async reactivateSubscription(id) {
+        const subscription = await this.findByPk(id);
+        if (!subscription) throw new Error('Subscription not found');
+
+        subscription.status = 'active';
+        await subscription.save();
+        return subscription;
+    }
+
+    // Metoda pro zrušení předplatného
+    static async cancelSubscription(id) {
+        const subscription = await this.findByPk(id);
+        if (!subscription) throw new Error('Subscription not found');
+
+        subscription.status = 'cancelled';
+        await subscription.save();
+        return subscription;
+    }
+
+    // Metoda pro získání předplatného podle typu
+    static async findByType(type) {
+        return await this.findAll({
+            where: { type }
+        });
+    }
+
+    static async findByStatus(status) {
+        return await this.findAll({
+            where: { status }
+        });
+    }
+
+    static async findExpiringSoon(days = 30) {
+        const today = new Date();
+        const targetDate = new Date(today);
+        targetDate.setDate(today.getDate() + days);
+
+        return await this.findAll({
+            where: {
+                endDate: {
+                    [Sequelize.Op.lt]: targetDate
+                },
+                status: 'active'
+            }
+        });
+    }
+
+    static async renewMembership(id, durationMonths = 12) {
+        const membership = await this.findByPk(id);
+        if (!membership) throw new Error('Membership not found');
+
+        const newEndDate = new Date(membership.endDate);
+        newEndDate.setMonth(newEndDate.getMonth() + durationMonths);
+
+        membership.endDate = newEndDate;
+        await membership.save();
+
+        return membership;
+    }
+
+    //Metoda pro změnu typu předplatného
+    static async changeMembershipType(id, newType) {
+        const membership = await this.findByPk(id);
+        if (!membership) throw new Error('Membership not found');
+
+        membership.membershipType = newType;
+        await membership.save();
+
+        return membership;
+    }
 
 }
 
 Membership.init({
-    // Definice atributů modelu
     id: {
         type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true
     },
@@ -89,11 +175,15 @@ Membership.init({
     endDate: {
         type: DataTypes.DATEONLY, allowNull: false
     },
-    // Další atributy
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'active'
+    }
 }, {
     sequelize,
     modelName: 'Membership',
-    timestamps: true, // Povolit automatické timestampy createdAt a updatedAt
+    timestamps: true
 });
 
 module.exports = Membership;

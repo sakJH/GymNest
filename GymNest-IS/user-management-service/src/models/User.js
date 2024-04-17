@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 const bcrypt = require('bcryptjs');
+const {status} = require("express/lib/response");
+const jwt = require('jsonwebtoken');
 
 class User extends Model {
 
@@ -22,9 +24,43 @@ class User extends Model {
                 roleId
             });
             console.log('Uživatel ' + username + ' byl úspěšně vytvořen.');
-            return user;
+            // Vytvoření JWT tokenu
+            const token = jwt.sign(
+                { id: user.id, username: user.username },
+                process.env.JWT_SECRET,
+                { expiresIn: '2h' } // Token expiruje za 2 hodiny
+            );
+            return { user, token }; // Vrací uživatele a token
+
         } catch (error) {
             console.error('Chyba při vytváření uživatele:', error);
+            throw error;
+        }
+    }
+
+    static async loginUser(username, password) {
+        try {
+            const user = await this.findOne({ where: { username } });
+
+            if (!user || !password) {
+                throw new Error("Username or password not provided.");
+            }
+            const isMatch = await user.verifyPassword(password);
+            if (!isMatch) {
+                throw new Error("Incorrect username or password.");
+            }
+            console.log(`User "${username}" was successfully verified.`);
+
+            // Vytvoření JWT tokenu
+            const token = jwt.sign(
+                { id: user.id, username: user.username },
+                process.env.JWT_SECRET,
+                { expiresIn: '2h' } // Token expiruje za 2 hodiny
+            );
+
+            return { user, token }; // Vrací uživatele a token
+        } catch (error) {
+            console.error('Error verifying user:', error);
             throw error;
         }
     }
@@ -81,25 +117,6 @@ class User extends Model {
             return user;
         } catch (error) {
             console.error('Chyba při získávání uživatele:', error);
-            throw error;
-        }
-    }
-    // Předpokládáme, že metoda verifyPassword již existuje jako instanční metoda
-    static async loginUser(username, password) {
-        try {
-            const user = await this.findOne({ where: { username } });
-            if (!user) {
-                throw new Error(`Uživatelské jméno nebo heslo je nesprávné.`);
-            }
-            const isMatch = await user.verifyPassword(password);
-            if (!isMatch) {
-                throw new Error(`Uživatelské jméno nebo heslo je nesprávné.`);
-            }
-            console.log(`Uživatel "${username}" byl úspěšně ověřen.`);
-            // Vrátí uživatele nebo token podle potřeby aplikace
-            return user;
-        } catch (error) {
-            console.error('Chyba při ověřování uživatele:', error);
             throw error;
         }
     }

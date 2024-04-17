@@ -6,7 +6,6 @@ const swaggerDefinition = require('./utils/swaggerDefinition');
 const cors = require('cors');
 const morgan = require('morgan');
 const membershipRoutes = require('./routes/membershipRoutes');
-const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
 const options = {
@@ -24,9 +23,6 @@ app.use(express.json()); // Middleware pro parsování JSON těl požadavků
 
 // Použití rout pro členství
 app.use('/api', membershipRoutes);
-
-// Použití rout pro předplatná
-app.use('/api', subscriptionRoutes);
 
 // Použití rout pro platby
 app.use('/api', paymentRoutes);

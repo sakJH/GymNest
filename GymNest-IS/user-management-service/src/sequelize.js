@@ -5,7 +5,7 @@ console.log("Database:", process.env.DB_NAME_US);
 console.log("User:", process.env.DB_USER_US);
 console.log("Password:", process.env.DB_PASSWORD_US);
 console.log("Host:", process.env.DB_HOST_US);
-console.log("Port:", process.env.DB_PORT_US); // Výpis portu pro kontrolu
+console.log("Port:", process.env.PORT_DB_US); // Výpis portu pro kontrolu
 
 const sequelize = new Sequelize(
     process.env.DB_NAME_US, // Jméno databáze
@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
     process.env.DB_PASSWORD_US, // Heslo
     {
             host: process.env.DB_HOST_US, // Hostitel
-            port: process.env.DB_PORT_US, // Port, na kterém běží databáze
+            port: process.env.PORT_DB_US, // Port, na kterém běží databáze
             dialect: 'mysql', // Dialekt databáze
             timezone: '+01:00', // Nastavení časové zóny
             logging: console.log, // Povolit logování

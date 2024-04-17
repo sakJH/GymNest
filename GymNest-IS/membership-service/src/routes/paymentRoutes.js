@@ -69,14 +69,14 @@ router.put('/payments/status', PaymentController.updatePaymentStatus);
  *         required: true
  *         description: ID předplatného
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       200:
  *         description: Seznam plateb
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Payment'
  *       404:
@@ -98,7 +98,7 @@ router.get('/payments/subscription/:subscriptionId', PaymentController.findPayme
  *         required: true
  *         description: ID platby
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       200:
  *         description: Úspěšné vrácení peněz
@@ -128,14 +128,14 @@ router.post('/payments/:paymentId/refund', PaymentController.processRefund);
  *         required: true
  *         description: Stav platby
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Seznam plateb
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Payment'
  *       400:
@@ -158,14 +158,14 @@ router.get('/payments/status/:status', PaymentController.findPaymentsByStatus);
  *         required: true
  *         description: ID uživatele
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       200:
  *         description: Seznam plateb
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Payment'
  *       400:

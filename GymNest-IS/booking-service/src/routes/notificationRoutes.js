@@ -66,7 +66,7 @@ router.put('/notifications/update', NotificationController.updateNotification);
  *         required: true
  *         description: ID notifikace
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Notifikace byla úspěšně smazána
@@ -91,7 +91,7 @@ router.delete('/notifications/delete/:notificationId', NotificationController.de
  *         required: true
  *         description: ID notifikace
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Notifikace byla úspěšně nalezena
@@ -120,7 +120,7 @@ router.get('/notifications/find/:notificationId', NotificationController.findNot
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Notification'
  *       400:
@@ -144,7 +144,7 @@ router.get('/notifications/all/:userId', NotificationController.findAllNotificat
  *         required: true
  *         description: ID notifikace
  *         schema:
- *           type: string
+ *           membershipType: string
  *     responses:
  *       200:
  *         description: Notifikace byla úspěšně označena jako přečtená

@@ -51,7 +51,7 @@ router.get('/roles/getAll', RoleController.getAllRoles);
  *       - in: path
  *         name: roleName
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Název role
  *     responses:
@@ -73,13 +73,13 @@ router.get('/roles/:roleName/users', RoleController.findUsersByRole);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele
  *       - in: body
  *         name: roleName
  *         schema:
- *           type: string
+ *           membershipType: string
  *         required: true
  *         description: Název role
  *     responses:
@@ -101,7 +101,7 @@ router.put('/users/:userId/role', RoleController.setDefaultRole);
  *       - in: path
  *         name: userId
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *         required: true
  *         description: ID uživatele
  *     responses:

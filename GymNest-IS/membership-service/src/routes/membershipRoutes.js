@@ -80,7 +80,7 @@ router.put('/memberships/update/:id', MembershipController.updateMembership);
  *         required: true
  *         description: ID členství
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       200:
  *         description: Úspěšné získání členství
@@ -108,7 +108,7 @@ router.get('/memberships/get/:id', MembershipController.findMembershipById);
  *         required: true
  *         description: ID členství
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       204:
  *         description: Úspěšné odstranění členství
@@ -132,7 +132,7 @@ router.delete('/memberships/delete/:id', MembershipController.deleteMembership);
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Membership'
  *       500:
@@ -153,19 +153,243 @@ router.get('/memberships/all', MembershipController.findAllMemberships);
  *         required: true
  *         description: ID uživatele
  *         schema:
- *           type: integer
+ *           membershipType: integer
  *     responses:
  *       200:
  *         description: Úspěšné získání všech členství daného uživatele
  *         content:
  *           application/json:
  *             schema:
- *               type: array
+ *               membershipType: array
  *               items:
  *                 $ref: '#/components/schemas/Membership'
  *       500:
  *         description: Chyba serveru
  */
 router.get('/memberships/user/:userId', MembershipController.findMembershipsByUserId);
+
+//Získání všech aktivních členství
+/**
+ * @swagger
+ * /memberships/active:
+ *   get:
+ *     summary: Získání všech aktivních členství
+ *     tags: [Memberships]
+ *     responses:
+ *       200:
+ *         description: Úspěšné získání všech aktivních členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               membershipType: array
+ *               items:
+ *                 $ref: '#/components/schemas/Membership'
+ *       500:
+ *         description: Chyba serveru
+ */
+router.get('/memberships/active', MembershipController.findActive);
+
+// Pozastavení členství podle ID
+/**
+ * @swagger
+ * /memberships/pause/{id}:
+ *   put:
+ *     summary: Pozastavení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné pozastavení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/pause/:id', MembershipController.pauseSubscription);
+
+// Obnovení členství podle ID
+/**
+ * @swagger
+ * /memberships/reactivate/{id}:
+ *   put:
+ *     summary: Obnovení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné obnovení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/reactivate/:id', MembershipController.reactivateSubscription);
+
+// Zrušení členství podle ID
+/**
+ * @swagger
+ * /memberships/cancel/{id}:
+ *   put:
+ *     summary: Zrušení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné zrušení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/cancel/:id', MembershipController.cancelSubscription);
+
+// Nalezení všech dle typu členství
+/**
+ * @swagger
+ * /memberships/findtype/{type}:
+ *   get:
+ *     summary: Nalezení všech dle typu členství
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         description: Typ členství
+ *         schema:
+ *           membershipType: string
+ *     responses:
+ *       200:
+ *         description: Úspěšné nalezení všech dle typu členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               membershipType: array
+ *               items:
+ *                 $ref: '#/components/schemas/Membership'
+ *       500:
+ *         description: Chyba serveru
+ */
+router.get('/memberships/findtype/:type', MembershipController.findByType);
+
+// Nalezení všech dle statusu členství
+/**
+ * @swagger
+ * /memberships/status/{status}:
+ *   get:
+ *     summary: Nalezení všech dle statusu členství
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: status
+ *         required: true
+ *         description: Status členství
+ *         schema:
+ *           membershipType: string
+ *     responses:
+ *       200:
+ *         description: Úspěšné nalezení všech dle statusu členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               membershipType: array
+ *               items:
+ *                 $ref: '#/components/schemas/Membership'
+ *       500:
+ *         description: Chyba serveru
+ */
+router.get('/memberships/status/:status', MembershipController.findByStatus);
+
+// Nalezení všech členství, které brzy vyprší
+/**
+ * @swagger
+ * /memberships/expiring
+ *   get:
+ *     summary: Nalezení všech členství, které brzy vyprší
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: days
+ *         required: true
+ *         description: Počet dní
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné nalezení všech členství, které brzy vyprší
+ *         content:
+ *           application/json:
+ *             schema:
+ *               membershipType: array
+ *               items:
+ *                 $ref: '#/components/schemas/Membership'
+ *       500:
+ *         description: Chyba serveru
+ */
+router.get('/memberships/expiring', MembershipController.findExpiringSoon);
+
+// Změna typu členství dle id s parametrem typy členství
+/**
+ * @swagger
+ * /memberships/changeType/{id}:
+ *   put:
+ *     summary: Změna typu členství dle id s parametrem typy členství
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *       - in: query
+ *         name: type
+ *         required: true
+ *         description: Typ členství
+ *         schema:
+ *           membershipType: string
+ *     responses:
+ *       200:
+ *         description: Úspěšná změna typu členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/changeType/:id', MembershipController.changeMembershipType);
+
 
 module.exports = router;
