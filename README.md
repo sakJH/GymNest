@@ -1,15 +1,30 @@
 # GymNest
 ## TODO - docasne
+Dokumentace
+- [ ] pdf - obsah:
+  - [ ] Manažerské shrnutí
+  - [ ] Věcná část projektu
+  - [ ] Funkční analýza
+  - [ ] Big Picture, Úvod
+  - [ ] UC model
+  - [ ] Technický design
+  - [ ] Popis architektury
+  - [ ] Doménový / datový model
+  - [ ] Návrh infrastruktury
+- [ ] uml - zaklad - classy, use-case
+
 Dodělat Navbar
-- [ ] Změna na základě přihlášeného uživatele
+- [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
 
 Backend
 - [ ] Funkčnost přihlášení, ověřit registraci
 - [ ] registrace přes Google
+- [ ] unit testy - bonus
 
 Dodělat SchedulePage
-- [ ] Ověřit fungování rozvrhu
-- [x] přepínač na týden, 2 týdny a měsíc
+- [x] Ověřit fungování rozvrhu
+- [ ] přepínač na týden, 2 týdny a měsíc - nefunguje
+- [ ] udelat filtr dle data na backendu?
 
 MembershipPage
 - [ ] základ pro fungování, spojení s Backendem
@@ -23,7 +38,7 @@ MembershipPage
 - [ ] Možnost změny členství
 - [ ] Možnost zrušení členství
 
-HomePage - untested
+HomePage - TESTING po oprave Auth
 - [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy
 - [x] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
 - [x] notifikace

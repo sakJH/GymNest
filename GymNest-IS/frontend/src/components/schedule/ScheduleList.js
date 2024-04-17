@@ -1,36 +1,40 @@
-// ScheduleList.js
 import React from 'react';
-import { List, ListItem, ListItemText, ListItemButton, Button, IconButton, Tooltip } from '@mui/material';
+import { List, ListItem, ListItemText, ListItemButton, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
-const ActivityListItem = ({ activity, onSelect, onEdit, onDelete, role }) => {
+const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, role }) => {
+    // Přeformátování datumu a času pro zobrazení
+    const formattedStartDate = new Date(schedule.startTime).toLocaleDateString();
+    const formattedStartTime = new Date(schedule.startTime).toLocaleTimeString();
+    const formattedEndTime = new Date(schedule.endTime).toLocaleTimeString();
+
     return (
         <ListItem divider>
-            <ListItemButton onClick={() => onSelect(activity.id)} sx={{ flexGrow: 1 }}>
+            <ListItemButton onClick={() => onSelect(schedule.id)} sx={{ flexGrow: 1 }}>
                 <ListItemText
-                    primary={activity.name}
+                    primary={schedule.name}
                     primaryTypographyProps={{ variant: 'h6' }}
-                    secondary={`${new Date(activity.date).toLocaleDateString()} - ${activity.time}`}
+                    secondary={`${formattedStartDate}, ${formattedStartTime} - ${formattedEndTime}`}
                 />
             </ListItemButton>
             {role === 'trenér' && (
                 <Tooltip title="Editovat">
-                    <IconButton onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="primary">
+                    <IconButton onClick={(e) => { e.stopPropagation(); onEdit(schedule.id); }} color="primary">
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
             )}
             {role === 'trenér' && (
                 <Tooltip title="Smazat">
-                    <IconButton onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
+                    <IconButton onClick={(e) => { e.stopPropagation(); onDelete(schedule.id); }} color="error">
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
             )}
             <Tooltip title="Rezervovat">
-                <IconButton onClick={(e) => { e.stopPropagation(); onSelect(activity.id); }}>
+                <IconButton onClick={(e) => { e.stopPropagation(); onSelect(schedule.id); }}>
                     <EventAvailableIcon />
                 </IconButton>
             </Tooltip>
@@ -41,10 +45,10 @@ const ActivityListItem = ({ activity, onSelect, onEdit, onDelete, role }) => {
 export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role }) => {
     return (
         <List sx={{ width: '100%' }}>
-            {schedules.map(activity => (
+            {schedules.map((schedule, index) => (
                 <ActivityListItem
-                    key={activity.id}
-                    activity={activity}
+                    key={schedule.id || index}
+                    schedule={schedule}
                     onSelect={onSelect}
                     onEdit={onEdit}
                     onDelete={onDelete}
