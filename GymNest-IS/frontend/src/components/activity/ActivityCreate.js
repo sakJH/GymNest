@@ -86,7 +86,7 @@ const ActivityCreate = ({ open, onClose, onCreate, onUpdate, activity: initialAc
             onChange={handleChange}
             required
           >
-            {activityTypes.map((membershipType) => (
+            {activityTypes.map((type) => (
               <MenuItem key={type} value={type}>{type}</MenuItem>
             ))}
             <MenuItem value="add_new">Přidat nový typ...</MenuItem>

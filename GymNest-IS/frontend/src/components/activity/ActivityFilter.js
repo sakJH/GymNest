@@ -55,7 +55,7 @@ const ActivityFilter = ({ onFilter }) => {
         onChange={handleChange}
         fullWidth
       >
-        {filterOptions.types.map((membershipType) => (
+        {filterOptions.types.map((type) => (
           <MenuItem key={type} value={type}>{type}</MenuItem>
         ))}
       </TextField>

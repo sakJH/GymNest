@@ -7,14 +7,11 @@ RUN apt-get update && apt-get install -y dos2unix
 # Vytvoření adresáře aplikace v kontejneru
 WORKDIR /usr/src/booking-service
 
-# Kopírování souborů definujících závislosti aplikace
-COPY */package*.json ./
+# Kopírování vsech souborů - predesly zpusob vedl k prepsani modules
+COPY ./ ./
 
 # Instalace závislostí
 RUN npm install
-
-# Kopírování zbytku zdrojového kódu aplikace do kontejneru
-COPY ./ ./
 RUN dos2unix ./wait-for-it.sh
 
 # Aplikace běží na portu 3003
