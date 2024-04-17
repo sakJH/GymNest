@@ -15,6 +15,7 @@ const ActivityPage = () => {
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const { role } = useContext(AuthContext);
   const [activityToEdit, setActivityToEdit] = useState(null);
+  const apiAddress =  'http://localhost:3003/api';
 
 const handleEditOpen = (activityId) => {
   const activity = activities.find(a => a.id === activityId);
@@ -23,8 +24,15 @@ const handleEditOpen = (activityId) => {
 };
 
 const handleUpdate = async (updatedActivity) => {
+  const activityId = updatedActivity.id;  // Předpokládáme, že aktualizovaná aktivita obsahuje 'id'
+  const updateDetails = { ...updatedActivity };
+  delete updateDetails.id; // Odstranění 'id' z detailů aktualizace, pokud to backend nepotřebuje
+
   try {
-    await axios.put(`${apiAddress}/activities/update`, updatedActivity);
+    const response = await axios.put(`${apiAddress}/activities/update`, {
+      activityId,  // Odesílání 'activityId' a 'updateDetails' podle požadavků backendu
+      updateDetails
+    });
     fetchActivities(); // Znovu načíst aktivity po úpravě
     setIsCreateFormOpen(false);
     setActivityToEdit(null);  // Resetovat editační aktivitu
@@ -41,8 +49,6 @@ const handleUpdate = async (updatedActivity) => {
   useEffect(() => {
     fetchActivities();
   }, []);
-
-  const apiAddress =  'http://localhost:3003/api';
 
   const fetchActivities = async () => {
     try {
@@ -120,7 +126,7 @@ const handleUpdate = async (updatedActivity) => {
       <ActivityFilter onFilter={handleFilter} />
       <ActivityList
         activities={activities}
-        onReserve={handleClick}
+        onClick={handleClick}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />

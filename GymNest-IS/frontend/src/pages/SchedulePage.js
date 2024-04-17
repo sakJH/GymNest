@@ -36,11 +36,25 @@ const SchedulePage = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:3003/api/schedules/all`, {
-        params: { start: startDate, end: endDate },
-        headers: { 'Authorization': `Bearer ${token}` },
+      const [schedulesResponse, activitiesResponse] = await Promise.all([
+        axios.get(`http://localhost:3003/api/schedules/all`, {
+          params: { start: startDate, end: endDate },
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+        axios.get(`http://localhost:3003/api/activities/all`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        })
+      ]);
+
+      const fetchedSchedules = schedulesResponse.data;
+      const fetchedActivities = activitiesResponse.data;
+
+      const combinedData = fetchedSchedules.map(schedule => {
+        const activityDetails = fetchedActivities.find(activity => activity.id === schedule.activityId);
+        return { ...schedule, ...activityDetails };
       });
-      setSchedules(response.data);
+
+      setSchedules(combinedData);
       setError('');
     } catch (error) {
       console.error("Error fetching schedules:", error);
@@ -48,6 +62,11 @@ const SchedulePage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const onSelect = (scheduleId) => {
+    const selected = schedules.find(schedule => schedule.id === scheduleId);
+    setSelectedSchedule(selected);
   };
 
   return (
@@ -61,7 +80,7 @@ const SchedulePage = () => {
         ) : (
             <ScheduleList
                 schedules={schedules}
-                onSelect={setSelectedSchedule}
+                onSelect={onSelect}
             />
         )}
         {selectedSchedule && (

@@ -1,15 +1,16 @@
 # GymNest
 ## TODO - docasne
 Dodělat Navbar
-- [ ] Změna na základě přihlášeného uživatele
+- [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
 
 Backend
 - [ ] Funkčnost přihlášení, ověřit registraci
 - [ ] registrace přes Google
 
 Dodělat SchedulePage
-- [ ] Ověřit fungování rozvrhu
-- [x] přepínač na týden, 2 týdny a měsíc
+- [x] Ověřit fungování rozvrhu
+- [ ] přepínač na týden, 2 týdny a měsíc - nefunguje
+- [ ] udelat filtr dle data na backendu?
 
 MembershipPage
 - [ ] základ pro fungování, spojení s Backendem
@@ -23,7 +24,7 @@ MembershipPage
 - [ ] Možnost změny členství
 - [ ] Možnost zrušení členství
 
-HomePage - untested
+HomePage - TESTING po oprave Auth
 - [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy
 - [x] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
 - [x] notifikace
