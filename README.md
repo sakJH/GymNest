@@ -13,14 +13,13 @@ Dokumentace
   - [ ] Návrh infrastruktury
 - [ ] uml - zaklad - classy, use-case
 
-- [ ] unit testy - bonus
-
 Dodělat Navbar
 - [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
 
 Backend
 - [ ] Funkčnost přihlášení, ověřit registraci
 - [ ] registrace přes Google
+- [ ] unit testy - bonus
 
 Dodělat SchedulePage
 - [x] Ověřit fungování rozvrhu
