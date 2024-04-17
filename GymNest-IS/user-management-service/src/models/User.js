@@ -15,12 +15,14 @@ class User extends Model {
 
     static async createUser({ username, passwordHash, email, roleId }) {
         try {
-            return await this.create({
+            const user = await this.create({
                 username,
                 passwordHash,
                 email,
                 roleId
             });
+            console.log('Uživatel ' + username + ' byl úspěšně vytvořen.');
+            return user;
         } catch (error) {
             console.error('Chyba při vytváření uživatele:', error);
             throw error;
