@@ -42,6 +42,9 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD_US}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_US}
       MYSQL_TCP_PORT: 3307
+      MYSQL_CHARACTER_SET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: 'Europe/Prague'
     restart: always
     volumes:
       - db_data_user:/var/lib/mysql

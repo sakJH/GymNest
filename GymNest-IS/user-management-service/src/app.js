@@ -42,10 +42,10 @@ const options = {
 const swaggerSpec = swaggerJsdoc(options);
 
 app.use(express.json());
+app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
-app.use('/api', authRoutes);
 app.use(passport.initialize());
 
 

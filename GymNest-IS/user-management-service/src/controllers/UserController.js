@@ -3,27 +3,6 @@ const express = require('express');
 
 class UserController {
 
-    // Vytvoření nového uživatele
-    static async createUser(req, res) {
-        try {
-            const user = await UserService.createUser(req.body);
-            res.status(201).json(user);
-        } catch (error) {
-            res.status(500).send(error.message);
-        }
-    }
-
-    // Přihlašování uživatele
-    static async loginUser(req, res) {
-        try {
-            const { username, password } = req.body;
-            const { user, token } = await UserService.loginUser(username, password);
-            res.json({ user, token });  // Vrací uživatele a token
-        } catch (error) {
-            res.status(400).send(error.message);
-        }
-    }
-
     // Hledání uživatele podle uživatelského jména
     static async findUserByUsername(req, res) {
         try {
@@ -87,15 +66,7 @@ class UserController {
         }
     }
 
-    // Odhlášení uživatele
-    static async logoutUser(req, res) {
-        try {
-            const user = await UserService.logoutUser(req.params.username);
-            res.json(user);
-        } catch (error) {
-            res.status(500).send(error.message);
-        }
-    }
+
 }
 
 module.exports = UserController;

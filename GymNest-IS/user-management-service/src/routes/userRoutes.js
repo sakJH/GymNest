@@ -3,45 +3,6 @@ const UserController = require('../controllers/UserController');
 
 const router = express.Router();
 
-/**
- * Vytvoření uživatele
- * Odstanění uživatele podle uživatelského jména
- * Aktualizace uživatele podle uživatelského jména
- * Přihlášení uživatele
- * Odhlášení uživatele
- * Získání všech uživatelů
- * Získání uživatele podle uživatelského jména
- * Získání uživatele podle emailu
- * Aktualizace preferencí podle ID
- * Reset preferencí uživatele na výchozí hodnoty
- */
-
-// Vytvoření uživatele
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Vytvoření nového uživatele
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             membershipType: object
- *             properties:
- *               username:
- *                 membershipType: string
- *               password:
- *                 membershipType: string
- *     responses:
- *       200:
- *         description: Uživatel byl úspěšně vytvořen
- *       500:
- *         description: Došlo k chybě na serveru
- */
-router.post('/users/create', UserController.createUser);
-
 // Odstranění uživatele podle uživatelského jména
 /**
  * @swagger
@@ -92,32 +53,6 @@ router.delete('/users/:username', UserController.deleteUserByUsername);
  */
 router.put('/users/:username', UserController.updateUserByUsername);
 
-// Přihlášení uživatele
-/**
- * @swagger
- * /users/login:
- *   post:
- *     summary: Přihlášení uživatele
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             membershipType: object
- *             properties:
- *               username:
- *                 membershipType: string
- *               password:
- *                 membershipType: string
- *     responses:
- *       200:
- *         description: Uživatel byl úspěšně přihlášen
- *       401:
- *         description: Neplatné přihlašovací údaje
- */
-router.post('/users/login', UserController.loginUser);
-
 // Získání všech uživatelů uživatele
 /**
  * @swagger
@@ -136,71 +71,6 @@ router.post('/users/login', UserController.loginUser);
  *                 $ref: '#/components/schemas/User'
  */
 router.get('/users/all', UserController.getAllUsers);
-
-// Získání uživatele podle uživatelského jména - TODO: ano/ne?
-/**
- * @swagger
- * /users/{username}:
- *   get:
- *     summary: Získání uživatele podle uživatelského jména
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: username
- *         schema:
- *           membershipType: string
- *         required: true
- *         description: Uživatelské jméno uživatele pro získání
- *     responses:
- *       200:
- *         description: Uživatel byl úspěšně získán
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       404:
- *         description: Uživatel nebyl nalezen
- */
-//router.get('/users/:username', UserController.getUserByUsername);
-
-// Získání uživatele podle emailu
-/**
- * @swagger
- * /users/email/{email}:
- *   get:
- *     summary: Získání uživatele podle emailu
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: email
- *         schema:
- *           membershipType: string
- *         required: true
- *         description: Email uživatele pro získání
- *     responses:
- *       200:
- *         description: Uživatel byl úspěšně získán
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       404:
- *         description: Uživatel nebyl nalezen
- */
-//router.get('/users/email/:email', UserController.getUserByEmail);
-
-// Odhlášení uživatele
-/**
- * @swagger
- * /users/logout:
- *   get:
- *     summary: Odhlášení uživatele
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: Uživatel byl úspěšně odhlášen
- */
-router.get('/users/logout', UserController.logoutUser);
 
 // Aktualizace preferencí podle ID
 /**

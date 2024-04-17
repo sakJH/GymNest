@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `users` (
      `username` VARCHAR(255) NOT NULL UNIQUE,
      `passwordHash` VARCHAR(255) NOT NULL,
      `email` VARCHAR(255) NOT NULL UNIQUE,
-     `roleId` INT NOT NULL,
+     `roleId` INT NOT NULL DEFAULT 1,
      `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
      `colorScheme` VARCHAR(255) DEFAULT 'light',
      `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,

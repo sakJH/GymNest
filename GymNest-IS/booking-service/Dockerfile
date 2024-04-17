@@ -2,7 +2,7 @@
 FROM node:21
 
 # Instalace dos2unix pro konverzi konce řádků
-RUN apt-get update && apt-get install -y dos2unix
+RUN apt-get update && apt-get install -y dos2unix tzdata
 
 # Vytvoření adresáře aplikace v kontejneru
 WORKDIR /usr/src/booking-service
