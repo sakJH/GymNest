@@ -21,16 +21,16 @@ services:
       PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
       PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
     restart: always
-    command: ["./wait-for-it.sh", "db-user-membership-service:3307", "--", "npm", "start"]
+    command: ["./wait-for-it.sh", "db-user-membership-service:3308", "--", "npm", "start"]
     networks:
       - membership-service-network
 
   db-membership-service:
     image: mysql:8.3.0
     ports:
-      - "3307:3307"
+      - "3308:3308"
     expose:
-      - "3307"
+      - "3308"
     env_file:
       - .env
     environment:
@@ -38,11 +38,12 @@ services:
       MYSQL_USER: ${DB_USER_MS}
       MYSQL_PASSWORD: ${DB_PASSWORD_MS}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_MS}
+      MYSQL_TCP_PORT: 3308
     restart: always
     volumes:
       - db_data_membership:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d/
-    command: --default-authentication-plugin=mysql_native_password
+    #command: --authentication_policy=mysql_native_password
     networks:
       - membership-service-network
 

@@ -1,17 +1,24 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Načtení proměnných z .env souboru
 
-const sequelize = new Sequelize.Sequelize(
-    process.env.DB_NAME, // GymNestUserDB
-    process.env.DB_USER, // adminGymNestUserService
-    process.env.DB_PASSWORD, // GymRootNestPaSSword456987
-    {
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        dialect: 'mysql',
-        timezone: '+01:00',
-        logging: true,
-        logQueryParameters: true
-    }
+console.log("Database:", process.env.DB_NAME_US);
+console.log("User:", process.env.DB_USER_US);
+console.log("Password:", process.env.DB_PASSWORD_US);
+console.log("Host:", process.env.DB_HOST_US);
+console.log("Port:", process.env.DB_PORT_US); // Výpis portu pro kontrolu
 
-); module.exports = sequelize;
+const sequelize = new Sequelize(
+    process.env.DB_NAME_US, // Jméno databáze
+    process.env.DB_USER_US, // Uživatelské jméno
+    process.env.DB_PASSWORD_US, // Heslo
+    {
+            host: process.env.DB_HOST_US, // Hostitel
+            port: process.env.DB_PORT_US, // Port, na kterém běží databáze
+            dialect: 'mysql', // Dialekt databáze
+            timezone: '+01:00', // Nastavení časové zóny
+            logging: console.log, // Povolit logování
+            logQueryParameters: true, // Logování parametrů dotazu
+    }
+);
+
+module.exports = sequelize;
