@@ -49,7 +49,7 @@ services:
     volumes:
       - db_data_user:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
-    #command: --authentication_policy=mysql_native_password
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci","--default-time-zone=+01:00"]
     networks:
       - user-service-network
 

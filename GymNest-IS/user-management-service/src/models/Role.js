@@ -67,7 +67,7 @@ Role.init({
         unique: true,
         validate: {
             notEmpty: true,
-            isIn: [['člen', 'trenér', 'admin']], // Předdefinovaný seznam rolí
+            isIn: [['member', 'coach', 'admin']],
         },
     },
 }, {

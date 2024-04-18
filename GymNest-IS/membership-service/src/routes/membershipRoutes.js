@@ -332,24 +332,24 @@ router.get('/memberships/status/:status', MembershipController.findByStatus);
 // Nalezení všech členství, které brzy vyprší
 /**
  * @swagger
- * /memberships/expiring
+ * /memberships/expiring:
  *   get:
  *     summary: Nalezení všech členství, které brzy vyprší
  *     tags: [Memberships]
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: days
  *         required: true
- *         description: Počet dní
+ *         description: Počet dní do expirace členství
  *         schema:
- *           membershipType: integer
+ *           type: integer
  *     responses:
  *       200:
  *         description: Úspěšné nalezení všech členství, které brzy vyprší
  *         content:
  *           application/json:
  *             schema:
- *               membershipType: array
+ *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Membership'
  *       500:

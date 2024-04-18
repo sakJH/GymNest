@@ -88,46 +88,40 @@ class Payment extends Model {
 }
 
 Payment.init({
-    // ID platby
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    // Částka platby
     amount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    // Datum platby
     paymentDate: {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
-    // Status platby (např. 'pending', 'completed', 'failed')
     status: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    // Odkaz na předplatné nebo členství
-    subscriptionId: {
+    membershipId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'subscriptions', // Název tabulky předplatných
+            model: 'memberships',
             key: 'id'
         }
     },
-    // Popis platby nebo poznámky (volitelné)
     description: {
         type: DataTypes.TEXT,
         allowNull: true
     }
-    // Zde můžete přidat další atributy dle potřeby
 }, {
     sequelize,
     modelName: 'Payment',
-    timestamps: true // Povolit automatické timestampy createdAt a updatedAt
+    tableName: 'payments', // Přidejte tableName pro jasnou identifikaci tabulky v DB
+    timestamps: true
 });
 
 module.exports = Payment;

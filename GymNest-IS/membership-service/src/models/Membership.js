@@ -183,6 +183,7 @@ Membership.init({
 }, {
     sequelize,
     modelName: 'Membership',
+    tableName: 'memberships',
     timestamps: true
 });
 
