@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `payments` ADD FOREIGN KEY (`membershipId`) REFERENCES `memberships` (`id`) ON DELETE CASCADE
+ALTER TABLE `payments` ADD FOREIGN KEY (`membershipId`) REFERENCES `memberships` (`id`) ON DELETE CASCADE;
 
 INSERT INTO `memberships` (`userId`, membershipType, `membershipPrice`, `startDate`, `endDate`, `status`)
 VALUES

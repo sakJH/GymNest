@@ -38,3 +38,4 @@ ALTER TABLE `users` ADD FOREIGN KEY (`profileId`) REFERENCES `profiles`(`id`);
 
 INSERT INTO roles (RoleName) VALUES ('member'), ('coach'), ('admin');
 INSERT INTO users (Username, PasswordHash, Email, RoleId, ProfileId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 1, '','CZK', 'light');
+INSERT INTO profiles (FirstName, LastName, DateOfBirth, UserId) VALUES ('admin', 'admin', '1990-01-01', 1);

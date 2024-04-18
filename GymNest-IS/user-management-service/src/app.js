@@ -60,8 +60,8 @@ app.listen(PORT, () => {
 sequelize.sync({ force: false }).then(() => {
     // Nastavení asociací
     const { User, Profile } = sequelize.models;
-    User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
-    Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+    User.hasOne(Profile, { foreignKey: 'userId', as: 'userProfile' });
+    Profile.belongsTo(User, { foreignKey: 'userId', as: 'profileUser' });
 
     console.log('Databáze a tabulky byly synchronizovány');
 
