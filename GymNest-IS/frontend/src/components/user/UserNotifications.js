@@ -18,7 +18,7 @@ const UserNotifications = () => {
 
         const fetchNotifications = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/notifications/${user.id}`, {
+                const response = await axios.get(`http://localhost:3003/api/notifications/${user.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

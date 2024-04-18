@@ -7,7 +7,6 @@ import axios from 'axios';
 
 const AuthForm = ({ open, onClose }) => {
 	const [isLogin, setIsLogin] = useState(true);
-	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
@@ -29,7 +28,7 @@ const AuthForm = ({ open, onClose }) => {
 
 	const handleSubmit = async () => {
 		const endpoint = isLogin ? 'login' : 'register';
-		const userData = isLogin ? { email, password } : { email, password, username, firstName, lastName };
+		const userData = isLogin ? { username, password } : { username, password, firstName, lastName };
 
 		try {
 			const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, userData);
@@ -58,11 +57,10 @@ const AuthForm = ({ open, onClose }) => {
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
-				{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-					<TextField autoFocus margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
+					{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+					<TextField autoFocus margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
 					{!isLogin && (
 						<>
-							<TextField margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
 							<TextField margin="dense" id="firstname" label="Jméno" type="text" fullWidth variant="standard" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 							<TextField margin="dense" id="lastname" label="Příjmení" type="text" fullWidth variant="standard" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 						</>

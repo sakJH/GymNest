@@ -2,6 +2,9 @@ const express = require('express');
 const AuthController = require('../controllers/AuthController');
 const router = express.Router();
 const passport = require('passport');
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.json());
 
 // Redirect na Google pro autentizaci
 router.get('/auth/google',

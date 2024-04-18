@@ -18,7 +18,7 @@ const UserInfo = () => {
 
     const fetchMembershipInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:3002/api/memberships/${user.id}`); // TODO nic nedostavam a nevyznam se v db membership servisy
+            const response = await axios.get(`http://localhost:3002/api/memberships/${user.id}`);
             setMembershipInfo(response.data);
             setLoading(false);
         } catch (error) {

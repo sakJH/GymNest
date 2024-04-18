@@ -29,11 +29,14 @@ export const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        const response = await axios.get(`${apiAddress}/auth/google`, {
+        console.log('Token log: ', token)
+        const response = await axios.post(`${apiAddress}/auth/validate-token`, {}, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
+        console.log('Token verification response:', response.data);
+        // Úspěšné ověření tokenu, aktualizace stavu uživatele
         setUser(response.data.user);
         localStorage.setItem('user', JSON.stringify(response.data.user)); // Ukládání uživatele do localStorage
         setErrorMessage('');  // Resetování chybové zprávy pokud je verifikace úspěšná
@@ -43,12 +46,12 @@ export const AuthProvider = ({ children }) => {
         logout(); // Odhlášení pokud verifikace selže
       }
     };
-
-    verifyToken();
+    verifyToken().then(r => console.log('Token verification result:', r)).catch(e => console.error('Token verification error:', e));
   }, [token]);
 
   // Funkce pro přihlášení uživatele
   const login = (newToken, newUser) => {
+    console.log(newToken, newUser);
     localStorage.setItem('jwtToken', newToken);
     localStorage.setItem('user', JSON.stringify(newUser));
     setToken(newToken);
