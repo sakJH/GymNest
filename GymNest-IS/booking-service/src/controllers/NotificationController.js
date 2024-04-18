@@ -47,7 +47,7 @@ class NotificationController {
 
     async findAllNotifications(req, res) {
         try {
-            const { userId } = req.query;
+            const { userId } = req.params;
             const notifications = await NotificationService.findAllNotifications(userId);
             res.json(notifications);
         } catch (error) {

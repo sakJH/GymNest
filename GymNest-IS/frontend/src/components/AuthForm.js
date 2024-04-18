@@ -8,6 +8,7 @@ import axios from 'axios';
 const AuthForm = ({ open, onClose }) => {
 	const [isLogin, setIsLogin] = useState(true);
 	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
@@ -27,27 +28,21 @@ const AuthForm = ({ open, onClose }) => {
 	});
 
 	const handleSubmit = async () => {
-		const endpoint = isLogin ? 'login' : 'register';
-		const userData = isLogin ? { username, password } : { username, password, firstName, lastName };
+    const endpoint = isLogin ? 'login' : 'register';
+    const userData = isLogin ? { username, password } : { username, password, email, firstName, lastName };
 
-		try {
-			const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, userData);
-			login(response.data.token, response.data.user);
-			onClose();
-		} catch (error) {
-			setErrorMessage(`Nepodařilo se ${isLogin ? "přihlásit" : "zaregistrovat"}. Zkontrolujte své údaje.`);
-		}
+    try {
+        const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, userData);
+        if (response.data && response.data.token) {
+            login(response.data.token, response.data.user);
+            onClose();
+        } else {
+            throw new Error('No token received');
+        }
+    } catch (error) {
+        setErrorMessage(`Nepodařilo se ${isLogin ? "přihlásit" : "zaregistrovat"}. Zkontrolujte své údaje.`);
+    }
 	};
-
-	if (user) {
-		return (
-			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-				<Chip label={`${user.username} (${user.role})`} color="primary" />
-				<Chip label={`Kredity: ${user.credits}`} color="secondary" />
-				<Button color="inherit" onClick={logout}>Odhlásit</Button>
-			</Box>
-		);
-	}
 
 	return (
 		<>
@@ -61,6 +56,7 @@ const AuthForm = ({ open, onClose }) => {
 					<TextField autoFocus margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
 					{!isLogin && (
 						<>
+							<TextField margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
 							<TextField margin="dense" id="firstname" label="Jméno" type="text" fullWidth variant="standard" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 							<TextField margin="dense" id="lastname" label="Příjmení" type="text" fullWidth variant="standard" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 						</>

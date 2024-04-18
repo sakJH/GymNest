@@ -75,7 +75,7 @@ const MembershipPage = () => {
                 {availableMemberships.map((membership, index) => (
                     <TableRow key={index}>
                       <TableCell component="th" scope="row">
-                        {membership.name}
+                        {membership.membershipType}
                       </TableCell>
                       <TableCell align="right">{membership.price} Kč/měsíc</TableCell>
                     </TableRow>

@@ -60,7 +60,11 @@ class AuthController {
 
     static async validateToken(req, res) {
         try {
-            const { token } = req.body;
+            const authHeader = req.headers.authorization;
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                throw new Error('No token provided');
+            }
+            const token = authHeader.split(' ')[1];
             const decoded = await AuthService.validateToken(token);
             if (decoded) {
                 res.status(200).json({

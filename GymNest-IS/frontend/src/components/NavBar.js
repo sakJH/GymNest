@@ -26,7 +26,7 @@ const Navbar = () => {
             </Typography>
             {user && (
                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 4 }}>
-                  <Typography color="inherit">Vítej uživateli, {user.name}</Typography>
+                  <Typography color="inherit">Vítej uživateli, {user.username}</Typography>
                   <Chip label={`Kredity: ${user.credits}`} color="secondary" sx={{ ml: 2 }} />
                 </Box>
             )}

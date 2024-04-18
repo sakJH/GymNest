@@ -18,11 +18,7 @@ const UserNotifications = () => {
 
         const fetchNotifications = async () => {
             try {
-                const response = await axios.get(`http://localhost:3003/api/notifications/${user.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get(`http://localhost:3003/api/notifications/all/${encodeURIComponent(user.id)}`);
                 setNotifications(response.data);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
