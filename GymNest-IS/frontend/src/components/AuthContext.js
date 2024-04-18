@@ -29,24 +29,28 @@ export const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       if (!token) return;
       try {
-        console.log('Token log: ', token)
-        const response = await axios.post(`${apiAddress}/auth/validate-token`, {}, {
+        // Ověření tokenu na serveru - Token existuje
+        const response = await axios.post(`${apiAddress}/auth/validate-token`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log('Token verification response:', response.data);
-        // Úspěšné ověření tokenu, aktualizace stavu uživatele
-        setUser(response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user)); // Ukládání uživatele do localStorage
-        setErrorMessage('');  // Resetování chybové zprávy pokud je verifikace úspěšná
+
+        if (response.status === 200 && response.data) {
+          console.log('Token verification response:', response.data);
+          setUser(response.data.user); // Předpokládáme, že server vrací objekt uživatele
+          localStorage.setItem('user', JSON.stringify(response.data.user)); // Ukládání uživatele do localStorage
+          setErrorMessage(''); // Resetování chybové zprávy pokud je verifikace úspěšná
+        } else {
+          throw new Error('věření tokenu selhalo: Neplatná odpověď ze serveru');
+        }
       } catch (error) {
-        console.error("Token verification failed:", error);
+        console.error('Ověření tokenu selhalo:', error);
         setErrorMessage("Verifikace tokenu selhala"); // Nastavení chybové zprávy
         logout(); // Odhlášení pokud verifikace selže
       }
     };
-    verifyToken().then(r => console.log('Token verification result:', r)).catch(e => console.error('Token verification error:', e));
+    verifyToken();
   }, [token]);
 
   // Funkce pro přihlášení uživatele

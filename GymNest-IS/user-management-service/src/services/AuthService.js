@@ -53,6 +53,7 @@ class AuthService {
     }
 
     static async validateToken(token) {
+        console.log('Služba - Token:', token)
         try {
             return await Auth.verifyToken(token);
         } catch (error) {

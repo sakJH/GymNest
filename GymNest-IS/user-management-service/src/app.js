@@ -19,10 +19,6 @@ const authRoutes = require('./routes/authRoutes');
 const passport = require('passport');
 require('./auth/passportConfig')(passport);
 
-
-User.hasOne(Profile, { foreignKey: 'userId', as: 'profile' });
-Profile.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-
 const app = express();
 app.use(morgan('dev'));
 app.use(cors());
@@ -42,6 +38,12 @@ app.use('/api', userRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
 app.use(passport.initialize());
+
+// Middleware pro logování autorizačního headeru
+app.use((req, res, next) => {
+    console.log('Authorization Header:', req.headers.authorization);
+    next();
+});
 
 
 // Zpřístupnění Swagger UI na /docs
