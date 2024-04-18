@@ -12,11 +12,11 @@ class Auth extends Model {
     }
 
     static generateToken(user) {
-        return sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
     }
 
     static generateRefreshToken(user) {
-        return sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '24h' });
+        return sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '2h' });
     }
 
     static async verifyToken(token) {

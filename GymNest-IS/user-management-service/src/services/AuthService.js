@@ -11,7 +11,7 @@ class AuthService {
             const refreshToken = Auth.generateRefreshToken(newUser);
             return { newUser, token, refreshToken };
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error('Error registering user in service:', error);
             throw new Error('Registration failed');
         }
     }
