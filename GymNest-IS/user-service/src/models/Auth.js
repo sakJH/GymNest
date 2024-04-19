@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs'); // Import bcrypt
 const { sign, verify } = require("jsonwebtoken");
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class Auth extends Model {
     static async hashPassword(password) {
@@ -26,6 +28,17 @@ class Auth extends Model {
             console.log('Error verifying token:', error)
             return null; // Token není platný
         }
+    }
+
+    static async verifyGoogleToken(idToken) {
+        const ticket = await client.verifyIdToken({
+            idToken: idToken,
+            audience: process.env.GOOGLE_CLIENT_ID,  // Uveďte své CLIENT_ID z Google Developer Console
+        });
+        const payload = ticket.getPayload();
+        const userid = payload['sub'];
+        // Zde můžete prověřit, zda uživatel existuje ve vaší databázi, případně vytvořit nový záznam
+        return payload;
     }
 
     static async verifyRefreshToken(refreshToken) {

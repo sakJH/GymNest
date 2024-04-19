@@ -25,6 +25,10 @@ const router = express.Router();
  */
 router.delete('/users/:username', UserController.deleteUserByUsername);
 
+router.get('users/find-username/:username', UserController.findUserByUsername);
+
+router.get('users/find-email/:email', UserController.findUserByEmail);
+
 // Aktualizace uživatele podle uživatelského jména
 /**
  * @swagger

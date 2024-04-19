@@ -13,6 +13,16 @@ class User extends Model {
         }
     }
 
+    static async findUserByEmail(email) {
+        try {
+            return await this.findOne({ where: { email } });
+        }
+        catch (error) {
+            console.error('Error finding user by email:', error);
+            throw error;
+        }
+    }
+
     static async deleteUserByUsername(username) {
         try {
             const result = await this.destroy({
@@ -45,22 +55,6 @@ class User extends Model {
             return user;
         } catch (error) {
             console.error('Chyba při aktualizaci uživatele:', error);
-            throw error;
-        }
-    }
-
-    static async getUserByUsername(username) {
-        try {
-            const user = await this.findOne({
-                where: { username },
-                attributes: { exclude: ['passwordHash'] } // Vyjma hesla
-            });
-            if (!user) {
-                throw new Error(`Uživatel s uživatelským jménem "${username}" nebyl nalezen.`);
-            }
-            return user;
-        } catch (error) {
-            console.error('Chyba při získávání uživatele:', error);
             throw error;
         }
     }

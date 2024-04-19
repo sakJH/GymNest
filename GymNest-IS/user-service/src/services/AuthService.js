@@ -62,6 +62,15 @@ class AuthService {
         }
     }
 
+    static async validateGoogleToken(idToken) {
+        try {
+            return await Auth.verifyGoogleToken(idToken);
+        } catch (error) {
+            console.error('Služba - Error validating Google token:', error);
+            throw new Error('Služba - Invalid Google token');
+        }
+    }
+
     static async logout(username){
         try {
             return await Auth.logout(username);

@@ -11,6 +11,15 @@ class UserService {
         }
     }
 
+    static async findUserByEmail(email) {
+        try {
+            return await User.findUserByEmail(email);
+        } catch (error) {
+            console.error('Služba - Chyba při hledání uživatele podle emailu:', error);
+            throw error;
+        }
+    }
+
     static async deleteUserByUsername(username) {
         try {
             return await User.deleteUserByUsername(username);

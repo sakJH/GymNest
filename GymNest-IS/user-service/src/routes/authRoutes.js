@@ -201,6 +201,10 @@ router.post('/auth/refresh-token', AuthController.refreshToken);
  */
 router.post('/auth/validate-token', AuthController.validateToken);
 
+// Route pro validaci Google ID tokenu
+
+router.post('/auth/validate-google-token', AuthController.validateGoogleToken);
+
 // Odhlášení uživatele
 /**
  * @swagger

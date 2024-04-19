@@ -16,6 +16,19 @@ class UserController {
         }
     }
 
+    // Hledání uživatele podle emailu
+    static async findUserByEmail(req, res) {
+        try {
+            const user = await UserService.findUserByEmail(req.params.email);
+            if (!user) {
+                return res.status(404).send('Uživatel nebyl nalezen.');
+            }
+            res.json(user);
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
     // Odstranění uživatele podle uživatelského jména
     static async deleteUserByUsername(req, res) {
         try {
