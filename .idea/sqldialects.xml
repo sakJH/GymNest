@@ -3,6 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/GymNest-IS/booking-service/database/migrations/init_gymnest_booking_db.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/GymNest-IS/membership-service/database/migrations/init_gymnest_membeship_db.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/GymNest-IS/user-management-service/database/migrations/init_gymnest_user_db.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/GymNest-IS/user-service/database/migrations/init_gymnest_user_db.sql" dialect="MySQL" />
   </component>
 </project>

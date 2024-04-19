@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+  app-user-service:
+    build: .
+    ports:
+      - "3001:3001"
+    expose:
+      - "3001"
+    depends_on:
+      - db-user-service
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/user-service
+      - /usr/src/user-service/node_modules
+    environment:
+      NODE_ENV: development
+      DB_HOST: ${DB_HOST_US}
+      DB_USER: ${DB_USER_US}
+      DB_PASSWORD: ${DB_PASSWORD_US}
+      DB_NAME: ${DB_NAME_US}
+      JWT_SECRET: ${JWT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PORT: ${PORT}
+    restart: always
+    command: ["./wait-for-it.sh", "db-user-service:3307", "--", "npm", "start"]
+    networks:
+      - user-service-network
+
+  db-user-service:
+    image: mysql:8.3.0
+    ports:
+      - "3307:3307"
+    expose:
+      - "3307"
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME_US}
+      MYSQL_USER: ${DB_USER_US}
+      MYSQL_PASSWORD: ${DB_PASSWORD_US}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_US}
+      MYSQL_TCP_PORT: 3307
+      MYSQL_CHARACTER_SET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: 'Europe/Prague'
+    restart: always
+    volumes:
+      - db_data_user:/var/lib/mysql
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci","--default-time-zone=+01:00"]
+    networks:
+      - user-service-network
+
+networks:
+  user-service-network:
+    driver: bridge
+
+volumes:
+  db_data_user:

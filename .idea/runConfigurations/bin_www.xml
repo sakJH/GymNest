@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="bin\www" type="NodeJSConfigurationType" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$/GymNest-IS/user-management-service/user-management-service">
+  <configuration default="false" name="bin\www" type="NodeJSConfigurationType" path-to-js-file="$PROJECT_DIR$/GymNest-IS/user-service/user-management-service/bin/www" working-dir="$PROJECT_DIR$/GymNest-IS/user-service/user-management-service">
     <envs>
       <env name="DEBUG" value="user-management-service:*" />
     </envs>

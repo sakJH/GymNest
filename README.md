@@ -14,7 +14,7 @@ Dokumentace
 - [ ] uml - zaklad - classy, use-case
 
 Frontent
-- [ ] Dát do meta dat, že se jedná o českou stránku
+- [x] Dát do meta dat, že se jedná o českou stránku
 
 Dodělat Navbar
 - [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
