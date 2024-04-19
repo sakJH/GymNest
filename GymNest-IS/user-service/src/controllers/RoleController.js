@@ -1,60 +1,59 @@
+const express = require('express');
 const RoleService = require('../services/RoleService');
 
 class RoleController {
-    // Handler pro inicializaci předdefinovaných rolí
+    // Inicializace rolí
     static async initializeRoles(req, res) {
         try {
             await RoleService.initializeRoles();
-            res.status(200).json({ message: 'Role byly úspěšně inicializovány.' });
+            res.status(201).json({ message: 'Role byly úspěšně inicializovány' });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
 
-    // Handler pro získání všech rolí
+    // Získání všech rolí
     static async getAllRoles(req, res) {
         try {
             const roles = await RoleService.getAllRoles();
-            res.status(200).json(roles);
+            res.json(roles);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
 
-    // Handler pro získání uživatelů podle role
+    // Hledání uživatelů podle role
     static async findUsersByRole(req, res) {
+        const { roleName } = req.params;
         try {
-            const { roleName } = req.params;
             const users = await RoleService.findUsersByRole(roleName);
-            res.status(200).json(users);
+            res.json(users);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
 
-    // Handler pro nastavení defaultní role "člen" pro uživatele
+    // Nastavení defaultní role uživateli
     static async setDefaultRole(req, res) {
+        const { userId } = req.params;
         try {
-            const { userId } = req.params;
-            await RoleService.setDefaultRole(userId);
-            res.status(200).json({ message: `Uživateli ${userId} byla nastavena defaultní role člen.` });
+            const user = await RoleService.setDefaultRole(userId);
+            res.json({ message: `Default role was set for user ${userId}`, user });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
 
-    // Handler pro odstranění role uživateli a přidělení defaultní role "člen"
+    // Odstranění role uživateli
     static async removeRoleToUser(req, res) {
+        const { userId } = req.params;
         try {
-            const { userId } = req.params;
-            await RoleService.removeRoleToUser(userId);
-            res.status(200).json({ message: `Uživateli ${userId} byla odebrána role a přidělena defaultní role člen.` });
+            const user = await RoleService.removeRoleToUser(userId);
+            res.json({ message: `Role was removed from user ${userId}`, user });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
-
-    // Přidejte další handler metody podle potřeby...
 }
 
 module.exports = RoleController;

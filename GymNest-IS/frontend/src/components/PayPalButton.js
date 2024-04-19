@@ -5,8 +5,8 @@ import { Button, Typography, Box } from '@mui/material';
 
 const initialOptions = {
     "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
-    currency: "USD",
-    intent: "capture"
+    currency: "USD", //TODO - změnit na preferedCurrncy z User DB
+    intent: "capture",
 };
 
 const subscriptionOptions = [

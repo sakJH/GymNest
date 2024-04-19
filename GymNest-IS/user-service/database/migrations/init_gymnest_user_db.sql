@@ -3,7 +3,7 @@ USE GymNestUserDB;
 
 CREATE TABLE IF NOT EXISTS `roles` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `roleName` VARCHAR(255) NOT NULL UNIQUE CHECK (`roleName` IN ('member', 'coach', 'admin'))
+    `roleName` VARCHAR(255) NOT NULL UNIQUE CHECK (`roleName` IN ('user', 'member', 'coach', 'admin'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -37,6 +37,6 @@ ALTER TABLE `users` ADD FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`);
 ALTER TABLE `profiles` ADD FOREIGN KEY (`userId`) REFERENCES `users`(`id`);
 ALTER TABLE `users` ADD FOREIGN KEY (`profileId`) REFERENCES `profiles`(`id`);
 
-INSERT INTO roles (RoleName) VALUES ('member'), ('coach'), ('admin');
+INSERT INTO roles (RoleName) VALUES ('user'), ('member'), ('coach'), ('admin');
 INSERT INTO users (Username, PasswordHash, Email, RoleId, ProfileId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 1, '','CZK', 'light');
 INSERT INTO profiles (FirstName, LastName, DateOfBirth, UserId) VALUES ('Jan', 'Sakač', '1999-09-01', 1);

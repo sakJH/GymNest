@@ -5,8 +5,9 @@ class Role extends Model {
     static async initializeRoles() {
         try {
             await this.bulkCreate([
-                { roleName: 'člen' },
-                { roleName: 'trenér' },
+                { roleName: 'user' },
+                { roleName: 'member' },
+                { roleName: 'coach' },
                 { roleName: 'admin' },
             ]);
         } catch (error) {
@@ -67,16 +68,13 @@ Role.init({
         unique: true,
         validate: {
             notEmpty: true,
-            isIn: [['member', 'coach', 'admin']],
+            isIn: [['user', 'member', 'coach', 'admin']],
         },
     },
 }, {
     sequelize,
     modelName: 'Role',
     tableName: 'roles',
-    timestamps: false, // V tomto případě nemusíme sledovat čas vytvoření a aktualizace
+    timestamps: false,
 });
-
 module.exports = Role;
-
-// TODO - asi není hotové

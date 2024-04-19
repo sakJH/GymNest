@@ -13,38 +13,8 @@ const ActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
-  const { role } = useContext(AuthContext);
-  const [activityToEdit, setActivityToEdit] = useState(null);
-  const apiAddress =  'http://localhost:3003/api';
-
-const handleEditOpen = (activityId) => {
-  const activity = activities.find(a => a.id === activityId);
-  setActivityToEdit(activity);  // Nastavíme aktivitu pro úpravu
-  setIsCreateFormOpen(true);
-};
-
-const handleUpdate = async (updatedActivity) => {
-  const activityId = updatedActivity.id;  // Předpokládáme, že aktualizovaná aktivita obsahuje 'id'
-  const updateDetails = { ...updatedActivity };
-  delete updateDetails.id; // Odstranění 'id' z detailů aktualizace, pokud to backend nepotřebuje
-
-  try {
-    const response = await axios.put(`${apiAddress}/activities/update`, {
-      activityId,  // Odesílání 'activityId' a 'updateDetails' podle požadavků backendu
-      updateDetails
-    });
-    fetchActivities(); // Znovu načíst aktivity po úpravě
-    setIsCreateFormOpen(false);
-    setActivityToEdit(null);  // Resetovat editační aktivitu
-  } catch (error) {
-    console.error("Error updating activity:", error);
-  }
-};
-
-  // Úprava existující metody handleEdit pro volání handleEditOpen
-  const handleEdit = (activityId) => {
-    handleEditOpen(activityId);
-  };
+  const { user } = useContext(AuthContext);
+  const apiAddress = 'http://localhost:3003/api';
 
   useEffect(() => {
     fetchActivities();
@@ -59,7 +29,7 @@ const handleUpdate = async (updatedActivity) => {
     }
   };
 
-  const handleClick = (activityId) => {
+  const handleClick = activityId => {
     const activity = activities.find(a => a.id === activityId);
     setSelectedActivity(activity);
     setIsDetailOpen(true);
@@ -69,85 +39,76 @@ const handleUpdate = async (updatedActivity) => {
     setIsDetailOpen(false);
   };
 
-  const handleFilter = async (filter) => {
-    try {
-      const { type, date } = filter;  // Předpokládáme, že filter obsahuje tyto hodnoty
-      let url = `${apiAddress}/activities/searchTypeAndDate`;  // Příklad správné URL
-      const response = await axios.get(url, {
-        params: { type, date }
-      });
-      setActivities(response.data);  // Nastavíme stav s nově načtenými aktivitami
-    } catch (error) {
-      console.error("Error fetching filtered activities:", error);
-    }
+  const handleCreateFormOpen = () => {
+    setIsCreateFormOpen(true);
   };
-
-  const handleCreateFormOpen = () => setIsCreateFormOpen(true);
 
   const handleCreateFormClose = () => {
-    setIsCreateFormOpen(false); // Zavře formulář
-    setActivityToEdit(null);    // Resetuje stav aktivity pro úpravu
-    setSelectedActivity(null);  // Může být také užitečné resetovat vybranou aktivitu
+    setIsCreateFormOpen(false);
   };
+
   const handleCreate = async (newActivity) => {
     try {
-      await axios.post(`${apiAddress}/activities/create`, newActivity); // TODO až do odvolání přímá komunikace - žádná api-gateway
-      fetchActivities(); // Znovu načíst aktivity po přidání nové
+      await axios.post(`${apiAddress}/activities/create`, newActivity);
+      fetchActivities();
     } catch (error) {
       console.error("Error creating activity:", error);
     }
   };
 
+  const handleEdit = (activityId) => {
+    const activity = activities.find(a => a.id === activityId);
+    setSelectedActivity(activity);
+    setIsCreateFormOpen(true);
+  };
+
   const handleDelete = async (activityId) => {
     try {
-      await axios.delete(`${apiAddress}/activities/delete/${activityId}`); // TODO až do odvolání přímá komunikace - žádná api-gateway
-      fetchActivities(); // Znovu načíst aktivity po smazání
+      await axios.delete(`${apiAddress}/activities/delete/${activityId}`);
+      fetchActivities();
       if (selectedActivity && selectedActivity.id === activityId) {
-        setIsDetailOpen(false); // Zavřít detail, pokud byla smazaná aktuálně zobrazená akce
+        setIsDetailOpen(false);
       }
     } catch (error) {
       console.error("Error deleting activity:", error);
     }
   };
 
-
   return (
-    <Paper elevation={3} sx={{ padding: 2 }}>
-    <UserNotifications />
-      <Typography variant="h4" gutterBottom>Akce</Typography>
-      {role === 'trenér' && (
-        <Button variant="contained" onClick={handleCreateFormOpen} sx={{ mb: 2 }}>
-          Vytvořit novou akci
-        </Button>
-      )}
-      <Button variant="contained" onClick={handleCreateFormOpen} sx={{ mb: 2 }}>
-          Vytvořit novou akci
-      </Button> // TODO - jen  na testing
-      <ActivityFilter onFilter={handleFilter} />
-      <ActivityList
-        activities={activities}
-        onClick={handleClick}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-      {selectedActivity && (
-        <ActivityDetail
-          activity={selectedActivity}
-          open={isDetailOpen}
-          onClose={handleDetailClose}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+      <Paper elevation={3} sx={{ padding: 2 }}>
+        <UserNotifications />
+        <Typography variant="h4" gutterBottom>Akce</Typography>
+        {(user && (user.roleId === 3 || user.roleId === 4)) && (
+            <Button variant="contained" onClick={handleCreateFormOpen} sx={{ mb: 2 }}>
+              Vytvořit novou akci
+            </Button>
+        )}
+        <ActivityFilter onFilter={fetchActivities} />
+        <ActivityList
+            activities={activities}
+            onClick={handleClick}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
         />
-      )}
-      <ActivityCreate
-        open={isCreateFormOpen}
-        onClose={handleCreateFormClose}
-        onCreate={handleCreate}
-        onUpdate={handleUpdate}
-        activity={activityToEdit}
-        isEditMode={Boolean(activityToEdit)}
-      />
-    </Paper>
+        {selectedActivity && (
+            <ActivityDetail
+                activity={selectedActivity}
+                open={isDetailOpen}
+                onClose={handleDetailClose}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+            />
+        )}
+        {isCreateFormOpen && (
+            <ActivityCreate
+                open={isCreateFormOpen}
+                onClose={handleCreateFormClose}
+                onCreate={handleCreate}
+                activity={selectedActivity}
+                isEditMode={Boolean(selectedActivity)}
+            />
+        )}
+      </Paper>
   );
 };
 
