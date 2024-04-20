@@ -6,12 +6,10 @@ const swaggerDefinition = require('./utils/swaggerDefinition');
 require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
-const User = require('./models/User'); // Import modelu User
-// const Profile =  require('./models/Profile'); // Import modelu Profile
+const User = require('./models/User');
 
 // Import rout
 const userRoutes = require('./routes/userRoutes');
-const profileRoutes = require('./routes/profileRoutes');
 const roleRoutes = require('./routes/roleRoutes')
 const authRoutes = require('./routes/authRoutes');
 
@@ -35,7 +33,6 @@ const swaggerSpec = swaggerJsdoc(options);
 app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
-// app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
 app.use(passport.initialize());
 
@@ -59,10 +56,6 @@ app.listen(PORT, () => {
 
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
-    // // Nastavení asociací
-    // const { User, Profile } = sequelize.models;
-    // User.hasOne(Profile, { foreignKey: 'userId', as: 'userProfile' });
-    // Profile.belongsTo(User, { foreignKey: 'userId', as: 'profileUser' });
 
     console.log('Databáze a tabulky byly synchronizovány');
 

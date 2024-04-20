@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `users` (
      `lastName` VARCHAR(255) NOT NULL,
      `dateOfBirth` DATE,
      `roleId` INT NOT NULL DEFAULT 1,
-     `profileId` INT NULL UNIQUE,
      `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
      `credits` VARCHAR(255) DEFAULT '0',
      `colorScheme` VARCHAR(255) DEFAULT 'light',
@@ -27,9 +26,6 @@ CREATE INDEX idx_username ON users(Username);
 CREATE INDEX idx_email ON users(Email);
 
 ALTER TABLE `users` ADD FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`);
-ALTER TABLE `profiles` ADD FOREIGN KEY (`userId`) REFERENCES `users`(`id`);
-ALTER TABLE `users` ADD FOREIGN KEY (`profileId`) REFERENCES `profiles`(`id`);
 
 INSERT INTO roles (RoleName) VALUES ('user'), ('member'), ('coach'), ('admin');
 INSERT INTO users (Username, PasswordHash, Email, firstName, lastName, dateOfBirth,RoleId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 'Jan', 'Sakač', '1999-09-01', 1,'CZK', 'light');
-INSERT INTO profiles (FirstName, LastName, DateOfBirth, UserId) VALUES ('Jan', 'Sakač', '1999-09-01', 1);
