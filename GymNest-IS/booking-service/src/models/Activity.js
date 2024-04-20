@@ -107,7 +107,6 @@ class Activity extends Model {
         }
     }
 
-    // TODO: Další metody dle potřeby???
 }
 
 Activity.init({

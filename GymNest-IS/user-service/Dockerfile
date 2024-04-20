@@ -22,4 +22,4 @@ EXPOSE 3001
 
 # Definice příkazu, který se spustí při startu kontejneru
 CMD ["node", "src/server.js"]
-# docker exec -it user-management-service-db-user-management-service-1 mysql -u root -p
+# docker exec -it user-service-db-user-service-1 mysql -u root -p

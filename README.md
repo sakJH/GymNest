@@ -359,7 +359,7 @@ GymNest-IS/
 
 #### Uživatelská správa
 ```
-user-management-service/
+user-service/
 │
 │   ├── auth/
 │   │   ├── passportConfig.js          # Konfigurace pro autentizaci
@@ -378,6 +378,7 @@ user-management-service/
 │   │   └── UserController.js          # Operace nad uživatelskými účty
 │   │
 │   ├── models/
+│   │   ├── Auth.js                    # Model pro autentizaci
 │   │   ├── User.js                    # Model uživatele
 │   │   ├── Role.js                    # Model role
 │   │   └── Profile.js                 # Model pro uživatelské profily
@@ -389,6 +390,7 @@ user-management-service/
 │   │   └── userRoutes.js              # Endpointy pro správu uživatelů
 │   │
 │   ├── services/
+│   │   ├── AuthService.js             # Servisní logika pro autentizaci
 │   │   ├── ProfileService.js          # Servisní logika pro profily
 │   │   ├── RoleService.js             # Servisní logika pro role
 │   │   └── UserService.js             # Nově přidaný, služby pro správu uživatelů
@@ -400,21 +402,16 @@ user-management-service/
 │   │   └── validateInput.js           # Nově přidaný, validace vstupních dat
 │   │
 │   ├── sequelize.js                   # Soubor s nastavením pro DB
-│   └── server.js                         # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                      # Vstupní bod mikroservisy, nastavení Express serveru
 │
-├── user-management-service/           # složka s Module pro Node.js s Express frameworkem
-│   ├── bin/
-│   ├── node-modules/
-│   ├── public/
-│   ├── routes/
-│   ├── views/
-│   ├── server.js
-│   ├── package.json
-│   └── package-lock.json
+├── tests/                             # Adresář pro testy
+│   ├── controllers/
+│   ├── models/
+│   └── services/
 │
 ├── .env                               # Konfigurace pro připojení k databázi, JWT tokeny a Google auth
 ├── .gitignore                         # Ignorované soubory pro Git
-├── user-management-service.iml        # iml soubor
+├── user-service.iml                   # iml soubor
 ├── README-user-management-service.md  # MD soubor s postupem vývoje
 ├── Dockerfile                         # Docker konfigurace pro službu
 └── docker-compose.yml                 # Docker Compose konfigurace
