@@ -50,28 +50,17 @@ const AuthForm = ({ open, onClose }) => {
 		}
 	};
 
-const googleLogin = useGoogleLogin({
-	flow: 'auth-code',
-	onSuccess: async codeResponse => {
-		console.log(codeResponse);
-		const tokens = await axios.post(`http://localhost:3001/api/auth/google`, {
-			code: codeResponse.code,
-		});
-		console.log(tokens);
-	},
-	onError: () => {
-		setErrorMessage('Přihlášení přes Google se nezdařilo.');
-	},
-	// },
-	//
-	// (tokenResponse) => {
-	// 		console.log(tokenResponse);
-	// 		handleGoogleLogin(tokenResponse.id_token)
-	// 	},
-    // onError: () => {
-    //     setErrorMessage('Přihlášení přes Google se nezdařilo.');
-    // },
-	// scope: 'openid email profile'
+	const googleLogin = useGoogleLogin({
+		onSuccess: async ({ code }) => {
+			const tokens = await axios.post('http://localhost:3001/api/auth/google', {
+				code,
+			});
+			handleGoogleLogin(tokens.data.idToken);
+		},
+		onError: () => {
+			setErrorMessage('Přihlášení přes Google se nezdařilo.');
+		},
+		flow: 'auth-code'
 });
 
 	const handleSubmit = async () => {

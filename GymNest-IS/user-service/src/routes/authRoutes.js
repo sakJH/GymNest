@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
 // Redirect na Google pro autentizaci
-router.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'], failureMessage: 'Route/Error Google authentication' })
-);
+router.post('/auth/google', AuthController.googleAuthenticate);
+
+// TODO Smazat, pokud se nepletu ze nebylo pouzivano?
+//      passport.authenticate('google', { scope: ['profile', 'email'], failureMessage: 'Route/Error Google authentication' })
+//
 
 // Google callback URL, který obdrží data po přesměrování
 router.get('/auth/google/callback',

@@ -31,6 +31,20 @@ class User extends Model {
         }
     }
 
+    static async findUserByGoogleId(googleId) {
+        try {
+            const user = await this.findOne({ where: { googleId } });
+            if (!user) {
+                console.log(`User with Google ID "${googleId}" not found.`);
+                return null;
+            }
+            return user;
+        } catch (error) {
+            console.error('Error finding user by Google ID:', error);
+            throw error;  // Vrátí chybu jen pokud dojde k chybě při dotazu
+        }
+    }
+
     static async deleteUserByUsername(username) {
         try {
             const result = await this.destroy({
@@ -169,6 +183,11 @@ User.init({
         primaryKey: true,
         autoIncrement: true
     },
+    googleId: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        unique: true
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -176,7 +195,7 @@ User.init({
     },
     passwordHash: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     email: {
         type: DataTypes.STRING,

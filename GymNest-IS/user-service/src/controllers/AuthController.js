@@ -1,8 +1,39 @@
 const AuthService = require('../services/AuthService');
 const UserService = require('../services/UserService');
 const Auth = require('../models/Auth');
+const { OAuth2Client } = require('google-auth-library');
 
 class AuthController {
+    // Google vymena tokenu
+    static async googleAuthenticate(req, res) {
+        const client = new OAuth2Client(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            'postmessage'
+        );
+        try {
+            const { code } = req.body;
+            if (!code) {
+                return res.status(400).json({ error: 'Code is required' });
+            }
+            // Exchange code for tokens
+            const { tokens } = await client.getToken(code);
+            if (tokens.id_token) {
+                res.json({
+                    message: 'Authentication successful',
+                    accessToken: tokens.access_token,
+                    refreshToken: tokens.refresh_token,
+                    idToken: tokens.id_token, // Přidání id_token do odpovědi
+                    expiresIn: tokens.expiry_date
+                });
+            } else {
+                res.status(500).json({ error: 'ID token not found' });
+            }
+        } catch (error) {
+            console.error('Failed to exchange Google auth code:', error);
+            res.status(500).json({ error: 'Internal server error', details: error.message });
+        }
+    }
 
     // Přesměrování na Google pro autentizaci
     static async googleAuthCallback(req, res) {
@@ -97,41 +128,25 @@ class AuthController {
                 return res.status(401).json({ error: 'Invalid Google token' });
             }
 
-            // Zjištění, zda uživatel existuje v databázi
-            let user = await UserService.findUserByEmail(userData.email);
+            // userData by nyní měl obsahovat informace o existujícím nebo nově vytvořeném uživateli
+            const user = userData.user;
 
-            if (user) {
-                // Uživatel existuje, přihlášení
-                const token = Auth.generateToken(user);
-                const refreshToken = Auth.generateRefreshToken(user);
-                return res.status(200).json({
-                    message: 'User successfully logged in.',
-                    token,
-                    refreshToken,
-                    user
-                });
-            } else {
-                // Uživatel neexistuje, registrace
-                const newUser = {
-                    username: userData.email,
-                    email: userData.email,
-                    passwordHash: null, // Google přihlášení nemá heslo
-                };
+            // Generování tokenů
+            const token = Auth.generateToken(user);
+            const refreshToken = Auth.generateRefreshToken(user);
 
-                user = await AuthService.register(newUser);
+            // Vracíme úspěšnou odpověď s tokeny a uživatelskými daty
+            return res.status(200).json({
+                message: user.isNewRecord ? 'User successfully registered and logged in.' : 'User successfully logged in.',
+                token,
+                refreshToken,
+                user
+            });
 
-                const token = Auth.generateToken(user);
-                const refreshToken = Auth.generateRefreshToken(user);
-                return res.status(201).json({
-                    message: 'User successfully registered and logged in.',
-                    token,
-                    refreshToken,
-                    user
-                });
-            }
         } catch (error) {
-            console.error('Controller - Error validating Google token:', error.message);
-            return res.status(500).json({ error: 'Internal server error' });
+            console.error('Controller - Error validating Google token:', error);
+            console.error('Detailed stack trace:', error.stack);
+            return res.status(500).json({ error: 'Internal server error', detail: error.message });
         }
     }
 

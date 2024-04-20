@@ -32,27 +32,33 @@ class Auth extends Model {
     }
 
     static async verifyGoogleToken(idToken) {
-        console.log('Verifying 1st Google token:', idToken)
+        console.log('Starting verification of Google token');
         try {
-            console.log('Verifying 2nd Google token:', idToken)
             const ticket = await client.verifyIdToken({
-                idToken: idToken,
+                idToken,
                 audience: process.env.GOOGLE_CLIENT_ID,
             });
             const payload = ticket.getPayload();
-            const userId = payload['sub'];  // Google's user ID
-            // uživatel existuje ve vaší databázi?
-            let user = await User.findOne({ where: { googleId: userId } });
+            const userId = payload['sub'];
+
+            console.log(`Looking up user with Google ID: ${userId}`);
+            let user = await User.findUserByGoogleId(userId);
             if (!user) {
-                // Pokud uživatel neexistuje, vytvoří nový záznam
+                console.log('No user found, creating new user');
                 user = await User.create({
                     googleId: userId,
+                    username: payload['email'].split('@')[0],
                     email: payload['email'],
-                    name: payload['name']
+                    firstName: payload['given_name'],
+                    lastName: payload['family_name'],
                 });
+                console.log('New user created');
+            } else {
+                console.log('User found');
             }
-            console.log('Verifying 3rd Google token:', idToken)
-            return { user, payload };  // Vracíme objekt s uživatelem a payloadem
+
+            console.log('Google token verified successfully');
+            return { user, payload };
         } catch (error) {
             console.error('Error verifying Google token:', error);
             throw new Error('Failed to verify Google token');
