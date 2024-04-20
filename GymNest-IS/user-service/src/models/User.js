@@ -5,7 +5,10 @@ class User extends Model {
 
     static async findUserByUsername(username) {
         try {
-            return await this.findOne({ where: { username } });
+            const user = await this.findOne({ where: { username } });
+            if (!user) {
+                throw new Error(`Error finding user by username: Uživatel s uživatelským jménem "${username}" nebyl nalezen.`);
+            }
         }
         catch (error) {
             console.error('Error finding user by username:', error);

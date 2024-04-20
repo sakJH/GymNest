@@ -2,7 +2,8 @@
   "name": "user-service",
   "version": "1.0.0",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "mocha --require @babel/register ./tests/**/*.js"
   },
   "dependencies": {
     "bcryptjs": "~2.4.3",
@@ -25,5 +26,13 @@
     "sequelize": "~6.37.2",
     "swagger-jsdoc": "~6.2.8",
     "swagger-ui-express": "~5.0.0"
+  },
+  "devDependencies": {
+    "chai-as-promised": "~7.1.1",
+    "sinon": "~17.0.1",
+    "mocha": "^10.4.0",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/register": "^7.23.7"
   }
 }
