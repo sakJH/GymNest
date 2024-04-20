@@ -26,6 +26,7 @@
     "mocha": "^10.4.0",
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
-    "@babel/register": "^7.23.7"
+    "@babel/register": "^7.23.7",
+    "chai-http": "~4.4.0"
   }
 }

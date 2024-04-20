@@ -1,5 +1,5 @@
 const Role = require('../models/Role');
-const User = require('../models/User'); // Předpokládáme, že model User existuje
+const User = require('../models/User'); // Předpokládáme, že models User existuje
 
 class RoleService {
     static async initializeRoles() {

@@ -6,8 +6,7 @@ class Payment extends Model {
     // Vytvoření nové platby
     static async createPayment(details) {
         try {
-            const payment = await this.create(details);
-            return payment;
+            return await this.create(details);
         } catch (error) {
             throw error;
         }
@@ -31,10 +30,9 @@ class Payment extends Model {
     // Vyhledání plateb podle uživatele nebo předplatného
     static async findPaymentsBySubscriptionId(subscriptionId) {
         try {
-            const payments = await this.findAll({
-                where: { subscriptionId }
+            return await this.findAll({
+                where: {subscriptionId}
             });
-            return payments;
         } catch (error) {
             throw error;
         }
@@ -59,18 +57,12 @@ class Payment extends Model {
     // Vyhledání plateb podle stavu
     static async findPaymentsByStatus(status) {
         try {
-            const payments = await this.findAll({
-                where: { status }
+            return await this.findAll({
+                where: {status}
             });
-            return payments;
         } catch (error) {
             throw error;
         }
-    }
-
-    // Metoda pro generování sestav o platebních transakcích
-    static async generatePaymentReport(/* parametry pro filtraci a agregaci */) {
-        // TODO - dodělat nebo smazat
     }
 
     // Vyhledání plateb podle uživatele
@@ -83,8 +75,6 @@ class Payment extends Model {
             throw error;
         }
     }
-
-    //TODO - další metody???
 }
 
 Payment.init({
@@ -120,7 +110,7 @@ Payment.init({
 }, {
     sequelize,
     modelName: 'Payment',
-    tableName: 'payments', // Přidejte tableName pro jasnou identifikaci tabulky v DB
+    tableName: 'payments',
     timestamps: true
 });
 
