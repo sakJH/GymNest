@@ -22,7 +22,7 @@ Dodělat Navbar
 Backend
 - [x] Funkčnost přihlášení, ověřit registraci
 - [ ] registrace přes Google
-- [ ] unit testy - bonus
+- [x] unit testy - bonus
 
 Dodělat SchedulePage
 - [x] Ověřit fungování rozvrhu
