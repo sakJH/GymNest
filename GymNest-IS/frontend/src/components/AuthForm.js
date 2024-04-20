@@ -53,16 +53,11 @@ const AuthForm = ({ open, onClose }) => {
 const googleLogin = useGoogleLogin({
 	onSuccess: (tokenResponse) => {
 			console.log(tokenResponse);
-			if (tokenResponse.id_token) {
-					handleGoogleLogin(tokenResponse.id_token);
-			} else {
-					console.error('No ID token received:', tokenResponse);
-					setErrorMessage('Failed to receive ID token from Google.');
-			}
-	},
-	onError: () => {
-			setErrorMessage('Přihlášení přes Google se nezdařilo.');
-	},
+			handleGoogleLogin(tokenResponse.access_token)
+		},
+    onError: () => {
+        setErrorMessage('Přihlášení přes Google se nezdařilo.');
+    },
 	scope: 'openid email profile'
 });
 
