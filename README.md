@@ -20,19 +20,19 @@ Dodělat Navbar
 - [x] Změna na základě přihlášeného uživatele - TESTING po oprave Auth
 
 Backend
-- [ ] Funkčnost přihlášení, ověřit registraci
+- [x] Funkčnost přihlášení, ověřit registraci
 - [ ] registrace přes Google
 - [ ] unit testy - bonus
 
 Dodělat SchedulePage
 - [x] Ověřit fungování rozvrhu
 - [ ] přepínač na týden, 2 týdny a měsíc - nefunguje
-- [ ] udelat filtr dle data na backendu?
+- [x] udelat filtr dle data na backendu?
 
 MembershipPage
-- [ ] základ pro fungování, spojení s Backendem
-- [ ] stav, atd
-- [ ] implementace PayPal
+- [x] základ pro fungování, spojení s Backendem
+- [x] stav, atd
+- [x] implementace PayPal
 - [ ] změna měny
 - [ ] přehled všech členství dle cen
 - [ ] nákup členství
