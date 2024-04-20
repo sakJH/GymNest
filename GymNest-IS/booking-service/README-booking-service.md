@@ -6,28 +6,28 @@
 1. models/Booking.js
 2. services/BookingService.js
 3. controllers/BookingController.js
-4. routes/bookingRoutes.js
+4. routes/bookingRoutes.test.js
 5. Přidáno bookingRoutes do server.js
 
 **Activity tree**
 1. models/Activity.js
 2. services/ActivityService.js
 3. controllers/ActivityController.js
-4. routes/activityRoutes.js
+4. routes/activityRoutes.test.js
 5. Přidáno activityRoutes do server.js
 
 **Schedule tree**
 1. models/Schedule.js
 2. services/ScheduleService.js
 3. controllers/ScheduleController.js
-4. routes/scheduleRoutes.js
+4. routes/scheduleRoutes.test.js
 5. Přidáno scheduleRoutes do server.js
 
 **Notification tree**
 1. models/Notification.js
 2. services/NotificationService.js
 3. controllers/NotificationController.js
-4. routes/notificationRoutes.js
+4. routes/notificationRoutes.test.js
 5. Přidáno notificationRoutes do server.js
 
 
