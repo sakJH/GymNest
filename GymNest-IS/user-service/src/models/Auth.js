@@ -33,7 +33,7 @@ class Auth extends Model {
     static async verifyGoogleToken(idToken) {
         const ticket = await client.verifyIdToken({
             idToken: idToken,
-            audience: process.env.GOOGLE_CLIENT_ID,  // Uveďte své CLIENT_ID z Google Developer Console
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         const userid = payload['sub'];

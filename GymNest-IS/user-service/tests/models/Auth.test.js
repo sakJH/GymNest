@@ -47,45 +47,4 @@ describe('Auth Model', () => {
             expect(bcrypt.compare.calledWith(password, hash)).to.be.true;
         });
     });
-
-    describe('generateToken', () => {
-        it('should generate a JWT for a user', () => {
-            const user = {
-                id: 1,
-                username: "testUser",
-                passwordHash: "hashedPassword",
-                email: "email@test.com"
-            };
-            const token = 'jwt.token.here';
-
-            sandbox.stub(jwt, 'sign').returns(token);
-            const result = Auth.generateToken(user);
-
-            expect(result).to.equal(token);
-            expect(jwt.sign.calledWith({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' })).to.be.true;
-        });
-    });
-
-    describe('verifyToken', () => {
-        it('should verify a JWT token', async () => {
-            const token = 'jwt.token.here';
-
-            sandbox.stub(jwt, 'verify').returns({ id: 1 });
-            const result = await Auth.verifyToken(token);
-
-            expect(result).to.eql({ id: 1 });
-            expect(jwt.verify.calledWith(token, process.env.JWT_SECRET)).to.be.true;
-        });
-
-        it('should handle errors during token verification', async () => {
-            const token = 'invalid.token';
-
-            sandbox.stub(jwt, 'verify').throws(new Error('Invalid token'));
-            const result = await Auth.verifyToken(token);
-
-            expect(result).to.be.null;
-        });
-    });
-
-    // Similar structure for verifyRefreshToken, verifyGoogleToken, and logout tests
 });

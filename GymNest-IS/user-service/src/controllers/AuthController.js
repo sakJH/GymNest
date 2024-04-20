@@ -113,7 +113,7 @@ class AuthController {
             } else {
                 // Uživatel neexistuje, registrace
                 const newUser = {
-                    username: userData.email, // Můžete přizpůsobit, jak generujete uživatelské jméno
+                    username: userData.email,
                     email: userData.email,
                     passwordHash: null, // Google přihlášení nemá heslo
                 };

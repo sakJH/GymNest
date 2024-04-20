@@ -348,7 +348,7 @@ Editace akce: Formulář pro upravení detailů existující akce s možností u
 ### GymNest-IS
 ```
 GymNest-IS/
-│── express-gateway/
+│── api-gateway/
 │── booking-service/
 │── frontend/
 │── membership-service/
@@ -406,8 +406,17 @@ user-service/
 │
 ├── tests/                             # Adresář pro testy
 │   ├── controllers/
+│   │   ├── AuthController.test.js     # Testy pro AuthController
+│   │   ├── RoleController.test.js     # Testy pro RoleController
+│   │   ├── UserController.test.js     # Testy pro UserController
 │   ├── models/
+│   │   ├── Auth.test.js               # Testy pro model Auth
+│   │   ├── Role.test.js               # Testy pro model Role
+│   │   ├── User.test.js               # Testy pro model User
 │   └── services/
+│       ├── AuthService.test.js        # Testy pro AuthService
+│       ├── RoleService.test.js        # Testy pro RoleService
+│       └── UserService.test.js        # Testy pro UserService
 │
 ├── .env                               # Konfigurace pro připojení k databázi, JWT tokeny a Google auth
 ├── .gitignore                         # Ignorované soubory pro Git
@@ -452,7 +461,19 @@ membership-service/
 │   │   ├── swaggerDefinition.js    # Definice Swagger dokumentace
 │   │   └── paypalClient.js         # Pomocné funkce pro PayPal API
 │   │
-│   └── server.js                      # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                   # Vstupní bod mikroservisy, nastavení Express serveru
+│
+├── tests/                           # Adresář pro testy
+│   ├── controllers/
+│   │   ├── MembershipController.test.js   # Testy pro MembershipController
+│   │   ├── PaymentController.test.js      # Testy pro PaymentController
+│   ├── models/
+│   │   ├── Membership.test.js             # Testy pro model Membership
+│   │   ├── Payment.test.js                # Testy pro model Payment
+│   ├── services/
+│   │   ├── MembershipService.test.js      # Testy pro MembershipService
+│   │   ├── PaymentService.test.js         # Testy pro PaymentService
+│
 │
 ├── .env                            # Konfigurace pro připojení k databázi
 ├── package.json                    # Definice závislostí a skriptů
@@ -487,10 +508,10 @@ booking-service/
 │   │   └── Notification.js             # Model pro notifikace
 │   │
 │   ├── routes/
-│   │   ├── bookingRoutes.js            # Endpointy pro správu rezervací
-│   │   ├── activityRoutes.js           # Endpointy pro správu aktivit
-│   │   ├── scheduleRoutes.js           # Endpointy pro správu harmonogramu
-│   │   └── notificationRoutes.js       # Endpointy pro notifikace
+│   │   ├── bookingRoutes.test.js            # Endpointy pro správu rezervací
+│   │   ├── activityRoutes.test.js           # Endpointy pro správu aktivit
+│   │   ├── scheduleRoutes.test.js           # Endpointy pro správu harmonogramu
+│   │   └── notificationRoutes.test.js       # Endpointy pro notifikace
 │   │
 │   ├── services/
 │   │   ├── BookingService.js           # Servisní logika pro rezervace
@@ -502,10 +523,25 @@ booking-service/
 │   ├── utils/
 │   │   ├── validateInput.js            # Pomocné funkce pro validaci vstupů
 │   │   ├── dateUtils.js                # Pomocné funkce pro práci s daty
-│   │   └── swaggerDefinition.js       # Definice Swagger dokumentace
+│   │   └── swaggerDefinition.js        # Definice Swagger dokumentace
 │   │
 │   ├── sequelize.js                    # Soubor s nastavením pro DB (pro SQL databáze)
-│   └── server.js                          # Vstupní bod mikroservisy, nastavení Express serveru
+│   └── server.js                       # Vstupní bod mikroservisy, nastavení Express serveru
+
+├── tests/                              # Adresář pro testy
+│   ├── controllers/
+│   │   ├── ActivityController.test.js  # Testy pro BookingController
+│   │   ├── BookingController.test.js   # Testy pro BookingController
+│   ├── models/
+│   │   ├── Activity.test.js            # Testy pro model Activity
+│   │   ├── Booking.test.js             # Testy pro model Booking
+│   │   ├── Notification.test.js        # Testy pro model Notification
+│   │   ├── Schedule.test.js            # Testy pro model Schedule
+│   ├── services/
+│   │   ├── ActivityService.test.js     # Testy pro ActivityService
+│   │   ├── BookingService.test.js      # Testy pro BookingService
+│   │   ├── NotificationService.test.js # Testy pro NotificationService
+│   │   └── ScheduleService.test.js     # Testy pro ScheduleService
 │
 ├── .env                                # Soubor s proměnnými prostředí
 ├── package.json                        # Definice závislostí a skriptů
@@ -573,7 +609,7 @@ frontend/
 
 ### API Gateway
 ```
-express-gateway/
+api-gateway/
 │
 ├── node_modules/                   # Složka s Module pro Node.js s Express frameworkem
 │
