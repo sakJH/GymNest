@@ -154,6 +154,7 @@ class User extends Model {
             throw error;
         }
     }
+
 }
 
 User.init({
@@ -179,6 +180,27 @@ User.init({
         validate: {
             isEmail: true
         }
+    },
+    firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    dateOfBirth: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        validate: {
+            isDate: true,
+        },
     },
     roleId: {
         type: DataTypes.INTEGER,

@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS `users` (
      `username` VARCHAR(255) NOT NULL UNIQUE,
      `passwordHash` VARCHAR(255) NOT NULL,
      `email` VARCHAR(255) NOT NULL UNIQUE,
+     `firstName` VARCHAR(255) NOT NULL,
+     `lastName` VARCHAR(255) NOT NULL,
+     `dateOfBirth` DATE,
      `roleId` INT NOT NULL DEFAULT 1,
      `profileId` INT NULL UNIQUE,
      `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
@@ -18,16 +21,6 @@ CREATE TABLE IF NOT EXISTS `users` (
      `colorScheme` VARCHAR(255) DEFAULT 'light',
      `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
      `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `profiles` (
-      `id` INT AUTO_INCREMENT PRIMARY KEY,
-      `firstName` VARCHAR(255) NOT NULL,
-      `lastName` VARCHAR(255) NOT NULL,
-      `dateOfBirth` DATE,
-      `userId` INT NOT NULL,
-      `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
-      `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX idx_username ON users(Username);
@@ -38,5 +31,5 @@ ALTER TABLE `profiles` ADD FOREIGN KEY (`userId`) REFERENCES `users`(`id`);
 ALTER TABLE `users` ADD FOREIGN KEY (`profileId`) REFERENCES `profiles`(`id`);
 
 INSERT INTO roles (RoleName) VALUES ('user'), ('member'), ('coach'), ('admin');
-INSERT INTO users (Username, PasswordHash, Email, RoleId, ProfileId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 1, '','CZK', 'light');
+INSERT INTO users (Username, PasswordHash, Email, firstName, lastName, dateOfBirth,RoleId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 'Jan', 'Sakač', '1999-09-01', 1,'CZK', 'light');
 INSERT INTO profiles (FirstName, LastName, DateOfBirth, UserId) VALUES ('Jan', 'Sakač', '1999-09-01', 1);

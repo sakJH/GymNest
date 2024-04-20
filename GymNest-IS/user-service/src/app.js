@@ -7,7 +7,7 @@ require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 const User = require('./models/User'); // Import modelu User
-const Profile =  require('./models/Profile'); // Import modelu Profile
+// const Profile =  require('./models/Profile'); // Import modelu Profile
 
 // Import rout
 const userRoutes = require('./routes/userRoutes');
@@ -35,7 +35,7 @@ const swaggerSpec = swaggerJsdoc(options);
 app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
-app.use('/api', profileRoutes);
+// app.use('/api', profileRoutes);
 app.use('/api', roleRoutes);
 app.use(passport.initialize());
 
@@ -44,7 +44,6 @@ app.use((req, res, next) => {
     console.log('Authorization Header:', req.headers.authorization);
     next();
 });
-
 
 // Zpřístupnění Swagger UI na /docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -60,12 +59,11 @@ app.listen(PORT, () => {
 
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
-    // Nastavení asociací
-    const { User, Profile } = sequelize.models;
-    User.hasOne(Profile, { foreignKey: 'userId', as: 'userProfile' });
-    Profile.belongsTo(User, { foreignKey: 'userId', as: 'profileUser' });
+    // // Nastavení asociací
+    // const { User, Profile } = sequelize.models;
+    // User.hasOne(Profile, { foreignKey: 'userId', as: 'userProfile' });
+    // Profile.belongsTo(User, { foreignKey: 'userId', as: 'profileUser' });
 
     console.log('Databáze a tabulky byly synchronizovány');
-
 
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
