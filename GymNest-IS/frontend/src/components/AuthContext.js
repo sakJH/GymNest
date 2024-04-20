@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null); // Ensure user is null when there is no token
         return;
       }
+
       try {
         const response = await axios.post(`${apiAddress}/auth/validate-token`, {}, {
           headers: {
@@ -50,29 +51,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
-  };
-
-  //TODO dodělat
-  const loginGoogle = async (googleToken) => {
-    try {
-      const response = await axios.post(`${apiAddress}/auth/google-login`, {
-        token: googleToken  // Posíláme Google token na backend
-      });
-      if (response.status === 200) {
-        // Přihlášení bylo úspěšné, uložíme token a informace o uživateli
-        const { token, user } = response.data;
-        localStorage.setItem('jwtToken', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        setToken(token);
-        setUser(user);
-        setErrorMessage(''); // Resetování případných chybových hlášek
-      } else {
-        throw new Error('Google login failed: Invalid server response');
-      }
-    } catch (error) {
-      console.error('Google login failed:', error);
-      setErrorMessage("Google login failed");
-    }
+    setErrorMessage('');
   };
 
   const logout = () => {

@@ -14,18 +14,52 @@ const AuthForm = ({ open, onClose }) => {
 	const [lastName, setLastName] = useState('');
 	const { user, login, logout, errorMessage, setErrorMessage, credits } = useAuth();
 
-	const toggleLoginRegister = () => {
-		setIsLogin(!isLogin); // Přepne stav mezi přihlášením a registrací
+	const resetForm = () => {
+		setUsername('');
+		setEmail('');
+		setPassword('');
+		setFirstName('');
+		setLastName('');
+		setErrorMessage('');
 	};
 
-	const googleLogin = useGoogleLogin({
-		onSuccess: tokenResponse => {
-			login(tokenResponse.access_token);
+	const handleClose = () => {
+		resetForm();
+		onClose();
+	};
+
+	const toggleLoginRegister = () => {
+			setIsLogin(!isLogin);
+			resetForm();
+	};
+
+	const handleGoogleLogin = async (googleToken) => {
+    try {
+        // Ensure this endpoint is designed to handle the Google ID token in your backend
+        const response = await axios.post(`http://localhost:3001/api/auth/validate-google-token`, {
+					idToken: googleToken
+        });
+        if (response.data && response.data.token) {
+            login(response.data.token, response.data.user, true);
+            handleClose();
+        } else {
+            throw new Error('Google login failed: No token received');
+        }
+    } catch (error) {
+        setErrorMessage('Přihlášení přes Google se nezdařilo.');
+        console.error('Google login error:', error);
+    }
+};
+
+const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+			console.log(tokenResponse);
+			handleGoogleLogin(tokenResponse.access_token)
 		},
-		onError: () => {
-			setErrorMessage('Přihlášení přes Google se nezdařilo.');
-		}
-	});
+    onError: () => {
+        setErrorMessage('Přihlášení přes Google se nezdařilo.');
+    }
+});
 
 	const handleSubmit = async () => {
     const endpoint = isLogin ? 'login' : 'register';
@@ -35,7 +69,7 @@ const AuthForm = ({ open, onClose }) => {
         const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, userData);
         if (response.data && response.data.token) {
             login(response.data.token, response.data.user);
-            onClose();
+            handleClose();
         } else {
             throw new Error('No token received');
         }
@@ -49,7 +83,7 @@ const AuthForm = ({ open, onClose }) => {
 			<Button variant="outlined" onClick={toggleLoginRegister}>
 				Přepnout na {isLogin ? "Registraci" : "Přihlášení"}
 			</Button>
-			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+			<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
 				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
 				<DialogContent>
 					{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
@@ -67,7 +101,7 @@ const AuthForm = ({ open, onClose }) => {
 					<Button onClick={toggleLoginRegister} color="primary">
 						{isLogin ? "Chcete se registrovat?" : "Chcete se přihlásit?"}
 					</Button>
-					<Button onClick={onClose}>Zrušit</Button>
+					<Button onClick={handleClose}>Zrušit</Button>
 					<Button onClick={handleSubmit} color="primary">{isLogin ? "Přihlásit" : "Registrovat"}</Button>
 					<Button onClick={googleLogin} variant="contained" style={{ backgroundColor: '#4285F4', color: 'white' }}>
 						{isLogin ? "Přihlásit se přes Google" : "Registrovat se přes Google"}
