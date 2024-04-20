@@ -218,4 +218,5 @@ router.post('/auth/validate-google-token', AuthController.validateGoogleToken);
  */
 router.get('/auth/logout', AuthController.logout);
 
+
 module.exports = router;

@@ -51,7 +51,7 @@ class User extends Model {
             }
             if (updateValues.password) {
                 updateValues.passwordHash = await this.hashPassword(updateValues.password);
-                delete updateValues.password; // Abychom nepředali plaintext heslo zpět
+                delete updateValues.password;
             }
             await user.update(updateValues);
             console.log(`Uživatel "${username}" byl aktualizován.`);

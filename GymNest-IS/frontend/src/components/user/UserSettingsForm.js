@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
 
-const UserSettingsForm = ({ user, handleClose }) => {
+const UserSettingsForm = ({ user, handleClose, logout }) => {
     const [formData, setFormData] = useState({
         username: user.username || '',
         firstName: user.firstName || '',
@@ -13,6 +13,7 @@ const UserSettingsForm = ({ user, handleClose }) => {
         password: '',
         credits: user.credits || 0
     });
+    const [openConfirm, setOpenConfirm] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +24,9 @@ const UserSettingsForm = ({ user, handleClose }) => {
             const updateData = {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                email: formData.email
+                email: formData.email,
+                preferredCurrency: formData.preferredCurrency,
+                colorScheme: formData.colorScheme
             };
             await axios.put(`http://localhost:3001/api/users/${user.username}`, updateData);
         } catch (error) {
@@ -31,23 +34,24 @@ const UserSettingsForm = ({ user, handleClose }) => {
         }
     };
 
-    const updatePreferences = async () => {
-        try {
-            const preferences = {
-                preferredCurrency: formData.preferredCurrency,
-                colorScheme: formData.colorScheme
-            };
-            await axios.put(`http://localhost:3001/api/users/${user.id}/preferences`, preferences);
-        } catch (error) {
-            console.error('Error updating preferences:', error);
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         await updateUser();
-        await updatePreferences();
         handleClose();
+    };
+
+    const handleRemoveAccount = () => {
+        setOpenConfirm(true);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:3001/api/users/delete/${user.username}`);
+            logout(); // Odhlášení uživatele a smazání JWT tokenu
+            handleClose();
+        } catch (error) {
+            console.error('Error removing account:', error);
+        }
     };
 
     return (
@@ -112,10 +116,23 @@ const UserSettingsForm = ({ user, handleClose }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Zrušit</Button>
+                <Button onClick={handleRemoveAccount}>Odstranit účet</Button>
                 <Button onClick={handleSubmit}>Uložit změny</Button>
             </DialogActions>
+            <Dialog
+                open={openConfirm}
+                onClose={() => setOpenConfirm(false)}
+            >
+                <DialogTitle>Potvrzení</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Opravdu chcete smazat váš účet? Tato akce je nevratná.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenConfirm(false)}>Ne</Button>
+                    <Button onClick={confirmDelete} color="secondary">Ano, smazat</Button>
+                </DialogActions>
+            </Dialog>
         </Dialog>
     );
 };
-
 export default UserSettingsForm;

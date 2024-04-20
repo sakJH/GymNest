@@ -216,4 +216,7 @@ router.post('/users/:userId/credits/add', UserController.addUserCredits);
  */
 router.post('/users/:userId/credits/remove', UserController.removeUserCredits);
 
+// Route pro smazání uživatele podle uživatelského jména
+router.delete('users/delete/:username', UserController.deleteUserByUsername)
+
 module.exports = router;
