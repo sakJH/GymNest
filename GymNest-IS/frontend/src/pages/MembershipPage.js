@@ -77,7 +77,7 @@ const MembershipPage = () => {
                       <TableCell component="th" scope="row">
                         {membership.membershipType}
                       </TableCell>
-                      <TableCell align="right">{membership.price} Kč/měsíc</TableCell>
+                      <TableCell align="right">{membership.membershipPrice} Kč/měsíc</TableCell>
                     </TableRow>
                 ))}
               </TableBody>

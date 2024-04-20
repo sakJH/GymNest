@@ -62,7 +62,7 @@ const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
         <>
           <Button onClick={() => onEdit(activity.id)}>Editovat</Button>
           <Button onClick={() => onDelete(activity.id)} color="error">Smazat</Button>
-        </> // TODO - jen  na testing
+        </>
         <Button onClick={onClose}>Zavřít</Button>
       </DialogActions>
     </Dialog>

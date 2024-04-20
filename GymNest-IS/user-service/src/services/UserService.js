@@ -47,9 +47,9 @@ class UserService {
         }
     }
 
-    static async updatePreferences(username, preferences){
+    static async updatePreferences(userId, preferences){
         try {
-            return await User.updatePreferences(username, preferences);
+            return await User.updatePreferences(userId, preferences);
         } catch (error) {
             console.error('Služba - Chyba při aktualizaci preferencí uživatele:', error);
             throw error;

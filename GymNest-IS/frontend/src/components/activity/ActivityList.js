@@ -32,7 +32,7 @@ const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
             <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
               Smazat
             </Button>
-          </> // TODO testing only
+          </>
         </ListItem>
       ))}
       {activities.length === 0 && <Typography variant="subtitle1">Žádné akce nebyly nalezeny.</Typography>}

@@ -40,7 +40,9 @@ const ActivityPage = () => {
   };
 
   const handleCreateFormOpen = () => {
-    setIsCreateFormOpen(true);
+    if (user && (user.roleId === 3 || user.roleId === 4)) { // Only coach and admin can open create form
+      setIsCreateFormOpen(true);
+    }
   };
 
   const handleCreateFormClose = () => {
@@ -48,29 +50,35 @@ const ActivityPage = () => {
   };
 
   const handleCreate = async (newActivity) => {
-    try {
-      await axios.post(`${apiAddress}/activities/create`, newActivity);
-      fetchActivities();
-    } catch (error) {
-      console.error("Error creating activity:", error);
+    if (user && (user.roleId === 3 || user.roleId === 4)) { // Only coach and admin can create activities
+      try {
+        await axios.post(`${apiAddress}/activities/create`, newActivity);
+        fetchActivities();
+      } catch (error) {
+        console.error("Error creating activity:", error);
+      }
     }
   };
 
   const handleEdit = (activityId) => {
-    const activity = activities.find(a => a.id === activityId);
-    setSelectedActivity(activity);
-    setIsCreateFormOpen(true);
+    if (user && (user.roleId === 3 || user.roleId === 4)) { // Only coach and admin can edit activities
+      const activity = activities.find(a => a.id === activityId);
+      setSelectedActivity(activity);
+      setIsCreateFormOpen(true);
+    }
   };
 
   const handleDelete = async (activityId) => {
-    try {
-      await axios.delete(`${apiAddress}/activities/delete/${activityId}`);
-      fetchActivities();
-      if (selectedActivity && selectedActivity.id === activityId) {
-        setIsDetailOpen(false);
+    if (user && user.roleId === 4) { // Only admin can delete activities
+      try {
+        await axios.delete(`${apiAddress}/activities/delete/${activityId}`);
+        fetchActivities();
+        if (selectedActivity && selectedActivity.id === activityId) {
+          setIsDetailOpen(false);
+        }
+      } catch (error) {
+        console.error("Error deleting activity:", error);
       }
-    } catch (error) {
-      console.error("Error deleting activity:", error);
     }
   };
 
@@ -87,16 +95,16 @@ const ActivityPage = () => {
         <ActivityList
             activities={activities}
             onClick={handleClick}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+            onEdit={user && (user.roleId === 3 || user.roleId === 4) ? handleEdit : null}
+            onDelete={user && user.roleId === 4 ? handleDelete : null}
         />
         {selectedActivity && (
             <ActivityDetail
                 activity={selectedActivity}
                 open={isDetailOpen}
                 onClose={handleDetailClose}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+                onEdit={user && (user.roleId === 3 || user.roleId === 4) ? handleEdit : null}
+                onDelete={user && user.roleId === 4 ? handleDelete : null}
             />
         )}
         {isCreateFormOpen && (

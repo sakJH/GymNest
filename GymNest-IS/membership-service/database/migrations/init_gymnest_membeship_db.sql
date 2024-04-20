@@ -5,7 +5,7 @@ USE GymNestMembershipDB;
 CREATE TABLE IF NOT EXISTS `memberships` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `userId` INT NOT NULL,
-    `membershipType` VARCHAR(255) NOT NULL,
+    `membershipType` VARCHAR(255) NOT NULL CHECK (`membershipType` IN ('Free', 'Standard', 'Premium', 'Family', 'Year')) DEFAULT 'Free',
     `membershipPrice` DECIMAL(10, 2) NOT NULL,
     `startDate` DATE NOT NULL,
     `endDate` DATE NOT NULL,
@@ -30,8 +30,9 @@ ALTER TABLE `payments` ADD FOREIGN KEY (`membershipId`) REFERENCES `memberships`
 
 INSERT INTO `memberships` (`userId`, membershipType, `membershipPrice`, `startDate`, `endDate`, `status`)
 VALUES
-    (1, 'Standard', 199.99, '2024-04-01', '2024-10-01', 'active'),
-    (2, 'Premium', 299.99, '2024-04-01', '2024-10-01', 'active'),
-    (3, 'Family', 399.99, '2024-05-01', '2024-11-01', 'active'),
-    (4, 'Standard', 199.99, '2024-03-01', '2024-09-01', 'active'),
-    (5, 'Year', 999.99, '2024-04-01', '2099-12-31', 'active');
+    (1, 'Free', 0, '2024-01-01', '2024-12-31', 'active'),
+    (2, 'Standard', 199.99, '2024-04-01', '2024-10-01', 'active'),
+    (3, 'Premium', 299.99, '2024-04-01', '2024-10-01', 'active'),
+    (4, 'Family', 399.99, '2024-05-01', '2024-11-01', 'active'),
+    (5, 'Standard', 199.99, '2024-03-01', '2024-09-01', 'active'),
+    (6, 'Year', 999.99, '2024-04-01', '2099-12-31', 'active');

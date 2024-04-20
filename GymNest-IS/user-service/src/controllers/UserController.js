@@ -62,7 +62,7 @@ class UserController {
     // Aktualizace preferencí uživatele
     static async updatePreferences(req, res) {
         try {
-            const user = await UserService.updatePreferences(req.params.username, req.body);
+            const user = await UserService.updatePreferences(req.params.id, req.body);
             res.json(user);
         } catch (error) {
             res.status(500).send(error.message);

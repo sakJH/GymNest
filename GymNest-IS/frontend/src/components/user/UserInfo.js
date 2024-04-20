@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
+import UserSettingsForm from './UserSettingsForm';  // Ujistěte se, že cesta k importu je správná
 import axios from 'axios';
-import { Typography, Paper, Button, List, ListItem, ListItemText, Divider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Typography, Paper, Button, List, ListItem, ListItemText, Divider, Modal, Box } from '@mui/material';
 
 const UserInfo = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
     const [membershipInfo, setMembershipInfo] = useState({});
     const [loading, setLoading] = useState(true);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -26,9 +26,12 @@ const UserInfo = () => {
         }
     };
 
-    const handleChangePassword = () => {
-        // Přesměrujte uživatele na stránku pro změnu hesla
-        navigate('/change-password');
+    const handleChangeSettings = () => {
+        setIsSettingsOpen(true); // Otevření modálního okna
+    };
+
+    const handleClose = () => {
+        setIsSettingsOpen(false); // Zavření modálního okna
     };
 
     if (!user || loading) {
@@ -56,11 +59,20 @@ const UserInfo = () => {
                 <ListItem>
                     <ListItemText primary="Tier členství" secondary={membershipInfo.membershipType} />
                 </ListItem>
-                <Divider light />
             </List>
-            <Button variant="outlined" color="primary" onClick={handleChangePassword}>
-                Změnit heslo
+            <Button variant="outlined" color="primary" onClick={handleChangeSettings}>
+                Upravit nastavení
             </Button>
+            <Modal
+                open={isSettingsOpen}
+                onClose={handleClose}
+                aria-labelledby="settings-modal-title"
+                aria-describedby="settings-modal-description"
+            >
+                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
+                    <UserSettingsForm handleClose={handleClose} user={user} />
+                </Box>
+            </Modal>
         </Paper>
     );
 };
