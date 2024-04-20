@@ -34,31 +34,44 @@ const AuthForm = ({ open, onClose }) => {
 	};
 
 	const handleGoogleLogin = async (idToken) => {
-    try {
-        const response = await axios.post(`http://localhost:3001/api/auth/validate-google-token`, {
-            idToken: idToken
-        });
-        if (response.data && response.data.token) {
-            login(response.data.token, response.data.user);
-            handleClose();
-        } else {
-            throw new Error('Google login failed: No token received');
-        }
-    } catch (error) {
-        setErrorMessage('Přihlášení přes Google se nezdařilo.');
-        console.error('Google login error:', error);
-    }
-};
+		try {
+			const response = await axios.post(`http://localhost:3001/api/auth/validate-google-token`, {
+				idToken: idToken
+			});
+			if (response.data && response.data.token) {
+				login(response.data.token, response.data.user);
+				handleClose();
+			} else {
+				throw new Error('Google login failed: No token received');
+			}
+		} catch (error) {
+			setErrorMessage('Přihlášení přes Google se nezdařilo.');
+			console.error('Google login error:', error);
+		}
+	};
 
 const googleLogin = useGoogleLogin({
-	onSuccess: (tokenResponse) => {
-			console.log(tokenResponse);
-			handleGoogleLogin(tokenResponse.access_token)
-		},
-    onError: () => {
-        setErrorMessage('Přihlášení přes Google se nezdařilo.');
-    },
-	scope: 'openid email profile'
+	flow: 'auth-code',
+	onSuccess: async codeResponse => {
+		console.log(codeResponse);
+		const tokens = await axios.post(`http://localhost:3001/api/auth/google`, {
+			code: codeResponse.code,
+		});
+		console.log(tokens);
+	},
+	onError: () => {
+		setErrorMessage('Přihlášení přes Google se nezdařilo.');
+	},
+	// },
+	//
+	// (tokenResponse) => {
+	// 		console.log(tokenResponse);
+	// 		handleGoogleLogin(tokenResponse.id_token)
+	// 	},
+    // onError: () => {
+    //     setErrorMessage('Přihlášení přes Google se nezdařilo.');
+    // },
+	// scope: 'openid email profile'
 });
 
 	const handleSubmit = async () => {
