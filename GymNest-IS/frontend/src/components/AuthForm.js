@@ -33,14 +33,13 @@ const AuthForm = ({ open, onClose }) => {
 			resetForm();
 	};
 
-	const handleGoogleLogin = async (googleToken) => {
+	const handleGoogleLogin = async (idToken) => {
     try {
-        // Ensure this endpoint is designed to handle the Google ID token in your backend
         const response = await axios.post(`http://localhost:3001/api/auth/validate-google-token`, {
-					idToken: googleToken
+            idToken: idToken
         });
         if (response.data && response.data.token) {
-            login(response.data.token, response.data.user, true);
+            login(response.data.token, response.data.user);
             handleClose();
         } else {
             throw new Error('Google login failed: No token received');
@@ -52,13 +51,19 @@ const AuthForm = ({ open, onClose }) => {
 };
 
 const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
+	onSuccess: (tokenResponse) => {
 			console.log(tokenResponse);
-			handleGoogleLogin(tokenResponse.access_token)
-		},
-    onError: () => {
-        setErrorMessage('Přihlášení přes Google se nezdařilo.');
-    }
+			if (tokenResponse.id_token) {
+					handleGoogleLogin(tokenResponse.id_token);
+			} else {
+					console.error('No ID token received:', tokenResponse);
+					setErrorMessage('Failed to receive ID token from Google.');
+			}
+	},
+	onError: () => {
+			setErrorMessage('Přihlášení přes Google se nezdařilo.');
+	},
+	scope: 'openid email profile'
 });
 
 	const handleSubmit = async () => {
