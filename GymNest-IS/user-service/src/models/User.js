@@ -9,6 +9,7 @@ class User extends Model {
             if (!user) {
                 throw new Error(`Error finding user by username: Uživatel s uživatelským jménem "${username}" nebyl nalezen.`);
             }
+            return user;
         }
         catch (error) {
             console.error('Error finding user by username:', error);
@@ -18,7 +19,11 @@ class User extends Model {
 
     static async findUserByEmail(email) {
         try {
-            return await this.findOne({ where: { email } });
+            const user = await this.findOne({ where: { email } });
+            if (!user) {
+                throw new Error(`Error finding user by email: Uživatel s emailem "${email}" nebyl nalezen.`);
+            }
+            return user;
         }
         catch (error) {
             console.error('Error finding user by email:', error);
@@ -39,7 +44,7 @@ class User extends Model {
             return true;
         } catch (error) {
             console.error('Chyba při odstraňování uživatele:', error);
-            throw error; // Předá chybu volajícímu
+            throw error;
         }
     }
 

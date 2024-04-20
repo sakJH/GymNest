@@ -1,74 +1,95 @@
-const { expect } = require('chai');
-const {
-    describeModel,
-    itBehavesLikeAModel,
-} = require('sequelize-test-helpers');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
-
-const sequelize = require('../../src/sequelize');
 const Activity = require('../../src/models/Activity');
 
-describe('Activity', () => {
-    const Activity = sequelize.import('../path/to/models/Activity');
+chai.use(chaiAsPromised);
+const expect = chai.expect;
 
-    describeModel(Activity, () => {
-        itBehavesLikeAModel(Activity);
+describe('Activity', function () {
+    let sandbox;
 
-        describe('hoursToMinutes', () => {
-            it('converts hours to minutes correctly', () => {
-                expect(Activity.hoursToMinutes(2)).to.equal(90);
-            });
-        });
+    beforeEach(() => {
+        sandbox = sinon.createSandbox();
+    });
 
-        describe('creating activities', () => {
-            const fakeDetails = { name: 'Yoga Class', type: 'Exercise', durationHours: 1 };
-            let createStub;
+    afterEach(() => {
+        sandbox.restore();
+    });
 
-            beforeEach(() => {
-                createStub = sinon.stub(Activity, 'create');
-            });
-
-            afterEach(() => {
-                createStub.restore();
-            });
-
-            it('creates an activity successfully', async () => {
-                createStub.resolves(fakeDetails);
-                const activity = await Activity.createActivity(fakeDetails);
-                expect(activity).to.equal(fakeDetails);
-            });
-
-            it('handles errors during activity creation', async () => {
-                createStub.rejects(new Error('Something went wrong'));
-                try {
-                    await Activity.createActivity(fakeDetails);
-                    expect.fail('Should not resolve');
-                } catch (error) {
-                    expect(error.message).to.equal('Something went wrong');
-                }
-            });
-        });
-
-        describe('updating activities', () => {
-            const fakeActivity = { id: 1, name: 'Pilates', update: sinon.spy() };
-            const updateDetails = { name: 'Advanced Pilates', durationHours: 2 };
-
-            it('updates an activity successfully', async () => {
-                sinon.stub(Activity, 'findByPk').resolves(fakeActivity);
-                await Activity.updateActivity(fakeActivity.id, updateDetails);
-                expect(fakeActivity.update.calledOnce).to.be.true;
-            });
-        });
-
-        describe('deleting activities', () => {
-            it('deletes an activity successfully', async () => {
-                const destroyStub = sinon.stub().resolves(1);
-                sinon.stub(Activity, 'findByPk').resolves({ destroy: destroyStub });
-
-                const result = await Activity.deleteActivity(1);
-                expect(destroyStub.calledOnce).to.be.true;
-                expect(result.message).to.equal('Activity successfully deleted');
-            });
+    describe('hoursToMinutes', function () {
+        it('should convert hours to minutes', function () {
+            const result = Activity.hoursToMinutes(2);
+            expect(result).to.equal(90);
         });
     });
+
+    describe('createActivity', function () {
+        it('should create an activity', async function () {
+            const details = { name: 'Yoga Class', durationHours: 2 };
+            const expectedActivity = { ...details, duration: 90 };
+
+            sandbox.stub(Activity, 'create').resolves(expectedActivity);
+            const result = await Activity.createActivity(details);
+
+            expect(result).to.deep.include(expectedActivity);
+        });
+
+        it('should handle errors during activity creation', async function () {
+            sandbox.stub(Activity, 'create').rejects(new Error('Database error'));
+            await expect(Activity.createActivity({})).to.be.rejectedWith('Database error');
+        });
+    });
+
+    describe('updateActivity', function () {
+        it('should update an activity', async function () {
+            const mockActivity = { id: 1, update: sinon.stub().resolves() };
+            sandbox.stub(Activity, 'findByPk').resolves(mockActivity);
+
+            const result = await Activity.updateActivity(1, { name: 'Updated Yoga Class' });
+            expect(Activity.findByPk.calledWith(1)).to.be.true;
+            expect(mockActivity.update.calledOnce).to.be.true;
+            expect(result).to.deep.equal(mockActivity);
+        });
+
+        it('should throw an error if activity is not found', async function () {
+            sandbox.stub(Activity, 'findByPk').resolves(null);
+            await expect(Activity.updateActivity(1, {})).to.be.rejectedWith('Activity not found');
+        });
+    });
+
+    describe('deleteActivity', function () {
+        it('should delete an activity', async function () {
+            const mockActivity = { id: 1, destroy: sinon.stub().resolves() };
+            sandbox.stub(Activity, 'findByPk').resolves(mockActivity);
+
+            const result = await Activity.deleteActivity(1);
+            expect(Activity.findByPk.calledWith(1)).to.be.true;
+            expect(mockActivity.destroy.calledOnce).to.be.true;
+            expect(result).to.deep.equal({ message: 'Activity successfully deleted' });
+        });
+
+        it('should throw an error if activity is not found', async function () {
+            sandbox.stub(Activity, 'findByPk').resolves(null);
+            await expect(Activity.deleteActivity(1)).to.be.rejectedWith('Activity not found');
+        });
+    });
+
+    describe('findAllActivities', function () {
+        it('should retrieve all activities', async function () {
+            const mockActivities = [{ id: 1, name: 'Yoga' }, { id: 2, name: 'Pilates' }];
+            sandbox.stub(Activity, 'findAll').resolves(mockActivities);
+
+            const result = await Activity.findAllActivities();
+            expect(Activity.findAll.calledOnce).to.be.true;
+            expect(result).to.deep.equal(mockActivities);
+        });
+
+        it('should handle errors when retrieving all activities', async function () {
+            sandbox.stub(Activity, 'findAll').rejects(new Error('Database error'));
+            await expect(Activity.findAllActivities()).to.be.rejectedWith('Database error');
+        });
+    });
+
+    // Similar structure for other methods
 });

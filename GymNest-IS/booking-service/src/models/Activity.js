@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../sequelize'); // Importuje instance Sequelize pro připojení k DB
+const sequelize = require('../sequelize');
 
 class Activity extends Model {
     // Metoda pro přepočet "hodin" na minuty
@@ -14,7 +14,6 @@ class Activity extends Model {
             details.duration = this.hoursToMinutes(details.durationHours);
             delete details.durationHours; // Odstraníme klíč durationHours, není potřeba ho ukládat
         }
-
         try {
             const activity = await this.create(details);
             return activity;
@@ -96,12 +95,11 @@ class Activity extends Model {
     // Metoda pro vyhledání aktivit podle typu
     static async findActivitiesByType(type) {
         try {
-            const activities = await this.findAll({
+            return await this.findAll({
                 where: {
                     type: type
                 }
             });
-            return activities;
         } catch (error) {
             throw error;
         }

@@ -17,11 +17,23 @@ class Role extends Model {
     }
 
     static async getAllRoles() {
-        return this.findAll();
+        try {
+            return this.findAll();
+        } catch (error) {
+            console.error('Chyba při získávání rolí:', error);
+            throw error;
+        }
     }
 
     static async findUsersByRole(roleName) {
-        return this.findOne({ where: { roleName } });
+        try {
+            return this.findAll({
+                where: { roleName }
+            });
+        } catch (error) {
+            console.error('Chyba při hledání uživatelů podle role:', error);
+            throw error;
+        }
     }
 
     static async setDefaultRole(userId) {
