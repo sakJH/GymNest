@@ -1,7 +1,12 @@
 const Auth = require('../models/Auth');
-const User = require('../models//User'); // Předpokládáme, že máme třídu User pro práci s uživatelskými daty
+const User = require('../models//User');
 
 class AuthService {
+
+    static async googleAuthCallback(req, res) {
+        console.log('Google Auth Callback:', req.body);
+        res.send('Google Auth Callback');
+    }
 
     static async register(userData) {
         try {

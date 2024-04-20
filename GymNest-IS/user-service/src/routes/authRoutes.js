@@ -8,7 +8,8 @@ router.use(bodyParser.json());
 
 // Redirect na Google pro autentizaci
 router.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'], failureMessage: 'Route/Error Google authentication' })
+);
 
 // Google callback URL, který obdrží data po přesměrování
 router.get('/auth/google/callback',

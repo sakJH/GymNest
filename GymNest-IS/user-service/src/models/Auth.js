@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs'); // Import bcrypt
 const { sign, verify } = require("jsonwebtoken");
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const User = require('./User');
 
 class Auth extends Model {
     static async hashPassword(password) {
@@ -31,14 +32,31 @@ class Auth extends Model {
     }
 
     static async verifyGoogleToken(idToken) {
-        const ticket = await client.verifyIdToken({
-            idToken: idToken,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-        const userid = payload['sub'];
-        // Zde můžete prověřit, zda uživatel existuje ve vaší databázi, případně vytvořit nový záznam
-        return payload;
+        console.log('Verifying 1st Google token:', idToken)
+        try {
+            console.log('Verifying 2nd Google token:', idToken)
+            const ticket = await client.verifyIdToken({
+                idToken: idToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+            const payload = ticket.getPayload();
+            const userId = payload['sub'];  // Google's user ID
+            // uživatel existuje ve vaší databázi?
+            let user = await User.findOne({ where: { googleId: userId } });
+            if (!user) {
+                // Pokud uživatel neexistuje, vytvoří nový záznam
+                user = await User.create({
+                    googleId: userId,
+                    email: payload['email'],
+                    name: payload['name']
+                });
+            }
+            console.log('Verifying 3rd Google token:', idToken)
+            return { user, payload };  // Vracíme objekt s uživatelem a payloadem
+        } catch (error) {
+            console.error('Error verifying Google token:', error);
+            throw new Error('Failed to verify Google token');
+        }
     }
 
     static async verifyRefreshToken(refreshToken) {

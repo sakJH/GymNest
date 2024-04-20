@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const { User } = require('../models/User'); // Cesta k modelu User
+const { User } = require('../models/User');
 const dotenv = require('dotenv');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
@@ -39,7 +39,6 @@ module.exports = (passport) => {
                         googleId: profile.id,
                         email: profile.emails[0].value,
                         name: profile.displayName
-                        // další potřebná pole podle vašeho modelu User
                     });
                 }
                 // Generování JWT tokenu
