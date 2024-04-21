@@ -13,12 +13,19 @@ const SchedulePage = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [loading, setLoading] = useState(false);
+  const [reservedSchedules, setReservedSchedules] = useState([]);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState('week'); // Přidání stavu pro režim zobrazení
 
   useEffect(() => {
     fetchSchedules(currentWeek, viewMode);
   }, [currentWeek, viewMode]);
+
+  useEffect(() => {
+    if (user && schedules.length > 0) {
+        fetchReservedSchedules();
+    }
+  }, [user, schedules]);
 
   const fetchSchedules = async (week, mode) => {
     setLoading(true);
@@ -69,6 +76,40 @@ const SchedulePage = () => {
     }
   };
 
+  const fetchReservedSchedules = async () => {
+    setLoading(true);
+    try {
+        // Načtení všech rezervací pro uživatele
+        const bookingsResponse = await axios.get(`http://localhost:3003/api/bookings/user/${user.id}`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+        });
+        const bookings = bookingsResponse.data;
+
+        // Filtrujeme pouze aktivní rezervace, které nejsou zrušené
+        const activeBookings = bookings.filter(booking => booking.status !== 'cancelled');
+        const reservedScheduleIds = activeBookings.map(booking => booking.scheduleId);
+
+        // Filtrace kombinovaných dat z fetchSchedules pro získání rezervovaných rozvrhů
+        const reservedSchedules = schedules.filter(schedule =>
+            reservedScheduleIds.includes(schedule.id)
+        ).map(schedule => {
+            const booking = bookings.find(booking => booking.scheduleId === schedule.id);
+            return {
+                ...schedule,
+                bookingId: booking.id
+            };
+        });
+
+        setReservedSchedules(reservedSchedules);
+        setError('');
+    } catch (error) {
+        console.error("Error fetching reserved schedules:", error);
+        setError('Nepodařilo se načíst rezervované rozvrhy.');
+    } finally {
+        setLoading(false);
+    }
+  };
+
   const onSelect = (scheduleId) => {
     const selected = schedules.find(schedule => schedule.id === scheduleId);
     setSelectedSchedule(selected);
@@ -76,39 +117,63 @@ const SchedulePage = () => {
 
   const onReserve = async (activityId, scheduleId) => {
     setLoading(true);
-    const bookingDetails = {
-      userId: user.id,
-      activityId: activityId,
-      scheduleId: scheduleId,
-      status: 'scheduled',
-      bookingDate: new Date().toISOString()
-    };
-
+    const existingBooking = reservedSchedules.find(schedule => schedule.id === scheduleId);
     try {
-      const response = await axios.post('http://localhost:3003/api/bookings/create', bookingDetails, {
-        headers: { 'Authorization': `Bearer ${token}` } // Předpokládáme, že máte token pro autorizaci
-      });
-
-      if (response.status === 201) {
-        setSchedules((prevSchedules) =>
-          prevSchedules.map(schedule =>
-            schedule.id === scheduleId ? { ...schedule, isReserved: true } : schedule
-          )
-        );
-        alert('Rezervace byla úspěšně provedena.');
-      }
-      setError('');
+        if (existingBooking) {
+            // Zrušení rezervace, pokud je rozvrh již rezervovaný
+            const response = await axios.delete(`http://localhost:3003/api/bookings/cancel/${existingBooking.bookingId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.status === 200) {
+                alert('Rezervace byla zrušena.');
+                setReservedSchedules(prev => prev.filter(sch => sch.bookingId !== existingBooking.bookingId));
+            }
+        } else {
+            // Vytvoření nové rezervace
+            const bookingDetails = {
+                userId: user.id,
+                activityId: activityId,
+                scheduleId: scheduleId,
+                status: 'scheduled',
+                bookingDate: new Date().toISOString()
+            };
+            const response = await axios.post('http://localhost:3003/api/bookings/create', bookingDetails, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.status === 201) {
+                alert('Rezervace byla úspěšně provedena.');
+                fetchReservedSchedules();  // Znovu načtěte seznam rezervovaných rozvrhů
+            }
+        }
     } catch (error) {
-      console.error("Error reserving schedule:", error);
-      setError('Nepodařilo se provést rezervaci.');
+        console.error("Error handling reservation:", error);
+        setError('Nepodařilo se zpracovat požadavek na rezervaci.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
-  return (
+return (
+  <Box sx={{ padding: 2 }}>
+      <Typography variant="h4" gutterBottom>Rozvrhy</Typography>
+      {user && reservedSchedules.length > 0 && (
+          <Box sx={{ padding: 2 }}>
+              <Typography variant="h5" gutterBottom>Moje Rezervace</Typography>
+              {loading ? (
+                  <CircularProgress />
+              ) : error ? (
+                  <Alert severity="error">{error}</Alert>
+              ) : (
+                  <ScheduleList
+                      schedules={reservedSchedules}
+                      onSelect={onSelect}
+                      onReserve={onReserve}
+                  />
+              )}
+          </Box>
+      )}
       <Box sx={{ padding: 2 }}>
-        <Typography variant="h4" gutterBottom>Rozvrhy</Typography>
+        <Typography variant="h5" gutterBottom>Všechny termíny</Typography>
         <WeekNavigator onChange={setCurrentWeek} onViewModeChange={setViewMode} />
         {loading ? (
             <CircularProgress />
@@ -116,7 +181,8 @@ const SchedulePage = () => {
             <Alert severity="error">{error}</Alert>
         ) : (
             <ScheduleList
-                schedules={schedules}
+                schedules={schedules.filter(schedule =>
+                    !reservedSchedules.some(reserved => reserved.id === schedule.id))}
                 onSelect={onSelect}
                 onReserve={onReserve}
             />
@@ -130,7 +196,8 @@ const SchedulePage = () => {
             />
         )}
       </Box>
-  );
+  </Box>
+);
 };
 
 export default SchedulePage;
