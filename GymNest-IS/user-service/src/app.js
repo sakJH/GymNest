@@ -7,6 +7,7 @@ require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 const User = require('./models/User');
+const bcrypt = require('bcryptjs');
 
 // Import rout
 const userRoutes = require('./routes/userRoutes');
@@ -57,6 +58,36 @@ app.listen(PORT, () => {
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
 
+    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'admin', 4).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'admin', 3).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'admin', 2).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'admin', 1).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
     console.log('Databáze a tabulky byly synchronizovány');
 
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
+
+//Inicial user
+
+async function createInitialUser(username, password, email, firstName, lastName, roleId) {
+    try {
+        const exists = await User.findOne({ where: { username } });
+
+        if (!exists) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = await User.create({
+                username,
+                passwordHash: hashedPassword,
+                email,
+                firstName,
+                lastName,
+                roleId,
+            });
+
+            console.log('Initial user created:', user);
+        } else {
+            console.log('Initial user already exists:', username);
+        }
+    } catch (error) {
+        console.error('Failed to create initial user:', error);
+    }
+}

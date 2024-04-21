@@ -9,6 +9,7 @@ const membershipRoutes = require('./routes/membershipRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const Membership = require('./models/Membership');
 const MembershipType = require('./models/MembershipType');
+const Payment = require('./models/Payment');
 
 Membership.belongsTo(MembershipType, {
     foreignKey: 'membershipTypeId',
@@ -30,7 +31,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use(express.json()); // Middleware pro parsování JSON těl požadavků
+app.use(express.json());
 
 // Použití rout pro členství
 app.use('/api', membershipRoutes);
@@ -47,5 +48,53 @@ app.listen(PORT, () => {
 });
 
 sequelize.sync({ force: false }).then(() => {
+    createInitialMembership(1, 2).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
+    createInitialPayment(1, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+
+    createInitialMembership(2, 2).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
+    createInitialPayment(2, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+
+    createInitialMembership(3, 3).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
+    createInitialPayment(3, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+
+    createInitialMembership(4, 1).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
+    createInitialPayment(4, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
     console.log('Databáze a tabulky byly synchronizovány');
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
+
+//Inicializace dat
+async function createInitialMembership(userId, typeId) {
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setFullYear(startDate.getFullYear() + 1);
+
+    try {
+        const exists = await Membership.findOne({ where: { userId } });
+        if (!exists) {
+            await Membership.create({
+                userId,
+                membershipTypeId: typeId,
+                startDate: startDate,
+                endDate: endDate,
+                status: 'active'
+            });
+            console.log(`Membership created for user ID: ${userId}`);
+        }
+    } catch (err) {
+        console.log(`Membership error for user ID: ${userId}`);
+    }
+}
+
+async function createInitialPayment(userId, membershipId, amount, status = 'completed') {
+    const paymentExists = await Payment.findOne({ where: { membershipId } });
+    if (!paymentExists) {
+        await Payment.create({
+            amount,
+            paymentDate: new Date(),
+            status,
+            membershipId,
+            description: 'Initial payment'
+        });
+        console.log(`Payment created for Membership ID: ${membershipId}`);
+    }
+}

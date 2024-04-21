@@ -29,4 +29,3 @@ CREATE INDEX idx_email ON users(Email);
 ALTER TABLE `users` ADD FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`);
 
 INSERT INTO roles (RoleName) VALUES ('user'), ('member'), ('coach'), ('admin');
-INSERT INTO users (Username, PasswordHash, Email, firstName, lastName, dateOfBirth,RoleId, preferredCurrency, colorScheme) VALUES ('adminName', 'adminPass', 'admin@email.com', 'Jan', 'Sakač', '1999-09-01', 1,'CZK', 'light');
