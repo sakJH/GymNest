@@ -1,0 +1,10 @@
+Dokumentace:
+Manažerské shrnutí
+Věcná část projektu
+ Funkční analýza
+  Big Picture, Úvod
+  UC model
+ Technický design
+  Popis architektury
+  Doménový / datový model
+  Návrh infrastruktury
