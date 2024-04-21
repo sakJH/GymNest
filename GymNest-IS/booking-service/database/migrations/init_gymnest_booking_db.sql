@@ -75,7 +75,7 @@ INSERT INTO schedules (activityId, startTime, endTime, capacity) VALUES
     (8, '2024-04-27 12:00:00', '2024-04-27 12:45:00', 15),
     (9, '2024-04-28 14:00:00', '2024-04-28 14:50:00', 8),
     (10, '2024-04-29 10:00:00', '2024-04-29 11:00:00', 10),
-    (11, '2024-04-30 12:00:00', '2024-04-30 12:45:00', 15);
+    (10, '2024-04-30 12:00:00', '2024-04-30 12:45:00', 15);
 
 -- Přidání rezervací
 INSERT INTO bookings (userId, activityId, scheduleId, status, bookingDate) VALUES
