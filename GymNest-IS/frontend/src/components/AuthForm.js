@@ -1,7 +1,7 @@
 // AuthForm.js
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert, Box, Chip } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Alert } from '@mui/material';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
 
@@ -81,36 +81,31 @@ const AuthForm = ({ open, onClose }) => {
 	};
 
 	return (
-		<>
-			<Button variant="outlined" onClick={toggleLoginRegister}>
-				Přepnout na {isLogin ? "Registraci" : "Přihlášení"}
-			</Button>
-			<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-				<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
-				<DialogContent>
-					{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-					<TextField autoFocus margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
-					{!isLogin && (
-						<>
-							<TextField margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
-							<TextField margin="dense" id="firstname" label="Jméno" type="text" fullWidth variant="standard" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-							<TextField margin="dense" id="lastname" label="Příjmení" type="text" fullWidth variant="standard" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-						</>
-					)}
-					<TextField margin="dense" id="password" label="Heslo" type="password" fullWidth variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
-				</DialogContent>
-				<DialogActions style={{ justifyContent: 'space-between' }}>
-					<Button onClick={toggleLoginRegister} color="primary">
-						{isLogin ? "Chcete se registrovat?" : "Chcete se přihlásit?"}
-					</Button>
-					<Button onClick={handleClose}>Zrušit</Button>
-					<Button onClick={handleSubmit} color="primary">{isLogin ? "Přihlásit" : "Registrovat"}</Button>
-					<Button onClick={googleLogin} variant="contained" style={{ backgroundColor: '#4285F4', color: 'white' }}>
-						{isLogin ? "Přihlásit se přes Google" : "Registrovat se přes Google"}
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</>
+		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+			<DialogTitle>{isLogin ? "Přihlášení" : "Registrace"}</DialogTitle>
+			<DialogContent>
+				{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+				<TextField autoFocus margin="dense" id="username" label="Uživatelské jméno" type="text" fullWidth variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
+				{!isLogin && (
+					<>
+						<TextField margin="dense" id="email" label="Emailová adresa" type="email" fullWidth variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
+						<TextField margin="dense" id="firstname" label="Jméno" type="text" fullWidth variant="standard" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+						<TextField margin="dense" id="lastname" label="Příjmení" type="text" fullWidth variant="standard" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+					</>
+				)}
+				<TextField margin="dense" id="password" label="Heslo" type="password" fullWidth variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
+			</DialogContent>
+			<DialogActions style={{ justifyContent: 'space-between' }}>
+				<Button onClick={toggleLoginRegister} color="primary">
+					{isLogin ? "Chcete se registrovat?" : "Chcete se přihlásit?"}
+				</Button>
+				<Button onClick={handleClose}>Zrušit</Button>
+				<Button onClick={handleSubmit} color="primary">{isLogin ? "Přihlásit" : "Registrovat"}</Button>
+				<Button onClick={googleLogin} variant="contained" style={{ backgroundColor: '#4285F4', color: 'white' }}>
+					{isLogin ? "Přihlásit se přes Google" : "Registrovat se přes Google"}
+				</Button>
+			</DialogActions>
+		</Dialog>
 	);
 };
 

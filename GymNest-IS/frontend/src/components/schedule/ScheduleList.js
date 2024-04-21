@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { List, ListItem, ListItemText, ListItemButton, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { AuthContext } from '../AuthContext';
 
-const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, role }) => {
+const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, role, onReserve }) => {
+    const { user } = useContext(AuthContext);
     // Přeformátování datumu a času pro zobrazení
     const formattedStartDate = new Date(schedule.startTime).toLocaleDateString();
     const formattedStartTime = new Date(schedule.startTime).toLocaleTimeString();
@@ -33,16 +35,18 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, role }) => {
                     </IconButton>
                 </Tooltip>
             )}
-            <Tooltip title="Rezervovat">
-                <IconButton onClick={(e) => { e.stopPropagation(); onSelect(schedule.id); }}>
-                    <EventAvailableIcon />
-                </IconButton>
-            </Tooltip>
+            {user && (
+                <Tooltip title="Rezervovat">
+                    <IconButton onClick={(e) => { e.stopPropagation(); onReserve(schedule.activityId, schedule.id); }}>
+                        <EventAvailableIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
         </ListItem>
     );
 };
 
-export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role }) => {
+export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role, onReserve }) => {
     return (
         <List sx={{ width: '100%' }}>
             {schedules.map((schedule, index) => (
@@ -53,6 +57,7 @@ export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role }) =>
                     onEdit={onEdit}
                     onDelete={onDelete}
                     role={role}
+                    onReserve={onReserve}
                 />
             ))}
         </List>

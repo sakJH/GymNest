@@ -53,10 +53,14 @@ class Notification extends Model {
         }
     }
 
-    // Získání všech notifikací
-    static async findAllNotifications() {
+    // Získání notifikací
+    static async findAllNotifications(userId) {
         try {
-            return await this.findAll();
+            return await this.findAll({
+                where: {
+                    userId: userId  // Filtruje notifikace tak, aby odpovídaly předanému userId
+                }
+            });
         } catch (error) {
             throw error;
         }

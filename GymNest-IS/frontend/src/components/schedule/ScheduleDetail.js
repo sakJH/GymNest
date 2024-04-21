@@ -1,7 +1,10 @@
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button, Box } from '@mui/material';
+import React, { useContext } from 'react';
+import { Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button, Box, IconButton, Tooltip } from '@mui/material';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { AuthContext } from '../AuthContext';
 
-const ScheduleDetail = ({ schedule, open, onClose }) => {
+const ScheduleDetail = ({ schedule, open, onClose, onReserve }) => {
+    const { user } = useContext(AuthContext);
     // Formátování datumu a času pro lepší zobrazení
     const formattedStartDate = new Date(schedule.startTime).toLocaleDateString();
     const formattedStartTime = new Date(schedule.startTime).toLocaleTimeString();
@@ -21,6 +24,13 @@ const ScheduleDetail = ({ schedule, open, onClose }) => {
                     )}
                 </Box>
             </DialogContent>
+            {user && (
+                <Tooltip title="Rezervovat">
+                    <IconButton onClick={(e) => { e.stopPropagation(); onReserve(schedule.activityId, schedule.id); }}>
+                        <EventAvailableIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
             <DialogActions>
                 <Button onClick={onClose} color="primary">Zavřít</Button>
             </DialogActions>

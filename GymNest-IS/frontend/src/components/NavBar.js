@@ -34,7 +34,9 @@ const Navbar = () => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button color="inherit" component={Link} to="/">Domů</Button>
             <Button color="inherit" component={Link} to="/akce">Akce</Button>
-            <Button color="inherit" component={Link} to="/clenstvi">Členství</Button>
+            {user && (
+              <Button color="inherit" component={Link} to="/clenstvi">Členství</Button>
+            )}
             <Button color="inherit" component={Link} to="/rozvrhy">Rozvrhy</Button>
             {!user ? (
                 <Button color="inherit" onClick={handleAuthOpen}>Přihlásit / Registrovat</Button>

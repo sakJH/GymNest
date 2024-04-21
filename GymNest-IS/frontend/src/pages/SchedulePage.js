@@ -8,13 +8,13 @@ import ScheduleDetail from '../components/./schedule/ScheduleDetail';
 import { startOfWeek, endOfWeek, addWeeks, format, addMonths } from 'date-fns';
 
 const SchedulePage = () => {
+  const { user, token } = useContext(AuthContext);
   const [schedules, setSchedules] = useState([]);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState('week'); // Přidání stavu pro režim zobrazení
-  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     fetchSchedules(currentWeek, viewMode);
@@ -51,7 +51,12 @@ const SchedulePage = () => {
 
       const combinedData = fetchedSchedules.map(schedule => {
         const activityDetails = fetchedActivities.find(activity => activity.id === schedule.activityId);
-        return { ...schedule, ...activityDetails };
+        return {
+          ...schedule,
+          activityId: activityDetails.id,  // přidáme 'activityId' pro jedinečné identifikaci aktivity, pokud je potřeba
+          ...activityDetails,
+          id: schedule.id  // Explicitně zachovat 'id' z 'schedule', přepíše jakékoli 'id' přidané z 'activityDetails'
+        };
       });
 
       setSchedules(combinedData);
@@ -69,6 +74,38 @@ const SchedulePage = () => {
     setSelectedSchedule(selected);
   };
 
+  const onReserve = async (activityId, scheduleId) => {
+    setLoading(true);
+    const bookingDetails = {
+      userId: user.id,
+      activityId: activityId,
+      scheduleId: scheduleId,
+      status: 'scheduled',
+      bookingDate: new Date().toISOString()
+    };
+
+    try {
+      const response = await axios.post('http://localhost:3003/api/bookings/create', bookingDetails, {
+        headers: { 'Authorization': `Bearer ${token}` } // Předpokládáme, že máte token pro autorizaci
+      });
+
+      if (response.status === 201) {
+        setSchedules((prevSchedules) =>
+          prevSchedules.map(schedule =>
+            schedule.id === scheduleId ? { ...schedule, isReserved: true } : schedule
+          )
+        );
+        alert('Rezervace byla úspěšně provedena.');
+      }
+      setError('');
+    } catch (error) {
+      console.error("Error reserving schedule:", error);
+      setError('Nepodařilo se provést rezervaci.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
       <Box sx={{ padding: 2 }}>
         <Typography variant="h4" gutterBottom>Rozvrhy</Typography>
@@ -81,6 +118,7 @@ const SchedulePage = () => {
             <ScheduleList
                 schedules={schedules}
                 onSelect={onSelect}
+                onReserve={onReserve}
             />
         )}
         {selectedSchedule && (
@@ -88,6 +126,7 @@ const SchedulePage = () => {
                 schedule={selectedSchedule}
                 open={true}
                 onClose={() => setSelectedSchedule(null)}
+                onReserve={onReserve}
             />
         )}
       </Box>
