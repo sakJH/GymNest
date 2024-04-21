@@ -77,40 +77,6 @@ class MembershipController {
         }
     }
 
-    // Metody pro změnu stavu členství
-    async pauseSubscription(req, res) {
-        const { id } = req.params;
-        try {
-            const pausedMembership = await MembershipService.pauseSubscription(id);
-            res.status(200).json(pausedMembership);
-        } catch (error) {
-            console.error('Error pausing membership:', error);
-            res.status(500).json({ message: error.message });
-        }
-    }
-
-    async reactivateSubscription(req, res) {
-        const { id } = req.params;
-        try {
-            const reactivatedMembership = await MembershipService.reactivateSubscription(id);
-            res.status(200).json(reactivatedMembership);
-        } catch (error) {
-            console.error('Error reactivating membership:', error);
-            res.status(500).json({ message: error.message });
-        }
-    }
-
-    async cancelSubscription(req, res) {
-        const { id } = req.params;
-        try {
-            const cancelledMembership = await MembershipService.cancelSubscription(id);
-            res.status(200).json(cancelledMembership);
-        } catch (error) {
-            console.error('Error cancelling membership:', error);
-            res.status(500).json({ message: error.message });
-        }
-    }
-
     // Metody pro vyhledávání členství
     async findByType(req, res) {
         const { type } = req.params;

@@ -4,8 +4,10 @@ const Auth = require('../models/Auth');
 const { OAuth2Client } = require('google-auth-library');
 
 class AuthController {
+
     // Google vymena tokenu
     static async googleAuthenticate(req, res) {
+        console.log('Verifying Google Auth code')
         const client = new OAuth2Client(
             process.env.GOOGLE_CLIENT_ID,
             process.env.GOOGLE_CLIENT_SECRET,
@@ -14,9 +16,11 @@ class AuthController {
         try {
             const { code } = req.body;
             if (!code) {
+                console.log('Code is required')
                 return res.status(400).json({ error: 'Code is required' });
             }
             // Exchange code for tokens
+            console.log('Exchanging code for tokens')
             const { tokens } = await client.getToken(code);
             if (tokens.id_token) {
                 res.json({
@@ -27,6 +31,7 @@ class AuthController {
                     expiresIn: tokens.expiry_date
                 });
             } else {
+                console.log('ID token not found')
                 res.status(500).json({ error: 'ID token not found' });
             }
         } catch (error) {
@@ -118,12 +123,12 @@ class AuthController {
     static async validateGoogleToken(req, res) {
         try {
             const idToken = req.body.idToken;
+            console.log('Validating Google token', idToken);
             if (!idToken) {
                 return res.status(400).json({ error: 'Google ID token is required.' });
             }
-
             const userData = await AuthService.validateGoogleToken(idToken);
-
+            console.log('Validating userData ', userData)
             if (!userData) {
                 return res.status(401).json({ error: 'Invalid Google token' });
             }

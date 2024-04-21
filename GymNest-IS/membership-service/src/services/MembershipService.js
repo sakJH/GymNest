@@ -80,40 +80,6 @@ class MembershipService {
         }
     }
 
-    // Metody pro změnu stavu členství
-    static async pauseSubscription(id) {
-        try {
-            const pausedMembership = await Membership.pauseSubscription(id);
-            console.log('Membership paused successfully:', pausedMembership);
-            return pausedMembership;
-        } catch (error) {
-            console.error('Error pausing membership:', error);
-            throw error;
-        }
-    }
-
-    static async reactivateSubscription(id) {
-        try {
-            const reactivatedMembership = await Membership.reactivateSubscription(id);
-            console.log('Membership reactivated successfully:', reactivatedMembership);
-            return reactivatedMembership;
-        } catch (error) {
-            console.error('Error reactivating membership:', error);
-            throw error;
-        }
-    }
-
-    static async cancelSubscription(id) {
-        try {
-            const cancelledMembership = await Membership.cancelSubscription(id);
-            console.log('Membership cancelled successfully:', cancelledMembership);
-            return cancelledMembership;
-        } catch (error) {
-            console.error('Error cancelling membership:', error);
-            throw error;
-        }
-    }
-
     // Metody pro vyhledávání členství
     static async findByType(type) {
         try {

@@ -1,9 +1,10 @@
-//Membership.js
-const { Model, DataTypes } = require('sequelize');
+// Membership.js
+const { Model, DataTypes, Sequelize} = require('sequelize');
 const sequelize = require('../sequelize');
+const MembershipType = require("./MembershipType");
 
 class Membership extends Model {
-
+    // Vytvoření nového členství
     static async createMembership(data) {
         try {
             return await this.create(data);
@@ -12,6 +13,7 @@ class Membership extends Model {
         }
     }
 
+    // Aktualizace členství
     static async updateMembership(id, updateData) {
         try {
             const [updatedRows] = await this.update(updateData, { where: { id } });
@@ -24,6 +26,7 @@ class Membership extends Model {
         }
     }
 
+    // Vyhledání členství podle ID
     static async findMembershipById(id) {
         try {
             return await this.findByPk(id);
@@ -32,6 +35,7 @@ class Membership extends Model {
         }
     }
 
+    // Odstranění členství
     static async deleteMembership(id) {
         try {
             const membership = await this.findByPk(id);
@@ -45,14 +49,22 @@ class Membership extends Model {
         }
     }
 
+    // Vyhledání všech členství
     static async findAllMemberships() {
         try {
-            return await this.findAll();
+            return await this.findAll({
+                include: [{
+                    model: MembershipType,
+                    as: 'membershipType'
+                }]
+            });
         } catch (error) {
             throw error;
         }
     }
 
+
+    // Vyhledání členství podle ID uživatele
     static async findMembershipsByUserId(userId) {
         try {
             return await this.findAll({ where: { userId } });
@@ -61,60 +73,14 @@ class Membership extends Model {
         }
     }
 
-    // Původní metody z Subscription
-
-    // Metoda pro získání aktivních předplatných
-    static async findActive() {
-        return await this.findAll({
-            where: {
-                status: 'active'
-            }
-        });
-    }
-
-    // Metoda pro pozastavení předplatného
-    static async pauseSubscription(id) {
-        const subscription = await this.findByPk(id);
-        if (!subscription) throw new Error('Subscription not found');
-
-        subscription.status = 'paused';
-        await subscription.save();
-        return subscription;
-    }
-
-    // Metoda pro reaktivaci předplatného
-    static async reactivateSubscription(id) {
-        const subscription = await this.findByPk(id);
-        if (!subscription) throw new Error('Subscription not found');
-
-        subscription.status = 'active';
-        await subscription.save();
-        return subscription;
-    }
-
-    // Metoda pro zrušení předplatného
-    static async cancelSubscription(id) {
-        const subscription = await this.findByPk(id);
-        if (!subscription) throw new Error('Subscription not found');
-
-        subscription.status = 'cancelled';
-        await subscription.save();
-        return subscription;
-    }
-
-    // Metoda pro získání předplatného podle typu
-    static async findByType(type) {
-        return await this.findAll({
-            where: { type }
-        });
-    }
-
+    // Vyhledání členství podle stavu
     static async findByStatus(status) {
         return await this.findAll({
             where: { status }
         });
     }
 
+    // Vyhledání expirujících členství
     static async findExpiringSoon(days = 30) {
         const today = new Date();
         const targetDate = new Date(today);
@@ -130,6 +96,7 @@ class Membership extends Model {
         });
     }
 
+    // Obnovení členství
     static async renewMembership(id, durationMonths = 12) {
         const membership = await this.findByPk(id);
         if (!membership) throw new Error('Membership not found');
@@ -143,17 +110,16 @@ class Membership extends Model {
         return membership;
     }
 
-    //Metoda pro změnu typu předplatného
-    static async changeMembershipType(id, newType) {
+    // Změna typu členství
+    static async changeMembershipType(id, newTypeId) {
         const membership = await this.findByPk(id);
         if (!membership) throw new Error('Membership not found');
 
-        membership.membershipType = newType;
+        membership.membershipTypeId = newTypeId;
         await membership.save();
 
         return membership;
     }
-
 }
 
 Membership.init({
@@ -163,11 +129,12 @@ Membership.init({
     userId: {
         type: DataTypes.INTEGER, allowNull: false
     },
-    membershipType: {
-        type: DataTypes.STRING, allowNull: false
-    },
-    membershipPrice: {
-        type: DataTypes.DECIMAL(10, 2), allowNull: false
+    membershipTypeId: {
+        type: DataTypes.INTEGER, allowNull: false,
+        references: {
+            model: 'membershipTypes',
+            key: 'id'
+        }
     },
     startDate: {
         type: DataTypes.DATEONLY, allowNull: false

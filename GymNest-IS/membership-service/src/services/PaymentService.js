@@ -21,14 +21,46 @@ class PaymentService {
         return await Payment.findPaymentsByStatus(status);
     }
 
-    async generatePaymentReport(parameters) {
-        // TODO - dodělat nebo smazat
-        return await Payment.generatePaymentReport(parameters);
-    }
 
     async findPaymentsByUserId(userId) {
         return await Payment.findPaymentsByUserId(userId);
     }
+
+    // Metody pro pozastavení členství
+    async pausePayment(id) {
+        try {
+            const pausedMembership = await Payment.pausePayment(id);
+            console.log('Membership paused successfully:', pausedMembership);
+            return pausedMembership;
+        } catch (error) {
+            console.error('Error pausing membership:', error);
+            throw error;
+        }
+    }
+
+    async reactivatePayment(id) {
+        try {
+            const reactivatedMembership = await Payment.reactivatePayment(id);
+            console.log('Membership reactivated successfully:', reactivatedMembership);
+            return reactivatedMembership;
+        } catch (error) {
+            console.error('Error reactivating membership:', error);
+            throw error;
+        }
+    }
+
+    async cancelPayment(id) {
+        try {
+            const cancelledMembership = await Payment.cancelPayment(id);
+            console.log('Membership cancelled successfully:', cancelledMembership);
+            return cancelledMembership;
+        } catch (error) {
+            console.error('Error cancelling membership:', error);
+            throw error;
+        }
+    }
+
+
 
 }
 

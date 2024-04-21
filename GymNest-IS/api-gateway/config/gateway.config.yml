@@ -26,10 +26,6 @@ apiEndpoints:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
     paths: "/api/users/*"
-  profiles:
-    host: "*"
-    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api/profiles/*"
   roles:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
@@ -42,10 +38,6 @@ apiEndpoints:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
     paths: "/api/payments/*"
-  subscriptions:
-    host: "*"
-    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api/subscriptions/*"
   bookings:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
@@ -57,7 +49,11 @@ apiEndpoints:
   schedules:
     host: "*"
     methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
-    paths: "/api/schedule/*"
+    paths: "/api/schedules/*"
+  notifications:
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/notifications/*"
 
 serviceEndpoints:
   apiService:
@@ -72,8 +68,8 @@ policies:
   - proxy
   - log
   - basic-auth
-  - cors
   - expression
+  - cors
   - key-auth
   - oauth2
   - rate-limit
@@ -86,12 +82,12 @@ pipelines:
       - log:
           - action:
               message: "Request to ${req.method} with ${req.path} ${req.originalUrl} with headers ${JSON.stringify(req.headers)} requesting IP: ${req.ip} origin ${req.headers.origin}"
-      - cors:
-          - action:
-              origin: "*"
-              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
-              allowedHeaders: "Content-Type, Authorization"
-              exposedHeaders: [ "*" ]
+#      - cors:
+#          - action:
+#              origin: "*"
+#              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+#              allowedHeaders: "Content-Type, Authorization"
+#              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: apiService
@@ -100,18 +96,17 @@ pipelines:
     apiEndpoints:
       - auth
       - users
-      - profiles
       - roles
     policies:
       - log:
           - action:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
-      - cors:
-          - action:
-              origin: "*"
-              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
-              allowedHeaders: "Content-Type, Authorization"
-              exposedHeaders: [ "*" ]
+#      - cors:
+#          - action:
+#              origin: "*"
+#              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+#              allowedHeaders: "Content-Type, Authorization"
+#              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: userService
@@ -120,27 +115,26 @@ pipelines:
     apiEndpoints:
       - memberships
       - payments
-      - subscriptions
     policies:
       - log:
           - action:
               message: "Request to ${req.method} ${req.originalUrl} with headers ${JSON.stringify(req.headers)}"
-      - cors:
-          - action:
-              origin: "*"
-              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
-              allowedHeaders: "Content-Type, Authorization"
-              exposedHeaders: [ "*" ]
+#      - cors:
+#          - action:
+#              origin: "*"
+#              methods: "HEAD, GET, POST, PATCH, PUT, DELETE"
+#              allowedHeaders: "Content-Type, Authorization"
+#              exposedHeaders: [ "*" ]
       - proxy:
           - action:
               serviceEndpoint: membershipService
               changeOrigin: true
   bookingPipeline:
     apiEndpoints:
-      - activity
-      - bookings
       - activities
-      - schedule
+      - bookings
+      - notifications
+      - schedules
     policies:
       - log:
           - action:

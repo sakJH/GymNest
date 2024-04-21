@@ -84,6 +84,40 @@ class PaymentController {
         }
     }
 
+    // Metody pro pozastavení členství
+    async pauseSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const pauseSubscription = await PaymentService.pausePayment(id);
+            res.status(200).json(pauseSubscription);
+        } catch (error) {
+            console.error('Error pausing membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async reactivateSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const reactivatedMembership = await PaymentService.reactivatePayment(id);
+            res.status(200).json(reactivatedMembership);
+        } catch (error) {
+            console.error('Error reactivating membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async cancelSubscription(req, res) {
+        const { id } = req.params;
+        try {
+            const cancelledMembership = await PaymentService.cancelPayment(id);
+            res.status(200).json(cancelledMembership);
+        } catch (error) {
+            console.error('Error cancelling membership:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = new PaymentController();

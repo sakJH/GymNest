@@ -75,6 +75,36 @@ class Payment extends Model {
             throw error;
         }
     }
+
+    // Metoda pro pozastavení předplatného
+    static async pausePayment(id) {
+        const payment = await this.findByPk(id);
+        if (!payment) throw new Error('Subscription not found');
+
+        payment.status = 'paused';
+        await payment.save();
+        return payment;
+    }
+
+    // Metoda pro reaktivaci předplatného
+    static async reactivatePayment(id) {
+        const payment = await this.findByPk(id);
+        if (!payment) throw new Error('Subscription not found');
+
+        payment.status = 'active';
+        await payment.save();
+        return payment;
+    }
+
+    // Metoda pro zrušení předplatného
+    static async cancelPayment(id) {
+        const payment = await this.findByPk(id);
+        if (!payment) throw new Error('Subscription not found');
+
+        payment.status = 'cancelled';
+        await payment.save();
+        return payment;
+    }
 }
 
 Payment.init({

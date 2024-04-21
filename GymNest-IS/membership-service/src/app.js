@@ -7,7 +7,18 @@ const cors = require('cors');
 const morgan = require('morgan');
 const membershipRoutes = require('./routes/membershipRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const Membership = require('./models/Membership');
+const MembershipType = require('./models/MembershipType');
 
+Membership.belongsTo(MembershipType, {
+    foreignKey: 'membershipTypeId',
+    as: 'membershipType'
+});
+
+MembershipType.hasMany(Membership, {
+    foreignKey: 'membershipTypeId',
+    as: 'memberships'
+});
 const options = {
     swaggerDefinition,
     apis: ['./src/routes/*.js'],

@@ -20,65 +20,61 @@ log:
 
 apiEndpoints:
   api:
-    host: '*'
-    methods: ['POST', 'GET', 'PUT', 'DELETE']
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api"
   auth:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: [ '/auth', '/auth/*' ]
-  authGoogle:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: [ '/auth/google/','/auth/google/*' ]
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/auth/*"
   users:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: [ '/users/', '/users/*' ]
-  profiles:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: '/profiles/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/users/*"
   roles:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: '/roles/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/roles/*"
   memberships:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'memberships/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/memberships/*"
   payments:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/payments/*'
-  subscriptions:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/subscriptions/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/payments/*"
   bookings:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/bookings/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/bookings/*"
   activities:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/activities/*'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/activities/*"
   schedules:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: 'api/schedule/*'
-  swagger:
-    host: '*'
-    methods: [ 'POST', 'GET', 'PUT', 'DELETE' ]
-    paths: '/docs'
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/schedules/*"
+  notifications:
+    host: "*"
+    methods: [ "HEAD", "GET", "POST", "PUT", "DELETE" ]
+    paths: "/api/notifications/*"
 
 serviceEndpoints:
   apiService:
-    url: 'http://app-api-gateway:3005'
+    url: "http://app-api-gateway:3004"# "http://express-gateway-service:3005" způsůbí log storm (problémy s přesměrováním)
   userService:
-    url: 'http://app-user-management-service:3001/api'
+    url: "http://app-user-management-service:3001"
   membershipService:
-    url: 'http://app-management-service:3002/api'
+    url: "http://app-membership-service:3002"#, "http://app-management-service:3002", "http://localhost:3002"]
   bookingService:
-    url: 'http://app-booking-service:3003/api'
-  swaggerService:
-    url: 'http://frontend:3000/docs'
+    url: "http://app-booking-service:3003"#, "http://localhost:3003"]
+policies:
+  - proxy
+  - log
+  - basic-auth
+  - expression
+  - cors
+  - key-auth
+  - oauth2
+  - rate-limit

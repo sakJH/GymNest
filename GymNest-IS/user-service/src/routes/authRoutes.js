@@ -7,13 +7,33 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
 // Redirect na Google pro autentizaci
+/**
+ * @swagger
+ * /auth/google:
+ *   get:
+ *     summary: "Přesměrování na Google pro autentizaci"
+ *     description: "Tato endpointa přesměruje uživatele na Google pro autentizaci."
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       302:
+ *         description: "Přesměrování na Google"
+ */
 router.post('/auth/google', AuthController.googleAuthenticate);
 
-// TODO Smazat, pokud se nepletu ze nebylo pouzivano?
-//      passport.authenticate('google', { scope: ['profile', 'email'], failureMessage: 'Route/Error Google authentication' })
-//
-
 // Google callback URL, který obdrží data po přesměrování
+/**
+ * @swagger
+ * /auth/google/callback:
+ *   get:
+ *     summary: "Google callback URL"
+ *     description: "Tato endpointa obdrží data po přesměrování z Google a vrací uživatele a tokeny."
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       302:
+ *         description: "Přesměrování na Google"
+ */
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/googleError' }),
 );
@@ -205,7 +225,52 @@ router.post('/auth/refresh-token', AuthController.refreshToken);
 router.post('/auth/validate-token', AuthController.validateToken);
 
 // Route pro validaci Google ID tokenu
-
+/**
+ * @swagger
+ * /auth/validate-google-token:
+ *   post:
+ *     summary: "Validace Google ID tokenu"
+ *     description: "Přijímá Google ID token a ověřuje jeho platnost."
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - token
+ *             properties:
+ *               token:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: "Token je platný"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Token is valid"
+ *                 decoded:
+ *                   type: object
+ *                   properties:
+ *                     sub:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     picture:
+ *                       type: string
+ *       401:
+ *         description: "Neplatný token"
+ *       500:
+ *         description: "Serverová chyba při validaci tokenu"
+ */
 router.post('/auth/validate-google-token', AuthController.validateGoogleToken);
 
 // Odhlášení uživatele
@@ -220,6 +285,5 @@ router.post('/auth/validate-google-token', AuthController.validateGoogleToken);
  *         description: Uživatel byl úspěšně odhlášen
  */
 router.get('/auth/logout', AuthController.logout);
-
 
 module.exports = router;

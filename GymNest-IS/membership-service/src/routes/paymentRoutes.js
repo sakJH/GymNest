@@ -27,7 +27,7 @@ const router = express.Router();
  *       500:
  *         description: Chyba serveru
  */
-router.post('/payments', PaymentController.createPayment);
+router.post('/payments/create', PaymentController.createPayment);
 
 // Aktualizace stavu platby
 /**
@@ -174,5 +174,89 @@ router.get('/payments/status/:status', PaymentController.findPaymentsByStatus);
  *         description: Chyba serveru
  */
 router.get('/payments/all/:userId', PaymentController.findPaymentsByUserId);
+
+// Pozastavení členství podle ID
+/**
+ * @swagger
+ * /memberships/pause/{id}:
+ *   put:
+ *     summary: Pozastavení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné pozastavení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/pause/:id', PaymentController.pauseSubscription);
+
+// Obnovení členství podle ID
+/**
+ * @swagger
+ * /memberships/reactivate/{id}:
+ *   put:
+ *     summary: Obnovení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné obnovení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/reactivate/:id', PaymentController.reactivateSubscription);
+
+// Zrušení členství podle ID
+/**
+ * @swagger
+ * /memberships/cancel/{id}:
+ *   put:
+ *     summary: Zrušení členství podle ID
+ *     tags: [Memberships]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID členství
+ *         schema:
+ *           membershipType: integer
+ *     responses:
+ *       200:
+ *         description: Úspěšné zrušení členství
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Membership'
+ *       404:
+ *         description: Členství nebylo nalezeno
+ *       500:
+ *         description: Chyba serveru
+ */
+router.put('/memberships/cancel/:id', PaymentController.cancelSubscription);
 
 module.exports = router;

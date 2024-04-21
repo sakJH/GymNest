@@ -24,9 +24,8 @@ class AuthService {
 
     static async login(username, password) {
         try {
-            console.log('Username---:', username);
             const user = await User.findOne({ where: { username } });
-            console.log('Username:', username);
+            console.log('Username: ', username);
             if (!user) throw new Error('Služba - User not found');
 
             const valid = await Auth.verifyPassword(password, user.passwordHash);
