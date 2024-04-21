@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from
 import { AuthContext } from '../AuthContext';
 
 const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
-  const { role } = useContext(AuthContext); // Získání role uživatele
+  const { user } = useContext(AuthContext);
 
   return (
     <List>
@@ -15,9 +15,9 @@ const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
               secondary={`Type: ${activity.type}, Duration: ${activity.duration} minutes, Created At: ${new Date(activity.createdAt).toLocaleString()}`}
             />
           </ListItemButton>
-          {role === 'trenér' && (
+          {(user && (user.roleId === 3 || user.roleId === 4)) && (
             <>
-              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }}>
+              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="warning">
                 Editovat
               </Button>
               <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
@@ -25,14 +25,6 @@ const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
               </Button>
             </>
           )}
-          <>
-            <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }}>
-              Editovat
-            </Button>
-            <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
-              Smazat
-            </Button>
-          </>
         </ListItem>
       ))}
       {activities.length === 0 && <Typography variant="subtitle1">Žádné akce nebyly nalezeny.</Typography>}

@@ -82,6 +82,19 @@ const ActivityPage = () => {
     }
   };
 
+  const handleFilter = async (filter) => {
+    try {
+      const { type, date } = filter;
+      let url = `${apiAddress}/activities/searchTypeAndDate`;
+      const response = await axios.get(url, {
+        params: { type, date }
+      });
+      setActivities(response.data);
+    } catch (error) {
+      console.error("Error fetching filtered activities:", error);
+    }
+  };
+
   return (
       <Paper elevation={3} sx={{ padding: 2 }}>
         <UserNotifications />
@@ -91,7 +104,7 @@ const ActivityPage = () => {
               Vytvořit novou akci
             </Button>
         )}
-        <ActivityFilter onFilter={fetchActivities} />
+        <ActivityFilter onFilter={handleFilter} />
         <ActivityList
             activities={activities}
             onClick={handleClick}
@@ -113,6 +126,7 @@ const ActivityPage = () => {
                 onClose={handleCreateFormClose}
                 onCreate={handleCreate}
                 activity={selectedActivity}
+                onUpdate={user && (user.roleId === 3 || user.roleId === 4) ? handleEdit : null}
                 isEditMode={Boolean(selectedActivity)}
             />
         )}

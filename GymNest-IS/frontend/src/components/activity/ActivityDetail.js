@@ -15,7 +15,7 @@ import { AuthContext } from '../AuthContext';
  * @return {JSX.Element} The rendered dialog component.
  */
 const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
-  const { role } = useContext(AuthContext); // Použití role z AuthContext
+  const { user } = useContext(AuthContext);
   const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
@@ -53,17 +53,17 @@ const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
         </List>
       </DialogContent>
       <DialogActions>
-        {role === 'trenér' && (
+        {(user && (user.roleId === 3 || user.roleId === 4)) && (
           <>
-            <Button onClick={() => onEdit(activity.id)}>Editovat</Button>
-            <Button onClick={() => onDelete(activity.id)} color="error">Smazat</Button>
+          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="warning">
+            Editovat
+          </Button>
+          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
+            Smazat
+          </Button>
           </>
         )}
-        <>
-          <Button onClick={() => onEdit(activity.id)}>Editovat</Button>
-          <Button onClick={() => onDelete(activity.id)} color="error">Smazat</Button>
-        </>
-        <Button onClick={onClose}>Zavřít</Button>
+        <Button variant="outlined" onClick={onClose}>Zavřít</Button>
       </DialogActions>
     </Dialog>
   );
