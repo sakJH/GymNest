@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Typography, CircularProgress, Alert } from '@mui/material';
+import { Box, Typography, CircularProgress, Alert, Button } from '@mui/material';
 import { AuthContext } from '../components/AuthContext';
 import WeekNavigator from '../components/./schedule/WeekNavigator';
 import ScheduleList from '../components/./schedule/ScheduleList';
 import ScheduleDetail from '../components/./schedule/ScheduleDetail';
+import ScheduleCreate from '../components/./schedule/ScheduleCreate';
 import { startOfWeek, endOfWeek, addWeeks, format, addMonths } from 'date-fns';
 
 const SchedulePage = () => {
@@ -15,7 +16,21 @@ const SchedulePage = () => {
   const [loading, setLoading] = useState(false);
   const [reservedSchedules, setReservedSchedules] = useState([]);
   const [error, setError] = useState('');
-  const [viewMode, setViewMode] = useState('week'); // Přidání stavu pro režim zobrazení
+  const [viewMode, setViewMode] = useState('week');
+  const [openScheduleCreate, setOpenScheduleCreate] = useState(false);
+  const [editableSchedule, setEditableSchedule] = useState(null);
+
+  const apiAddress = 'http://localhost:3003/api';
+
+  const handleOpenCreateSchedule = (schedule = null) => {
+    setEditableSchedule(schedule); // null pro nový termín, nebo objekt termínu pro úpravu
+    setOpenScheduleCreate(true);
+  };
+
+  const handleCloseCreateSchedule = () => {
+    setOpenScheduleCreate(false);
+    setEditableSchedule(null); // Resetujeme po zavření dialogu
+  };
 
   useEffect(() => {
     fetchSchedules(currentWeek, viewMode);
@@ -44,11 +59,11 @@ const SchedulePage = () => {
 
     try {
       const [schedulesResponse, activitiesResponse] = await Promise.all([
-        axios.get(`http://localhost:3003/api/schedules/all`, {
+        axios.get(`${apiAddress}/schedules/all`, {
           params: { start: startDate, end: endDate },
           headers: { 'Authorization': `Bearer ${token}` },
         }),
-        axios.get(`http://localhost:3003/api/activities/all`, {
+        axios.get(`${apiAddress}/activities/all`, {
           headers: { 'Authorization': `Bearer ${token}` },
         })
       ]);
@@ -80,7 +95,7 @@ const SchedulePage = () => {
     setLoading(true);
     try {
         // Načtení všech rezervací pro uživatele
-        const bookingsResponse = await axios.get(`http://localhost:3003/api/bookings/user/${user.id}`, {
+        const bookingsResponse = await axios.get(`${apiAddress}/bookings/user/${user.id}`, {
             headers: { 'Authorization': `Bearer ${token}` },
         });
         const bookings = bookingsResponse.data;
@@ -115,13 +130,56 @@ const SchedulePage = () => {
     setSelectedSchedule(selected);
   };
 
+  const onSelectReserved = (scheduleId) => {
+    const selected = reservedSchedules.find(schedule => schedule.id === scheduleId);
+    setSelectedSchedule(selected);
+  };
+
+  const onEdit = async (scheduleId) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${apiAddress}/schedules/find/${scheduleId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      if (response.status === 200) {
+        const scheduleData = response.data;
+        handleOpenCreateSchedule(scheduleData);
+      } else {
+        setError('Nepodařilo se načíst detaily termínu.');
+      }
+    } catch (error) {
+      console.error("Error fetching schedule details:", error);
+      setError('Nepodařilo se načíst detaily termínu.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+const onDelete = async (scheduleId) => {
+    setLoading(true);
+    try {
+        const response = await axios.delete(`${apiAddress}/schedules/cancel/${scheduleId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.status === 200) {
+            alert('Harmonogram byl úspěšně zrušen.');
+            fetchSchedules(currentWeek, viewMode); // Znovu načíst data po odstranění
+        }
+    } catch (error) {
+        console.error("Error deleting schedule:", error);
+        setError('Nepodařilo se zrušit harmonogram.');
+    } finally {
+        setLoading(false);
+    }
+};
+
   const onReserve = async (activityId, scheduleId) => {
     setLoading(true);
     const existingBooking = reservedSchedules.find(schedule => schedule.id === scheduleId);
     try {
         if (existingBooking) {
             // Zrušení rezervace, pokud je rozvrh již rezervovaný
-            const response = await axios.delete(`http://localhost:3003/api/bookings/cancel/${existingBooking.bookingId}`, {
+            const response = await axios.delete(`${apiAddress}/bookings/cancel/${existingBooking.bookingId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.status === 200) {
@@ -137,7 +195,7 @@ const SchedulePage = () => {
                 status: 'scheduled',
                 bookingDate: new Date().toISOString()
             };
-            const response = await axios.post('http://localhost:3003/api/bookings/create', bookingDetails, {
+            const response = await axios.post(`${apiAddress}/bookings/create`, bookingDetails, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.status === 201) {
@@ -153,6 +211,11 @@ const SchedulePage = () => {
     }
 };
 
+const refreshAndDetailUpdate = async () => {
+  await fetchSchedules(currentWeek, viewMode);
+  setSelectedSchedule(null);
+};
+
 return (
   <Box sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>Rozvrhy</Typography>
@@ -166,15 +229,26 @@ return (
               ) : (
                   <ScheduleList
                       schedules={reservedSchedules}
-                      onSelect={onSelect}
+                      onSelect={onSelectReserved}
                       onReserve={onReserve}
+                      onDelete={onDelete}
+                      onEdit={onEdit}
                   />
               )}
           </Box>
       )}
       <Box sx={{ padding: 2 }}>
         <Typography variant="h5" gutterBottom>Všechny termíny</Typography>
+        <Button variant="contained" color="primary" onClick={() => handleOpenCreateSchedule()}>
+            Vytvořit nový termín akce
+        </Button>
         <WeekNavigator onChange={setCurrentWeek} onViewModeChange={setViewMode} />
+        <ScheduleCreate
+          open={openScheduleCreate}
+          handleClose={handleCloseCreateSchedule}
+          schedule={editableSchedule}
+          refreshSchedules={refreshAndDetailUpdate}
+        />
         {loading ? (
             <CircularProgress />
         ) : error ? (
@@ -185,6 +259,8 @@ return (
                     !reservedSchedules.some(reserved => reserved.id === schedule.id))}
                 onSelect={onSelect}
                 onReserve={onReserve}
+                onDelete={onDelete}
+                onEdit={onEdit}
             />
         )}
         {selectedSchedule && (
@@ -193,6 +269,8 @@ return (
                 open={true}
                 onClose={() => setSelectedSchedule(null)}
                 onReserve={onReserve}
+                onDelete={onDelete}
+                onEdit={onEdit}
             />
         )}
       </Box>

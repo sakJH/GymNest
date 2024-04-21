@@ -1,4 +1,3 @@
-// PayPalButton.js
 import React, { useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Button, Typography, Box } from '@mui/material';

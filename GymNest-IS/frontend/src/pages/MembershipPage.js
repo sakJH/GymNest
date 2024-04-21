@@ -2,17 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Button } from '@mui/material';
 import MembershipStatus from '../components/membership/MembershipStatus';
-import PaymentHistory from '../components/PaymentHistory';
-import PayPalButton from '../components/PayPalButton';
+import PaymentHistory from '../components/membership/PaymentHistory';
+import PayPalButton from '../components/membership/PayPalButton';
 import { AuthContext } from '../components/AuthContext';
-import UserSettingsForm from '../components/user/UserSettingsForm';
 
 const MembershipPage = () => {
   const { token, user, logout } = useContext(AuthContext);
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [availableMemberships, setAvailableMemberships] = useState([]);
-  const [showSettings, setShowSettings] = useState(false); // State to control visibility of UserSettingsForm
 
   const apiAddress = 'http://localhost:3002/api';
 
@@ -61,14 +59,6 @@ const MembershipPage = () => {
     fetchAvailableMemberships();
   }, [token, user]);
 
-  const handleOpenSettings = () => {
-    setShowSettings(true);
-  };
-
-  const handleCloseSettings = () => {
-    setShowSettings(false);
-  };
-
   if (!token || !user) {
     return (
         <Box sx={{
@@ -109,10 +99,6 @@ const MembershipPage = () => {
         {membershipInfo && <MembershipStatus {...membershipInfo} />}
         <PaymentHistory payments={paymentHistory} />
         <PayPalButton />
-        <Button variant="contained" color="primary" onClick={handleOpenSettings}>
-          Upravit nastavení
-        </Button>
-        {showSettings && <UserSettingsForm user={user} handleClose={handleCloseSettings} logout={logout} />}
       </Box>
   );
 };
