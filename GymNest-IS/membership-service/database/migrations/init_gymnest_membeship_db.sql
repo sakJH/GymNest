@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `amount` DECIMAL(10, 2) NOT NULL,
     `paymentDate` DATE NOT NULL,
-    `status` VARCHAR(255) NOT NULL UNIQUE CHECK (`status` IN ('pending', 'completed', 'failed')),
+    `status` VARCHAR(255) NOT NULL CHECK (`status` IN ('pending', 'completed', 'failed')),
     `membershipId` INT NOT NULL,
     `description` TEXT,
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,

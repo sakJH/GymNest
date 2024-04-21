@@ -58,17 +58,17 @@ app.listen(PORT, () => {
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
 
-    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'admin', 4).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'admin', 3).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'admin', 2).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'admin', 1).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'admin', 4, 1000).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'admin', 3, 500).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'admin', 2, 800).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'admin', 1, 700).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
     console.log('Databáze a tabulky byly synchronizovány');
 
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
 
 //Inicial user
 
-async function createInitialUser(username, password, email, firstName, lastName, roleId) {
+async function createInitialUser(username, password, email, firstName, lastName, roleId, credits) {
     try {
         const exists = await User.findOne({ where: { username } });
 
@@ -81,6 +81,7 @@ async function createInitialUser(username, password, email, firstName, lastName,
                 firstName,
                 lastName,
                 roleId,
+                credits
             });
 
             console.log('Initial user created:', user);

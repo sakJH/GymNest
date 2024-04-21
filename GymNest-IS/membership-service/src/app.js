@@ -52,13 +52,13 @@ sequelize.sync({ force: false }).then(() => {
     createInitialPayment(1, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
 
     createInitialMembership(2, 2).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(2, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+    createInitialPayment(2, 2, 500).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
 
     createInitialMembership(3, 3).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(3, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+    createInitialPayment(3, 1, 800).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
 
     createInitialMembership(4, 1).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(4, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
+    createInitialPayment(4, 1, 400).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
     console.log('Databáze a tabulky byly synchronizovány');
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
 
