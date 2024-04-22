@@ -2,31 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, MenuItem } from '@mui/material';
 import axios from 'axios';
 
-const ActivityCreate = ({ open, onClose, onCreate, onUpdate, activity: initialActivity, isEditMode  }) => {
+const ActivityCreate = ({ open, onClose, onCreate, onUpdate, activity: initialActivity, isEditMode, types  }) => {
   const [activity, setActivity] = useState({
     name: '',
     description: '',
     type: '',
     duration: '',
   });
-  const [activityTypes, setActivityTypes] = useState([]);
   const [newType, setNewType] = useState('');
   const [isAddingNewType, setIsAddingNewType] = useState(false);
-
-  useEffect(() => {
-    const fetchActivityTypes = async () => {
-      try {
-        const response = await axios.get('http://localhost:3003/api/activities/all');
-        const activities = response.data;
-        const uniqueTypes = [...new Set(activities.map(activity => activity.type))];
-        setActivityTypes(uniqueTypes);
-      } catch (error) {
-        console.error("Error fetching activity types:", error);
-      }
-    };
-
-    fetchActivityTypes();
-  }, []);
 
   useEffect(() => {
     if (isEditMode && initialActivity) {
@@ -86,7 +70,7 @@ const ActivityCreate = ({ open, onClose, onCreate, onUpdate, activity: initialAc
             onChange={handleChange}
             required
           >
-            {activityTypes.map((type) => (
+            {types.map((type) => (
               <MenuItem key={type} value={type}>{type}</MenuItem>
             ))}
             <MenuItem value="add_new">Přidat nový typ...</MenuItem>

@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, List, ListItem, ListItemText, IconButton, Tooltip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 
@@ -55,12 +57,16 @@ const ActivityDetail = ({ activity, open, onClose, onEdit, onDelete }) => {
       <DialogActions>
         {(user && (user.roleId === 3 || user.roleId === 4)) && (
           <>
-          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="warning">
-            Editovat
-          </Button>
-          <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
-            Smazat
-          </Button>
+          <Tooltip title="Editovat">
+              <IconButton onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="primary">
+                  <EditIcon />
+              </IconButton>
+          </Tooltip>
+          <Tooltip title="Smazat">
+              <IconButton onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
+                  <DeleteIcon />
+              </IconButton>
+          </Tooltip>
           </>
         )}
         <Button variant="outlined" onClick={onClose}>Zavřít</Button>

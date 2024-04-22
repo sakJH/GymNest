@@ -14,6 +14,7 @@ const ActivityPage = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const [activityTypes, setActivityTypes] = useState([]);
   const apiAddress = 'http://localhost:3003/api';
 
   useEffect(() => {
@@ -23,10 +24,18 @@ const ActivityPage = () => {
   const fetchActivities = async () => {
     try {
       const response = await axios.get(`${apiAddress}/activities/all`);
-      setActivities(response.data);
+      const activities = response.data;
+      setActivities(activities);
+      const uniqueTypes = [...new Set(activities.map(activity => activity.type))];
+      setActivityTypes(uniqueTypes);  // Uložení jedinečných typů pro filtr
     } catch (error) {
       console.error("Error fetching activities:", error);
     }
+  };
+
+  const refreshActivities = async () => {
+    fetchActivities();
+    setIsDetailOpen(false);
   };
 
   const handleClick = activityId => {
@@ -53,7 +62,7 @@ const ActivityPage = () => {
     if (user && (user.roleId === 3 || user.roleId === 4)) { // Only coach and admin can create activities
       try {
         await axios.post(`${apiAddress}/activities/create`, newActivity);
-        fetchActivities();
+        refreshActivities();
       } catch (error) {
         console.error("Error creating activity:", error);
       }
@@ -72,7 +81,7 @@ const ActivityPage = () => {
     if (user && user.roleId === 4) { // Only admin can delete activities
       try {
         await axios.delete(`${apiAddress}/activities/delete/${activityId}`);
-        fetchActivities();
+        refreshActivities();
         if (selectedActivity && selectedActivity.id === activityId) {
           setIsDetailOpen(false);
         }
@@ -95,6 +104,29 @@ const ActivityPage = () => {
     }
   };
 
+  const handleUpdate = async (activity) => {
+    if (user && (user.roleId === 3 || user.roleId === 4)) { // Ověření oprávnění uživatele
+      try {
+        const activityId = activity.id; // Získání ID aktivity pro aktualizaci
+        const updateDetails = { ...activity }; // Získání detailů pro aktualizaci
+        delete updateDetails.id;
+
+        const response = await axios.put(`${apiAddress}/activities/update`, {
+          activityId,
+          updateDetails
+        });
+
+        if (response.status === 200) {
+          alert('Aktivita byla úspěšně aktualizována.');
+          refreshActivities(); // Znovunačtení seznamu aktivit po aktualizaci
+        }
+      } catch (error) {
+        console.error("Error updating activity:", error);
+        alert('Nepodařilo se aktualizovat aktivitu.'); // Zobrazení chyby uživateli
+      }
+    }
+  };
+
   return (
       <Paper elevation={3} sx={{ padding: 2 }}>
         <UserNotifications />
@@ -104,7 +136,7 @@ const ActivityPage = () => {
               Vytvořit novou akci
             </Button>
         )}
-        <ActivityFilter onFilter={handleFilter} />
+        <ActivityFilter onFilter={handleFilter} types={activityTypes} />
         <ActivityList
             activities={activities}
             onClick={handleClick}
@@ -126,8 +158,9 @@ const ActivityPage = () => {
                 onClose={handleCreateFormClose}
                 onCreate={handleCreate}
                 activity={selectedActivity}
-                onUpdate={user && (user.roleId === 3 || user.roleId === 4) ? handleEdit : null}
+                onUpdate={handleUpdate}
                 isEditMode={Boolean(selectedActivity)}
+                types={activityTypes}
             />
         )}
       </Paper>

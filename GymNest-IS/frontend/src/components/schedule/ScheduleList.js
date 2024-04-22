@@ -8,7 +8,6 @@ import { AuthContext } from '../AuthContext';
 
 const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) => {
     const { user } = useContext(AuthContext);
-    // Přeformátování datumu a času pro zobrazení
     const formattedStartDate = new Date(schedule.startTime).toLocaleDateString();
     const formattedStartTime = new Date(schedule.startTime).toLocaleTimeString();
     const formattedEndTime = new Date(schedule.endTime).toLocaleTimeString();
@@ -16,29 +15,37 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) =
 
     return (
         <ListItem divider>
-            <ListItemButton onClick={() => onSelect(schedule.id)} sx={{ flexGrow: 1 }}>
+            {onSelect ? (
+                <ListItemButton onClick={() => onSelect(schedule.id)} sx={{ flexGrow: 1 }}>
+                    <ListItemText
+                        primary={schedule.name}
+                        primaryTypographyProps={{ variant: 'h6' }}
+                        secondary={`${formattedStartDate}, ${formattedStartTime} - ${formattedEndTime}`}
+                    />
+                </ListItemButton>
+            ) : (
                 <ListItemText
                     primary={schedule.name}
                     primaryTypographyProps={{ variant: 'h6' }}
                     secondary={`${formattedStartDate}, ${formattedStartTime} - ${formattedEndTime}`}
+                    sx={{ flexGrow: 1 }}
                 />
-            </ListItemButton>
-            {(user && (user.roleId === 3 || user.roleId === 4)) && (
-                <>
+            )}
+            {user && (user.roleId === 3 || user.roleId === 4) && onEdit && (
                 <Tooltip title="Editovat">
                     <IconButton onClick={(e) => { e.stopPropagation(); onEdit(schedule.id); }} color="primary">
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
-
+            )}
+            {user && onDelete && (
                 <Tooltip title="Smazat">
                     <IconButton onClick={(e) => { e.stopPropagation(); onDelete(schedule.id); }} color="error">
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-                </>
             )}
-            {user && (
+            {user && onReserve && (
                 <Tooltip title={isReserved ? "Zrušit rezervaci" : "Rezervovat"}>
                     <IconButton onClick={(e) => { e.stopPropagation(); onReserve(schedule.activityId, schedule.id); }}>
                         {isReserved ? <EventBusyIcon /> : <EventAvailableIcon />}

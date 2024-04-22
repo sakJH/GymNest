@@ -6,15 +6,14 @@ import WeekNavigator from '../components/./schedule/WeekNavigator';
 import ScheduleList from '../components/./schedule/ScheduleList';
 import ScheduleDetail from '../components/./schedule/ScheduleDetail';
 import ScheduleCreate from '../components/./schedule/ScheduleCreate';
-import { startOfWeek, endOfWeek, addWeeks, format, addMonths } from 'date-fns';
+import { useSchedules } from '../hooks/useSchedules';
+import { useReservedSchedules } from '../hooks/useReservedSchedules';
 
 const SchedulePage = () => {
   const { user, token } = useContext(AuthContext);
-  const [schedules, setSchedules] = useState([]);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const [reservedSchedules, setReservedSchedules] = useState([]);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState('week');
   const [openScheduleCreate, setOpenScheduleCreate] = useState(false);
@@ -32,98 +31,8 @@ const SchedulePage = () => {
     setEditableSchedule(null); // Resetujeme po zavření dialogu
   };
 
-  useEffect(() => {
-    fetchSchedules(currentWeek, viewMode);
-  }, [currentWeek, viewMode]);
-
-  useEffect(() => {
-    if (user && schedules.length > 0) {
-        fetchReservedSchedules();
-    }
-  }, [user, schedules]);
-
-  const fetchSchedules = async (week, mode) => {
-    setLoading(true);
-    let startDate, endDate;
-
-    if (mode === 'week') {
-      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
-      endDate = format(endOfWeek(week), 'yyyy-MM-dd');
-    } else if (mode === 'twoWeeks') {
-      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
-      endDate = format(endOfWeek(addWeeks(week, 1)), 'yyyy-MM-dd');
-    } else if (mode === 'month') {
-      startDate = format(startOfWeek(week), 'yyyy-MM-dd');
-      endDate = format(endOfWeek(addMonths(week, 1)), 'yyyy-MM-dd');
-    }
-
-    try {
-      const [schedulesResponse, activitiesResponse] = await Promise.all([
-        axios.get(`${apiAddress}/schedules/all`, {
-          params: { start: startDate, end: endDate },
-          headers: { 'Authorization': `Bearer ${token}` },
-        }),
-        axios.get(`${apiAddress}/activities/all`, {
-          headers: { 'Authorization': `Bearer ${token}` },
-        })
-      ]);
-
-      const fetchedSchedules = schedulesResponse.data;
-      const fetchedActivities = activitiesResponse.data;
-
-      const combinedData = fetchedSchedules.map(schedule => {
-        const activityDetails = fetchedActivities.find(activity => activity.id === schedule.activityId);
-        return {
-          ...schedule,
-          activityId: activityDetails.id,  // přidáme 'activityId' pro jedinečné identifikaci aktivity, pokud je potřeba
-          ...activityDetails,
-          id: schedule.id  // Explicitně zachovat 'id' z 'schedule', přepíše jakékoli 'id' přidané z 'activityDetails'
-        };
-      });
-
-      setSchedules(combinedData);
-      setError('');
-    } catch (error) {
-      console.error("Error fetching schedules:", error);
-      setError('Nepodařilo se načíst data rozvrhu.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchReservedSchedules = async () => {
-    setLoading(true);
-    try {
-        // Načtení všech rezervací pro uživatele
-        const bookingsResponse = await axios.get(`${apiAddress}/bookings/user/${user.id}`, {
-            headers: { 'Authorization': `Bearer ${token}` },
-        });
-        const bookings = bookingsResponse.data;
-
-        // Filtrujeme pouze aktivní rezervace, které nejsou zrušené
-        const activeBookings = bookings.filter(booking => booking.status !== 'cancelled');
-        const reservedScheduleIds = activeBookings.map(booking => booking.scheduleId);
-
-        // Filtrace kombinovaných dat z fetchSchedules pro získání rezervovaných rozvrhů
-        const reservedSchedules = schedules.filter(schedule =>
-            reservedScheduleIds.includes(schedule.id)
-        ).map(schedule => {
-            const booking = bookings.find(booking => booking.scheduleId === schedule.id);
-            return {
-                ...schedule,
-                bookingId: booking.id
-            };
-        });
-
-        setReservedSchedules(reservedSchedules);
-        setError('');
-    } catch (error) {
-        console.error("Error fetching reserved schedules:", error);
-        setError('Nepodařilo se načíst rezervované rozvrhy.');
-    } finally {
-        setLoading(false);
-    }
-  };
+  const { schedules } = useSchedules(currentWeek, viewMode, setLoading, setError);
+  const { reservedSchedules } = useReservedSchedules(schedules, setLoading, setError);
 
   const onSelect = (scheduleId) => {
     const selected = schedules.find(schedule => schedule.id === scheduleId);
@@ -163,7 +72,7 @@ const onDelete = async (scheduleId) => {
         });
         if (response.status === 200) {
             alert('Harmonogram byl úspěšně zrušen.');
-            fetchSchedules(currentWeek, viewMode); // Znovu načíst data po odstranění
+            refreshAndDetailUpdate() // Znovu načíst data po odstranění
         }
     } catch (error) {
         console.error("Error deleting schedule:", error);
@@ -184,7 +93,7 @@ const onDelete = async (scheduleId) => {
             });
             if (response.status === 200) {
                 alert('Rezervace byla zrušena.');
-                setReservedSchedules(prev => prev.filter(sch => sch.bookingId !== existingBooking.bookingId));
+                refreshAndDetailUpdate();
             }
         } else {
             // Vytvoření nové rezervace
@@ -200,7 +109,7 @@ const onDelete = async (scheduleId) => {
             });
             if (response.status === 201) {
                 alert('Rezervace byla úspěšně provedena.');
-                fetchReservedSchedules();  // Znovu načtěte seznam rezervovaných rozvrhů
+                refreshAndDetailUpdate();
             }
         }
     } catch (error) {
@@ -212,7 +121,7 @@ const onDelete = async (scheduleId) => {
 };
 
 const refreshAndDetailUpdate = async () => {
-  await fetchSchedules(currentWeek, viewMode);
+  setCurrentWeek(new Date(currentWeek));
   setSelectedSchedule(null);
 };
 
@@ -239,9 +148,11 @@ return (
       )}
       <Box sx={{ padding: 2 }}>
         <Typography variant="h5" gutterBottom>Všechny termíny</Typography>
-        <Button variant="contained" color="primary" onClick={() => handleOpenCreateSchedule()}>
-            Vytvořit nový termín akce
-        </Button>
+        {user && (user.roleId === 3 || user.roleId === 4) && (
+            <Button variant="contained" color="primary" onClick={() => handleOpenCreateSchedule()}>
+                Vytvořit nový termín akce
+            </Button>
+        )}
         <WeekNavigator onChange={setCurrentWeek} onViewModeChange={setViewMode} />
         <ScheduleCreate
           open={openScheduleCreate}

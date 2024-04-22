@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
-import { List, ListItem, ListItemText, Button, Typography, ListItemButton } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, ListItemButton, IconButton, Tooltip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { AuthContext } from '../AuthContext';
 
 const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
@@ -17,12 +19,16 @@ const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
           </ListItemButton>
           {(user && (user.roleId === 3 || user.roleId === 4)) && (
             <>
-              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="warning">
-                Editovat
-              </Button>
-              <Button variant="outlined" onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
-                Smazat
-              </Button>
+            <Tooltip title="Editovat">
+                <IconButton onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="primary">
+                    <EditIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Smazat">
+                <IconButton onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
+                    <DeleteIcon />
+                </IconButton>
+            </Tooltip>
             </>
           )}
         </ListItem>
