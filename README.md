@@ -2,15 +2,15 @@
 ## TODO - docasne
 Dokumentace
 - [ ] pdf - obsah:
-  - [ ] Manažerské shrnutí
+  - [x] Manažerské shrnutí
   - [ ] Věcná část projektu
   - [ ] Funkční analýza
   - [ ] Big Picture, Úvod
-  - [ ] UC model
-  - [ ] Technický design
-  - [ ] Popis architektury
-  - [ ] Doménový / datový model
-  - [ ] Návrh infrastruktury
+  - [x] UC model
+  - [x] Technický design
+  - [x] Popis architektury
+  - [X] Doménový / datový model
+  - [x] Návrh infrastruktury
 - [ ] uml - zaklad - classy, use-case
 
 Frontent
