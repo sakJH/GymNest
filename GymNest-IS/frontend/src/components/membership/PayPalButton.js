@@ -9,7 +9,7 @@ const initialOptions = {
     intent: "capture",
 };
 
-const currencyOptions = ["CZK", "USD = 23 CZK", "EUR = 25 CZK"];
+const currencyOptions = ["CZK", "USD", "EUR"];
 const exchangeRates = { USD: 23, EUR: 25, CZK: 1 }; //TODO vylepseni o aktualni kurzy z nejakeho api
 
 const PayPalButton = () => {
