@@ -1,5 +1,5 @@
+# Class Diagram
 ![Class Diagram](./classDiagram.png "Class Diagram")
-
 ## PlantTML code
 ```plantuml
 @startuml
