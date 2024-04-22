@@ -21,13 +21,15 @@ Dodělat Navbar
 
 Backend
 - [x] Funkčnost přihlášení, ověřit registraci
-- [ ] registrace přes Google
+- [x] registrace přes Google
 - [x] unit testy - bonus
 
 Dodělat SchedulePage
 - [x] Ověřit fungování rozvrhu
 - [ ] přepínač na týden, 2 týdny a měsíc - nefunguje
 - [x] udelat filtr dle data na backendu?
+- [x] přihlášení na akci
+- [x] odhlášení z akce
 
 MembershipPage
 - [x] základ pro fungování, spojení s Backendem
@@ -41,9 +43,9 @@ MembershipPage
 - [ ] Možnost změny členství
 - [ ] Možnost zrušení členství
 
-HomePage - TESTING po oprave Auth
-- [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy
-- [x] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
+HomePage
+- [ ] Vytvořit něco pro nepřihlášené - Verejne rozvhy
+- [ ] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
 - [x] notifikace
 - [x] datum vyprchání členství
 - [x] tier členství
@@ -52,7 +54,6 @@ HomePage - TESTING po oprave Auth
 
 ActivityPage
 - [x] Stránka pro uživatele i správce (trenéry)
-- [ ] Pro uživatele  - zde se přihlásí k nějaké vypsané akci (z Schedule Page se odkáže právě sem)
 - [x] Pro trenéry - zde se vytváří nové akce, upravují, mazají, určuje se počet lidí na aktivitu,...
 - [x] Vytvoření nové akce
 - [x] Upravení akce
@@ -64,8 +65,6 @@ ActivityPage
 - [x] akce dle typu - soucasti filtru
 - [x] filtr akcí
 - [x] detail akce
-- [ ] přihlášení na akci
-- [ ] odhlášení z akce
 
 Footer
 - [x] Doplnění odkazů na sociální sítě
