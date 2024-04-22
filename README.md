@@ -44,8 +44,8 @@ MembershipPage
 - [ ] Možnost zrušení členství
 
 HomePage
-- [ ] Vytvořit něco pro nepřihlášené - Verejne rozvhy
-- [ ] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
+- [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy
+- [x] vytvořit page pro přihlášeného - rozvrhy kde je prihlasen
 - [x] notifikace
 - [x] datum vyprchání členství
 - [x] tier členství
