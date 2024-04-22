@@ -43,58 +43,86 @@ app.use('/api', paymentRoutes);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => {
-    console.log(`Server běží na portu ${PORT}`);
-});
 
-sequelize.sync({ force: false }).then(() => {
-    createInitialMembership(1, 2).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(1, 1, 1000).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
-
-    createInitialMembership(2, 2).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(2, 2, 500).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
-
-    createInitialMembership(3, 3).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(3, 1, 800).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
-
-    createInitialMembership(4, 1).then(r => console.log('Inicial Membership created')).catch(err => console.error('Failed to create Membership user:', err));
-    createInitialPayment(4, 1, 400).then(r => console.log('Inicial Payment created')).catch(err => console.error('Failed to create Payment:', err));
-    console.log('Databáze a tabulky byly synchronizovány');
-}).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
-
-//Inicializace dat
-async function createInitialMembership(userId, typeId) {
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setFullYear(startDate.getFullYear() + 1);
-
+// Improved database initialization and server start
+async function initializeDatabaseAndStartServer() {
     try {
-        const exists = await Membership.findOne({ where: { userId } });
-        if (!exists) {
-            await Membership.create({
-                userId,
-                membershipTypeId: typeId,
-                startDate: startDate,
-                endDate: endDate,
-                status: 'active'
-            });
-            console.log(`Membership created for user ID: ${userId}`);
-        }
+        await sequelize.sync({ force: false });
+        console.log('Databáze a tabulky byly synchronizovány');
+
+        // Sequential initializations
+        await createMembershipAndPayment(1, 2, 1000);
+        await createMembershipAndPayment(2, 2, 500);
+        await createMembershipAndPayment(3, 3, 800);
+        await createMembershipAndPayment(4, 1, 400);
+
+        // Start listening only after DB initialization
+        app.listen(PORT, () => {
+            console.log(`Server běží na portu ${PORT}`);
+        });
     } catch (err) {
-        console.log(`Membership error for user ID: ${userId}`);
+        console.error('Při inicializaci databáze došlo k chybě:', err);
     }
 }
 
-async function createInitialPayment(userId, membershipId, amount, status = 'completed') {
-    const paymentExists = await Payment.findOne({ where: { membershipId } });
-    if (!paymentExists) {
-        await Payment.create({
+async function createMembershipAndPayment(userId, membershipTypeId, paymentAmount) {
+    try {
+        const membership = await createInitialMembership(userId, membershipTypeId);
+        console.log('Inicial Membership created');
+
+        // Ensure membership is created before creating a payment
+        if (membership) {
+            const payment = await createInitialPayment(membership.id, paymentAmount);
+            console.log('Initial Payment created');
+        }
+    } catch (err) {
+        console.error(`Failed to create Membership or Payment for user ${userId}:`, err);
+    }
+}
+
+async function createInitialMembership(userId, typeId) {
+    const startDate = new Date();
+    const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate());
+
+    try {
+        const exists = await Membership.findOne({ where: { userId, membershipTypeId: typeId } });
+        if (!exists) {
+            const membership = await Membership.create({
+                userId,
+                membershipTypeId: typeId,
+                startDate,
+                endDate,
+                status: 'active'
+            });
+            console.log(`Membership created for user ID: ${userId}`);
+            return membership;  // Return the created membership object for further use
+        } else {
+            console.log(`Membership already exists for user ID: ${userId}`);
+            return exists;  // Return the existing membership if already present
+        }
+    } catch (err) {
+        console.error(`Membership error for user ID: ${userId}:`, err);
+        throw err;  // Rethrow the error to handle it in the calling function
+    }
+}
+
+async function createInitialPayment(membershipId, amount, status = 'completed') {
+    try {
+        const paymentDate = new Date();
+        const payment = await Payment.create({
             amount,
-            paymentDate: new Date(),
+            paymentDate,
             status,
             membershipId,
             description: 'Initial payment'
         });
         console.log(`Payment created for Membership ID: ${membershipId}`);
+        return payment;  // Return the created payment object for further use
+    } catch (err) {
+        console.error(`Payment error for Membership ID: ${membershipId}:`, err);
+        throw err;  // Rethrow the error to handle it in the calling function
     }
 }
+
+// Start the server and initialize the database
+initializeDatabaseAndStartServer();

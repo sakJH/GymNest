@@ -1,6 +1,5 @@
 const express = require('express');
 const MembershipController = require('../controllers/MembershipController');
-const MembershipService = require('../services/MembershipService');
 
 const router = express.Router();
 
@@ -139,6 +138,9 @@ router.delete('/memberships/delete/:id', MembershipController.deleteMembership);
  *         description: Chyba serveru
  */
 router.get('/memberships/all', MembershipController.findAllMemberships);
+
+// TODO swagger
+router.get('/memberships/types/all', MembershipController.findAllMembershipTypes);
 
 // Získání všech členství daného uživatele
 /**

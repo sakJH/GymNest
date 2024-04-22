@@ -23,6 +23,7 @@ const UserInfo = () => {
             setLoading(false);
         } catch (error) {
             console.error('Error fetching membership info:', error);
+            setLoading(false);  // Ensure loading is set to false even if there is an error
         }
     };
 
@@ -35,7 +36,7 @@ const UserInfo = () => {
     };
 
     if (!user || loading) {
-        return null;
+        return null;  // Return nothing while loading or if there is no user
     }
 
     return (
@@ -53,12 +54,20 @@ const UserInfo = () => {
                 <ListItem>
                     <ListItemText primary="Email" secondary={user.email} />
                 </ListItem>
-                <ListItem>
-                    <ListItemText primary="Datum vypršení členství" secondary={membershipInfo.endDate} />
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Tier členství" secondary={membershipInfo.membershipType} />
-                </ListItem>
+                {membershipInfo && membershipInfo.status === 'active' ? (
+                    <>
+                        <ListItem>
+                            <ListItemText primary="Datum vypršení členství" secondary={membershipInfo.endDate} />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText primary="Tier členství" secondary={membershipInfo.membershipType} />
+                        </ListItem>
+                    </>
+                ) : (
+                    <ListItem>
+                        <ListItemText primary="Členství" secondary="Žádné aktivní členství" />
+                    </ListItem>
+                )}
             </List>
             <Button variant="outlined" color="primary" onClick={handleChangeSettings}>
                 Upravit nastavení

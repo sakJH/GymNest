@@ -56,6 +56,16 @@ class MembershipController {
         }
     }
 
+    async findAllMembershipTypes(req, res) {
+        try {
+            const membershipTypes = await MembershipService.findAllMembershipTypes();
+            res.status(200).json(membershipTypes);
+        } catch (error) {
+            console.error('Error in findAllMembershipTypes:', error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async findMembershipsByUserId(req, res) {
         const { userId } = req.params;
         try {

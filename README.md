@@ -27,6 +27,7 @@ Backend
 Dodělat SchedulePage
 - [x] Ověřit fungování rozvrhu
 - [ ] přepínač na týden, 2 týdny a měsíc - nefunguje
+- [ ] ScheduleFilter neni vyuzity
 - [x] udelat filtr dle data na backendu?
 - [x] přihlášení na akci
 - [x] odhlášení z akce
@@ -35,8 +36,8 @@ MembershipPage
 - [x] základ pro fungování, spojení s Backendem
 - [x] stav, atd
 - [x] implementace PayPal
-- [ ] změna měny
-- [ ] přehled všech členství dle cen
+- [x] změna měny
+- [x] přehled všech členství dle cen
 - [ ] nákup členství
 - [ ] Automatické obnovení členství s předvolbami uživatele
 - [ ] Uživatelské recenze a hodnocení různých členství.

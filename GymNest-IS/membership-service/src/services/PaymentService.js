@@ -1,4 +1,5 @@
 const Payment = require('../models/Payment');
+const Membership = require('../models/Membership');
 
 class PaymentService {
     async createPayment(details) {
@@ -23,7 +24,24 @@ class PaymentService {
 
 
     async findPaymentsByUserId(userId) {
-        return await Payment.findPaymentsByUserId(userId);
+        try {
+            // Najde všechna členství pro daného uživatele
+            const memberships = await Membership.findAll({
+                where: { userId: userId }
+            });
+
+            // Extrahuje všechna membershipId
+            const membershipIds = memberships.map(membership => membership.id);
+
+            // Najde všechny platby pro nalezená členství
+            const payments = await Payment.findAll({
+                where: { membershipId: membershipIds }
+            });
+
+            return payments;
+        } catch (error) {
+            throw new Error("Unable to retrieve payments: " + error.message);
+        }
     }
 
     // Metody pro pozastavení členství

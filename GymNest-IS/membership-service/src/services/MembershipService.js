@@ -1,4 +1,5 @@
 const Membership = require('../models/Membership');
+const MembershipType = require('../models/MembershipType');
 
 class MembershipService {
 
@@ -51,6 +52,17 @@ class MembershipService {
             const memberships = await Membership.findAllMemberships();
             console.log('Memberships retrieved successfully:', memberships);
             return memberships;
+        } catch (error) {
+            console.error('Error retrieving memberships:', error);
+            throw error;
+        }
+    }
+
+    static async findAllMembershipTypes() {
+        try {
+            const membershipTypes = await MembershipType.findAllTypes();
+            console.log('Memberships retrieved successfully:', membershipTypes);
+            return membershipTypes;
         } catch (error) {
             console.error('Error retrieving memberships:', error);
             throw error;

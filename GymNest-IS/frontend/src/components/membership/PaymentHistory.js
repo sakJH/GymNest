@@ -8,7 +8,7 @@ const PaymentHistory = ({ payments }) => {
       <List>
         {payments.map((payment, index) => (
           <ListItem key={index}>
-            <ListItemText primary={`Částka: $${payment.amount}`} secondary={`Datum: ${payment.date}`} />
+            <ListItemText primary={`Částka: ${payment.amount}`} secondary={`Datum: ${payment.paymentDate}`} />
           </ListItem>
         ))}
       </List>

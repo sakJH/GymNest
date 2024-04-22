@@ -9,8 +9,8 @@ const initialOptions = {
     intent: "capture",
 };
 
-const currencyOptions = ["CZK", "USD", "EUR"];
-const exchangeRates = { USD: 23, EUR: 25, CZK: 1 };
+const currencyOptions = ["CZK", "USD = 23 CZK", "EUR = 25 CZK"];
+const exchangeRates = { USD: 23, EUR: 25, CZK: 1 }; //TODO vylepseni o aktualni kurzy z nejakeho api
 
 const PayPalButton = () => {
     const { user, setCreditsUser, token } = useAuth();
@@ -84,7 +84,8 @@ const PayPalButton = () => {
             justifyContent: 'center',
             gap: 2
         }}>
-            <Typography variant="h4">Vyber měnu a částku</Typography>
+            <Typography variant="h4">Dobití kreditu</Typography>
+            <Typography variant="h6">Vyber měnu a částku</Typography>
             {!showPayPalButton && (
                 <React.Fragment>
                     <Box>
