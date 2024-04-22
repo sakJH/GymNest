@@ -10,7 +10,7 @@ const MembershipPage = () => {
   const { token, user, logout } = useContext(AuthContext);
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
-  const [availableMemberships, setAvailableMemberships] = useState([]);
+  const [availableMemberships, setAvailableMemberships] = useState(null);
 
   const apiAddress = 'http://localhost:3002/api';
 
@@ -47,8 +47,7 @@ const MembershipPage = () => {
 
     const fetchAvailableMemberships = async () => {
       try {
-        const response = await axios.get(`${apiAddress}/memberships/all`);
-        setAvailableMemberships(response.data);
+        console.log("Zmenit na membershipsTypes")
       } catch (error) {
         console.error("Error fetching available memberships:", error);
       }
@@ -72,14 +71,24 @@ const MembershipPage = () => {
           <TableContainer component={Paper}>
             <Table>
               <TableBody>
-                {availableMemberships.map((membership, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {membership.membershipType}
-                      </TableCell>
-                      <TableCell align="right">{membership.membershipPrice} Kč/měsíc</TableCell>
-                    </TableRow>
-                ))}
+              {availableMemberships && availableMemberships.length > 0 ? (
+                availableMemberships.map((membership, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {membership.membershipType}
+                    </TableCell>
+                    <TableCell align="right">
+                      {membership.membershipPrice} Kč/měsíc
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell component="th" scope="row" colSpan={2} align="center">
+                    Žádná dostupná členství
+                  </TableCell>
+                </TableRow>
+              )}
               </TableBody>
             </Table>
           </TableContainer>

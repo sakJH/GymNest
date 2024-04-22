@@ -1,65 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, TextField, Slider } from '@mui/material';
+import { useAuth } from '../AuthContext';
 
 const initialOptions = {
     "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
-    currency: "USD", //TODO - změnit na preferedCurrncy z User DB
     intent: "capture",
 };
 
-const subscriptionOptions = [
-    { duration: "1 měsíc = 10USD", value: "10.00" },
-    { duration: "6 měsíců = 50USD", value: "50.00" },
-    { duration: "1 rok = 90USD", value: "90.00" }
-];
+const currencyOptions = ["CZK", "USD", "EUR"];
+const exchangeRates = { USD: 23, EUR: 25, CZK: 1 };
 
-/**
- * A React component for rendering a PayPal button and handling user interactions.
- *
- * * card testing: https://developer.paypal.com/api/rest/sandbox/card-testing/#link-creditcardgeneratorfortesting
- *
- * @return {JSX.Element} The PayPalButton component
- */
 const PayPalButton = () => {
-    const [selectedAmount, setSelectedAmount] = useState("");
-    const [isSubscriptionSelected, setIsSubscriptionSelected] = useState(false);
+    const { user, setCreditsUser, token } = useAuth();
+    const [selectedCurrency, setSelectedCurrency] = useState(user?.preferredCurrency || "USD");
+    const [amount, setAmount] = useState(1);
+    const [showPayPalButton, setShowPayPalButton] = useState(false);
 
-    const handleApprove = (data, actions) => {
-        console.log("Platba byla úspěšná!", data, actions);
-        return actions.order.capture();
+    useEffect(() => {
+        if (user && user.preferredCurrency) {
+            setSelectedCurrency(user.preferredCurrency);
+            initialOptions.currency = user.preferredCurrency;
+        }
+    }, [user]);
+
+    const handleApprove = async (data, actions) => {
+        try {
+            const capture = await actions.order.capture();
+            console.log('Capture result:', capture);
+
+            if (capture.status === 'COMPLETED') {
+                const amountInCZK = amount * exchangeRates[selectedCurrency];
+                addUserCreditsToServer(user.id, amountInCZK);
+            } else {
+                // Zpracování neúspěšného stavu objednávky
+                alert('Platba nebyla úspěšná. Prosím, zkuste to znovu.');
+            }
+        } catch (error) {
+            console.error('Chyba při zpracování platby:', error);
+            alert('Nastala chyba při zpracování vaší platby. Prosím, kontaktujte podporu.');
+        }
     };
 
-    const handleSubscriptionSelect = (value) => {
-        setSelectedAmount(value);
-        setIsSubscriptionSelected(true);
+    const addUserCreditsToServer = async (userId, amountToAdd) => {
+        try {
+            const response = await axios.post(`http://localhost:3001/api/users/${userId}/credits/add`, {
+                amount: amountToAdd
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.data.user) {
+                setCreditsUser(response.data.user);
+                alert(`Kredity byly úspěšně připsány! Přidán: ${amountToAdd} kredit.`);
+            }
+        } catch (error) {
+            console.error("Failed to add credits:", error);
+            alert("Nepodařilo se přidat kredity. Zkuste to prosím znovu.");
+        }
+    };
+
+    const handleCurrencySelect = (currency) => {
+        setSelectedCurrency(currency);
+        initialOptions.currency = currency;
+    };
+
+    const handleInputChange = (event) => {
+        setAmount(event.target.value);
+    };
+
+    const handleConfirmClick = () => {
+        console.log("Amount:", amount);
+        console.log("Currency:", selectedCurrency);
+        handleCurrencySelect(selectedCurrency);
+        setShowPayPalButton(true);
     };
 
     return (
         <Box sx={{
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center',
-			gap: 2
-		}}>
-            <Typography variant="h4">Vyber si délku předplatného</Typography>
-            <Box>
-                {subscriptionOptions.map((option, index) => (
-                    <Button variant="outlined" key={index} onClick={() => handleSubscriptionSelect(option.value)} sx={{ margin: 1 }}>
-                        {option.duration}
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2
+        }}>
+            <Typography variant="h4">Vyber měnu a částku</Typography>
+            {!showPayPalButton && (
+                <React.Fragment>
+                    <Box>
+                        {currencyOptions.map((currency, index) => (
+                            <Button
+                                variant={currency === selectedCurrency ? "contained" : "outlined"}
+                                key={index}
+                                onClick={() => handleCurrencySelect(currency)}
+                                sx={{ margin: 1, fontWeight: currency === selectedCurrency ? 'bold' : 'normal' }}
+                            >
+                                {currency}
+                            </Button>
+                        ))}
+                    </Box>
+                    <Typography variant="h6">Zadej částku</Typography>
+                    <Box sx={{ width: 300, padding: 2 }}>
+                        <TextField
+                            value={amount}
+                            onChange={handleInputChange}
+                            type="number"
+                            inputProps={{
+                                step: 1,
+                                min: 1,
+                                max: 1000000,
+                                type: 'number',
+                            }}
+                            sx={{ width: 300, mt: 2 }}
+                        />
+                    </Box>
+                    <Button onClick={handleConfirmClick} variant="contained" sx={{ mt: 2 }}>
+                        Potvrdit a platit
                     </Button>
-                ))}
-            </Box>
-            {isSubscriptionSelected && (
+                </React.Fragment>
+            )}
+            {showPayPalButton && (
                 <Box maxWidth="400px" width="100%">
                     <PayPalScriptProvider options={initialOptions}>
                         <PayPalButtons
                             style={{ layout: "vertical", tagline: false }}
                             createOrder={(data, actions) => {
+                                // Ujistěte se, že amount je platná hodnota
+                                const validAmount = amount > 0 ? amount.toString() : "1";
                                 return actions.order.create({
                                     purchase_units: [{
-                                        amount: { value: selectedAmount },
+                                        amount: { value: validAmount },
                                     }],
                                     application_context: { shipping_preference: 'NO_SHIPPING' }
                                 });

@@ -20,7 +20,7 @@ package "GymNestUserDB" {
       + dateOfBirth : date
       + roleId : int
       + preferredCurrency : varchar(255)
-      + credits : varchar(255)
+      + credits : int
       + colorScheme : varchar(255)
       + createdAt : datetime
       + updatedAt : datetime

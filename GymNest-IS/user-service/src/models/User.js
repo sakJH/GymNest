@@ -239,7 +239,7 @@ User.init({
         defaultValue: 'CZK', // Výchozí měna
     },
     credits: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         defaultValue: 0
     },
 

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `dateOfBirth` DATE,
     `roleId` INT NOT NULL DEFAULT 1,
     `preferredCurrency` VARCHAR(255) DEFAULT 'CZK',
-    `credits` VARCHAR(255) DEFAULT '0',
+    `credits` INT DEFAULT '0',
     `colorScheme` VARCHAR(255) DEFAULT 'light',
     `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
