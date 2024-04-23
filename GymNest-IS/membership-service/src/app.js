@@ -20,6 +20,7 @@ MembershipType.hasMany(Membership, {
     foreignKey: 'membershipTypeId',
     as: 'memberships'
 });
+
 const options = {
     swaggerDefinition,
     apis: ['./src/routes/*.js'],

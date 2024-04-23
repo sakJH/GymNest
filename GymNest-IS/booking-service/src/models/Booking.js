@@ -2,11 +2,27 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../sequelize'); // Nastavení připojení k databázi
 
 class Booking extends Model {
-    // Vytvoření nové rezervace
+    // Vytvoření nové rezervace - reaktivace pokud jiz existuje shodna
     static async createBooking(details) {
         try {
-            const booking = await this.create(details);
-            return booking;
+            // Hledání existující rezervace s userId, scheduleId a stavem 'cancelled'
+            const existingBooking = await this.findOne({
+                where: {
+                    userId: details.userId,
+                    scheduleId: details.scheduleId,
+                    status: 'cancelled'
+                }
+            });
+
+            if (existingBooking) {
+                // Nastaví existující rezervaci zpět na 'scheduled', pokud ji najde
+                await existingBooking.update({ status: 'scheduled' });
+                return existingBooking;
+            } else {
+                // Vytvoří novou rezervaci, pokud nebyla nalezena žádná odpovídající rezervace ve stavu 'cancelled'
+                const booking = await this.create(details);
+                return booking;
+            }
         } catch (error) {
             throw error;
         }
