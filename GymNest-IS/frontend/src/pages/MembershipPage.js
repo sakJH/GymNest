@@ -61,45 +61,108 @@ const MembershipPage = () => {
   }, [token, user]);
 
   const onRenew = async (membershipId) => {
-    console.log(`Renewing membership ID: ${membershipId}`);
-    // Add renew logic here, e.g., API call
+    try {
+      // Získání aktuálních informací o členství
+      const membershipResponse = await axios.get(`${apiAddress}/memberships/get/${membershipId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (membershipResponse.status !== 200 || !membershipResponse.data) {
+        alert('Nepodařilo se získat informace o členství.');
+        return;
+      }
+
+      const membershipType = availableMemberships.find(type => type.id === membershipResponse.data.membershipTypeId);
+      if (!membershipType) {
+        alert('Nepodařilo se získat typ členství.');
+        return;
+      }
+      const paymentAmount = membershipType.membershipPrice;
+
+      // Potvrzení od uživatele
+      const confirmRenew = window.confirm(`Opravdu chcete obnovit členství za ${paymentAmount} kreditů?`);
+      if (!confirmRenew) {
+        return; // Uživatel stiskl Cancel, obnova nebude provedena
+      }
+
+      const currentEndDate = new Date(membershipResponse.data.endDate);
+      currentEndDate.setMonth(currentEndDate.getMonth() + 1); // Přidá jeden měsíc k současnému datu expirace
+      const newEndDate = currentEndDate.toISOString().slice(0, 10); // Konverze na YYYY-MM-DD
+
+      // Aktualizace členství s novým datem expirace
+      const updateResponse = await axios.put(`${apiAddress}/memberships/update/${membershipId}`, {
+        endDate: newEndDate
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (updateResponse.status === 200) {
+        alert('Členství bylo úspěšně prodlouženo');
+        fetchMembershipInfo(); // Znovu načíst informace o členství po aktualizaci
+
+        // Zavolání funkce handlePurchase pro zpracování platby
+        await handlePurchase(user.id, membershipId, paymentAmount);
+      }
+    } catch (error) {
+      console.error('Failed to renew membership:', error);
+      alert('Nepodařilo se prodloužit členství. Zkuste to prosím znovu.');
+    }
   };
 
   const onCancel = async (membershipId) => {
-    console.log(`Canceling membership ID: ${membershipId}`);
-    // Add cancel logic here, e.g., API call
+    try {
+      // Potvrzení od uživatele
+      const confirmCancel = window.confirm(`Opravdu chcete zrušit dané členství?`);
+      if (!confirmCancel) {
+        return; // Uživatel stiskl Cancel, obnova nebude provedena
+      }
+
+      const response = await axios.delete(`${apiAddress}/memberships/delete/${membershipId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.status === 204 || response.status === 200) {
+        alert('Členství bylo úspěšně zrušeno');
+        fetchPaymentHistory();
+        fetchMembershipInfo(); // Znovu načíst informace o členství po smazání
+      }
+    } catch (error) {
+      console.error('Failed to cancel membership:', error);
+      alert('Nepodařilo se zrušit členství. Zkuste to prosím znovu.');
+    }
   };
 
-  const handlePurchase = async (userId, membershipId, amount) => {
-    const absAmount = Math.abs(amount)
+  const handlePurchase = async (userId, membershipId, amount, customDescription = null) => {
+    const absAmount = Math.abs(amount);
     const formattedAmount = absAmount.toFixed(2);
     try {
-      await handleCreatePayment(membershipId, formattedAmount);
-      await modifyUserCredits(userId, amount);
+        // Zkontrolovat, zda je customDescription null nebo undefined, a nastavit výchozí hodnotu
+        const description = customDescription ?? 'Platba za Členství';
+        await handleCreatePayment(membershipId, formattedAmount, description);
+        await modifyUserCredits(userId, amount);
     } catch (error) {
-      console.error('Transaction failed:', error);
-      alert('Transaction failed. Please try again.');
+        console.error('Transaction failed:', error);
+        alert('Transaction failed. Please try again.');
     }
-  }
+  };
 
-  const handleCreatePayment = async (membershipId, amount) => {
+  const handleCreatePayment = async (membershipId, amount, description = null) => {
     const paymentDetails = {
-      amount: amount,
-      paymentDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD format
-      status: 'completed',
-      membershipId: membershipId,
-      description: 'Payment for membership'
+        amount: amount,
+        paymentDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD format
+        status: 'completed',
+        membershipId: membershipId,
+        description: description
     };
 
     try {
-      const response = await axios.post(`${apiAddress}/payments/create`, paymentDetails, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (response.data) {
-        fetchPaymentHistory();
-      }
+        const response = await axios.post(`${apiAddress}/payments/create`, paymentDetails, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data) {
+            fetchPaymentHistory();
+        }
     } catch (error) {
-      console.error('Failed to create payment:', error);
+        console.error('Failed to create payment:', error);
     }
   };
 
