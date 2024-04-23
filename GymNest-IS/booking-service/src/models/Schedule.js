@@ -62,7 +62,6 @@ class Schedule extends Model {
         }
     }
 
-    // TODO - další metody dle potřeby
 }
 
 Schedule.init({
