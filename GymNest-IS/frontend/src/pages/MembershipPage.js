@@ -111,11 +111,18 @@ const MembershipPage = () => {
 
   const onCancel = async (membershipId) => {
     try {
+      // Potvrzení od uživatele
+      const confirmCancel = window.confirm(`Opravdu chcete zrušit dané členství?`);
+      if (!confirmCancel) {
+        return; // Uživatel stiskl Cancel, obnova nebude provedena
+      }
+
       const response = await axios.delete(`${apiAddress}/memberships/delete/${membershipId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.status === 204 || response.status === 200) {
         alert('Členství bylo úspěšně zrušeno');
+        fetchPaymentHistory();
         fetchMembershipInfo(); // Znovu načíst informace o členství po smazání
       }
     } catch (error) {
