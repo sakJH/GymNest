@@ -38,7 +38,7 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) =
                     </IconButton>
                 </Tooltip>
             )}
-            {user && onDelete && (
+            {user && (user.roleId === 4) && onDelete && (
                 <Tooltip title="Smazat">
                     <IconButton onClick={(e) => { e.stopPropagation(); onDelete(schedule.id); }} color="error">
                         <DeleteIcon />
