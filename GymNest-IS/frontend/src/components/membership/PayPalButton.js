@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Button, Typography, Box, TextField, Slider } from '@mui/material';
 import { useAuth } from '../AuthContext';
@@ -7,13 +6,14 @@ import { useAuth } from '../AuthContext';
 const initialOptions = {
     "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
     intent: "capture",
+    currency: "CZK"
 };
 
 const currencyOptions = ["CZK", "USD", "EUR"];
 const exchangeRates = { USD: 23, EUR: 25, CZK: 1 }; //TODO vylepseni o aktualni kurzy z nejakeho api
 
-const PayPalButton = () => {
-    const { user, setCreditsUser, token } = useAuth();
+const PayPalButton = ({ modifyCredits }) => {
+    const { user } = useAuth();
     const [selectedCurrency, setSelectedCurrency] = useState(user?.preferredCurrency || "USD");
     const [amount, setAmount] = useState(1);
     const [showPayPalButton, setShowPayPalButton] = useState(false);
@@ -32,7 +32,7 @@ const PayPalButton = () => {
 
             if (capture.status === 'COMPLETED') {
                 const amountInCZK = amount * exchangeRates[selectedCurrency];
-                addUserCreditsToServer(user.id, amountInCZK);
+                modifyCredits(user.id, amountInCZK);
             } else {
                 // Zpracování neúspěšného stavu objednávky
                 alert('Platba nebyla úspěšná. Prosím, zkuste to znovu.');
@@ -40,23 +40,6 @@ const PayPalButton = () => {
         } catch (error) {
             console.error('Chyba při zpracování platby:', error);
             alert('Nastala chyba při zpracování vaší platby. Prosím, kontaktujte podporu.');
-        }
-    };
-
-    const addUserCreditsToServer = async (userId, amountToAdd) => {
-        try {
-            const response = await axios.post(`http://localhost:3001/api/users/${userId}/credits/add`, {
-                amount: amountToAdd
-            }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (response.data.user) {
-                setCreditsUser(response.data.user);
-                alert(`Kredity byly úspěšně připsány! Přidán: ${amountToAdd} kredit.`);
-            }
-        } catch (error) {
-            console.error("Failed to add credits:", error);
-            alert("Nepodařilo se přidat kredity. Zkuste to prosím znovu.");
         }
     };
 
