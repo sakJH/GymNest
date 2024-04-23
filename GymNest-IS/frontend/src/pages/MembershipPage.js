@@ -96,12 +96,10 @@ const MembershipPage = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.data) {
-        alert('Payment created successfully!');
         fetchPaymentHistory();
       }
     } catch (error) {
       console.error('Failed to create payment:', error);
-      alert('Failed to create payment. Please try again.');
     }
   };
 
@@ -136,7 +134,7 @@ const MembershipPage = () => {
         <PayPalButton modifyCredits={modifyUserCredits} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
-        <PaymentHistory payments={paymentHistory} />
+        <PaymentHistory payments={paymentHistory} memberships={membershipInfo} membershipTypes={availableMemberships} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
         <Typography variant="h4" sx={{ marginBottom: 2 }}>Moje Členství</Typography>
