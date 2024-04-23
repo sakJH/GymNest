@@ -33,7 +33,7 @@ export function useSchedules(currentWeek, viewMode, setLoading, setError) {
 
             try {
                 const [schedulesResponse, activitiesResponse] = await Promise.all([
-                    axios.get(`${apiAddress}/schedules/all`, {
+                    axios.get(`${apiAddress}/schedules/allByRange`, {
                         params: { start: startDate, end: endDate },
                         headers: { 'Authorization': `Bearer ${token}` },
                     }),

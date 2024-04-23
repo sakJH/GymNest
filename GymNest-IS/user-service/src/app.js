@@ -58,10 +58,10 @@ app.listen(PORT, () => {
 // Synchronizace modelů s databází a nastavení asociací
 sequelize.sync({ force: false }).then(() => {
 
-    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'admin', 4, 1000).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'admin', 3, 500).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'admin', 2, 800).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'admin', 1, 700).then(r => console.log('Inicial user created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'Adida', 4, 1000).then(r => console.log('Inicial user "admin" was created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'CocaCola', 3, 500).then(r => console.log('Inicial user "coach" was created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'Merino', 2, 800).then(r => console.log('Inicial user "member" was created')).catch(err => console.error('Failed to create inicial user:', err));
+    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'Upatla', 1, 700).then(r => console.log('Inicial user "user" was created')).catch(err => console.error('Failed to create inicial user:', err));
     console.log('Databáze a tabulky byly synchronizovány');
 
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
@@ -84,7 +84,7 @@ async function createInitialUser(username, password, email, firstName, lastName,
                 credits
             });
 
-            console.log('Initial user created:', user);
+            console.log('Initial user created:', username);
         } else {
             console.log('Initial user already exists:', username);
         }

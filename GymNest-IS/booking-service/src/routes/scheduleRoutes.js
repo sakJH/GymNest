@@ -116,4 +116,7 @@ router.get('/schedules/find/:scheduleId', ScheduleController.findScheduleById);
  */
 router.get('/schedules/all', ScheduleController.findAllSchedules);
 
+// Definování cesty pro získání seznamu všech harmonogramů podle zadaného rozsahu
+router.get('/schedules/allByRange', ScheduleController.findAllSchedulesByRange);
+
 module.exports = router;
