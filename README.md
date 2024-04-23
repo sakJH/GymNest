@@ -38,7 +38,7 @@ MembershipPage
 - [x] implementace PayPal
 - [x] změna měny
 - [x] přehled všech členství dle cen
-- [ ] nákup členství
+- [x] nákup členství
 - [ ] Automatické obnovení členství s předvolbami uživatele
 - [ ] Uživatelské recenze a hodnocení různých členství.
 - [ ] Možnost změny členství
