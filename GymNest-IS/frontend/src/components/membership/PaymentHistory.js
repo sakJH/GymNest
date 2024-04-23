@@ -4,7 +4,7 @@ import { Typography, List, ListItem, ListItemText, Box } from '@mui/material';
 const PaymentHistory = ({ payments }) => {
   return (
     <Box sx={{ marginBottom: 2 }}>
-      <Typography variant="h6">Historie plateb</Typography>
+      <Typography variant="h4">Historie plateb</Typography>
       <List>
         {payments.map((payment, index) => (
           <ListItem key={index}>

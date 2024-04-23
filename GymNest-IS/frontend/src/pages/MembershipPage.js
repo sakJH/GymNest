@@ -60,8 +60,19 @@ const MembershipPage = () => {
     fetchAvailableMemberships();
   }, [token, user]);
 
+  const onRenew = async (membershipId) => {
+    console.log(`Renewing membership ID: ${membershipId}`);
+    // Add renew logic here, e.g., API call
+  };
+
+  const onCancel = async (membershipId) => {
+    console.log(`Canceling membership ID: ${membershipId}`);
+    // Add cancel logic here, e.g., API call
+  };
+
   // Funkce pro změnu kreditů uživatele
   const modifyUserCredits = async (userId, amountChange) => {
+    //TODO pridat ulozeni do payments
     console.log(amountChange);
     // Rozhoduje, zda použít endpoint pro přidání nebo odebrání kreditů
     const endpoint = amountChange > 0 ? 'add' : 'remove';
@@ -92,9 +103,11 @@ const MembershipPage = () => {
         <PayPalButton modifyCredits={modifyUserCredits} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
-        <Typography variant="h4" sx={{ marginBottom: 2 }}>Moje Členství</Typography>
-        {membershipInfo && <MembershipStatus {...membershipInfo} />}
         <PaymentHistory payments={paymentHistory} />
+      </Paper>
+      <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
+        <Typography variant="h4" sx={{ marginBottom: 2 }}>Moje Členství</Typography>
+        {membershipInfo && availableMemberships && <MembershipStatus memberships={membershipInfo} membershipTypes={availableMemberships} onRenew={onRenew} onCancel={onCancel} />}
       </Paper>
       </>
     )}
