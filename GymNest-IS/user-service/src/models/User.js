@@ -47,13 +47,13 @@ class User extends Model {
 
     static async deleteUserByUsername(username) {
         try {
-            const result = await this.destroy({
-                where: { username }
-            });
-            if (result === 0) {
-                // Žádný záznam nebyl odstraněn, uživatel s tímto uživatelským jménem nebyl nalezen
+            const user = await this.findOne({ where: { username } });
+            if (!user) {
                 throw new Error(`Uživatel s uživatelským jménem "${username}" nebyl nalezen.`);
             }
+
+            await user.destroy();
+
             console.log(`Uživatel s uživatelským jménem "${username}" byl úspěšně odstraněn.`);
             return true;
         } catch (error) {

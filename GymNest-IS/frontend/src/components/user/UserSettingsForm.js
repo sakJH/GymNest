@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
+import { AuthContext } from '../AuthContext';
 
-const UserSettingsForm = ({ user, handleClose, logout }) => {
+const UserSettingsForm = ({ user, handleClose }) => {
+    const { setCreditsUser, token, logout } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         username: user.username || '',
         firstName: user.firstName || '',
@@ -28,7 +30,16 @@ const UserSettingsForm = ({ user, handleClose, logout }) => {
                 preferredCurrency: formData.preferredCurrency,
                 colorScheme: formData.colorScheme
             };
-            await axios.put(`http://localhost:3001/api/users/${user.username}`, updateData);
+
+            const response = await axios.put(`http://localhost:3001/api/users/${user.username}`, updateData, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data) {
+                // Zde předpokládáme, že server vrací aktualizované údaje uživatele
+                setCreditsUser({ ...user, ...updateData });
+                alert('Uživatelské údaje byly úspěšně aktualizovány.');
+            }
         } catch (error) {
             console.error('Error updating user:', error);
         }
@@ -46,7 +57,9 @@ const UserSettingsForm = ({ user, handleClose, logout }) => {
 
     const confirmDelete = async () => {
         try {
-            await axios.delete(`http://localhost:3001/api/users/delete/${user.username}`);
+            const response = await axios.delete(`http://localhost:3001/api/users/${user.username}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             logout(); // Odhlášení uživatele a smazání JWT tokenu
             handleClose();
         } catch (error) {
