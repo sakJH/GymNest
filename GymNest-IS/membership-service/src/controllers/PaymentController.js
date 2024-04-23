@@ -6,7 +6,7 @@ const paypalClient = require('../utils/paypalClient');
 
 class PaymentController {
     // Vytvoření nové platby pomocí PayPal API
-    async createPayment(req, res) {
+    async createPayPalPayment(req, res) {
         const { currency, amount } = req.body;
         const request = new paypal.orders.OrdersCreateRequest();
         request.prefer("return=representation");
@@ -25,6 +25,17 @@ class PaymentController {
             res.json({ id: order.result.id });
         } catch (err) {
             res.status(500).send(err.message);
+        }
+    }
+
+    // Vytvoření nové platby
+    async createPayment(req, res) {
+        try {
+            const details = req.body;
+            const payment = await PaymentService.createPayment(details);
+            res.json(payment);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
     }
 

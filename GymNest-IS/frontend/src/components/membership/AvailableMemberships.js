@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableRow, TableContainer, Paper, Typograph
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AuthContext } from '../AuthContext';
 
-const AvailableMemberships = ({ memberships, modifyCredits }) => {
+const AvailableMemberships = ({ memberships, onPurchase }) => {
   const { user, token } = useContext(AuthContext); // Použijte kontext pro získání informací o uživateli a jeho token
 
   const handlePurchase = async (membership) => {
@@ -32,8 +32,8 @@ const AvailableMemberships = ({ memberships, modifyCredits }) => {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.status === 201) {
-        alert('Členství bylo úspěšně zakoupeno. Vaše kredity byly aktualizovány.');
-        modifyCredits(user.id, credits);
+        alert('Členství bylo úspěšně zakoupeno.');
+        onPurchase(user.id, response.data.id, credits);
         return response.data;
       }
     } catch (error) {

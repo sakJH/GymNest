@@ -15,46 +15,46 @@ const MembershipPage = () => {
 
   const apiAddress = 'http://localhost:3002/api';
 
-  useEffect(() => {
-    const fetchMembershipInfo = async () => {
-      if (token && user && user.id) {
-        try {
-          const membershipResponse = await axios.get(`${apiAddress}/memberships/user/${user.id}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            }
-          });
-          setMembershipInfo(membershipResponse.data);
-        } catch (error) {
-          console.error("Error fetching membership info:", error);
-        }
-      }
-    };
-
-    const fetchPaymentHistory = async () => {
-      if (token && user && user.id) {
-        try {
-          const paymentHistoryResponse = await axios.get(`${apiAddress}/payments/all/${user.id}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            }
-          });
-          setPaymentHistory(paymentHistoryResponse.data);
-        } catch (error) {
-          console.error("Error fetching payment history:", error);
-        }
-      }
-    };
-
-    const fetchAvailableMemberships = async () => {
+  const fetchMembershipInfo = async () => {
+    if (token && user && user.id) {
       try {
-        const membershipTypes = await axios.get(`${apiAddress}/memberships/types/all`)
-        setAvailableMemberships(membershipTypes.data);
+        const membershipResponse = await axios.get(`${apiAddress}/memberships/user/${user.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+        setMembershipInfo(membershipResponse.data);
       } catch (error) {
-        console.error("Error fetching available memberships:", error);
+        console.error("Error fetching membership info:", error);
       }
-    };
+    }
+  };
 
+  const fetchPaymentHistory = async () => {
+    if (token && user && user.id) {
+      try {
+        const paymentHistoryResponse = await axios.get(`${apiAddress}/payments/all/${user.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+        setPaymentHistory(paymentHistoryResponse.data);
+      } catch (error) {
+        console.error("Error fetching payment history:", error);
+      }
+    }
+  };
+
+  const fetchAvailableMemberships = async () => {
+    try {
+      const membershipTypes = await axios.get(`${apiAddress}/memberships/types/all`)
+      setAvailableMemberships(membershipTypes.data);
+    } catch (error) {
+      console.error("Error fetching available memberships:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchMembershipInfo();
     fetchPaymentHistory();
     fetchAvailableMemberships();
@@ -70,10 +70,43 @@ const MembershipPage = () => {
     // Add cancel logic here, e.g., API call
   };
 
+  const handlePurchase = async (userId, membershipId, amount) => {
+    const absAmount = Math.abs(amount)
+    const formattedAmount = absAmount.toFixed(2);
+    try {
+      await handleCreatePayment(membershipId, formattedAmount);
+      await modifyUserCredits(userId, amount);
+    } catch (error) {
+      console.error('Transaction failed:', error);
+      alert('Transaction failed. Please try again.');
+    }
+  }
+
+  const handleCreatePayment = async (membershipId, amount) => {
+    const paymentDetails = {
+      amount: amount,
+      paymentDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD format
+      status: 'completed',
+      membershipId: membershipId,
+      description: 'Payment for membership'
+    };
+
+    try {
+      const response = await axios.post(`${apiAddress}/payments/create`, paymentDetails, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data) {
+        alert('Payment created successfully!');
+        fetchPaymentHistory();
+      }
+    } catch (error) {
+      console.error('Failed to create payment:', error);
+      alert('Failed to create payment. Please try again.');
+    }
+  };
+
   // Funkce pro změnu kreditů uživatele
   const modifyUserCredits = async (userId, amountChange) => {
-    //TODO pridat ulozeni do payments
-    console.log(amountChange);
     // Rozhoduje, zda použít endpoint pro přidání nebo odebrání kreditů
     const endpoint = amountChange > 0 ? 'add' : 'remove';
     // Ujistěte se, že odesíláte absolutní hodnotu množství, protože 'remove' endpoint může očekávat pozitivní číslo
@@ -111,7 +144,7 @@ const MembershipPage = () => {
       </Paper>
       </>
     )}
-    <AvailableMemberships memberships={availableMemberships} modifyCredits={modifyUserCredits} />
+    <AvailableMemberships memberships={availableMemberships} onPurchase={handlePurchase} />
     </>
   );
 };
