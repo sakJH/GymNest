@@ -8,6 +8,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const User = require('./models/User');
 const bcrypt = require('bcryptjs');
+const initialData = require('./utils/dataInitializer');
 
 // Import rout
 const userRoutes = require('./routes/userRoutes');
@@ -16,6 +17,7 @@ const authRoutes = require('./routes/authRoutes');
 
 // Import passportu a jeho konfigurace
 const passport = require('passport');
+const {initializeData} = require("./utils/dataInitializer");
 require('./auth/passportConfig')(passport);
 
 const app = express();
@@ -56,39 +58,10 @@ app.listen(PORT, () => {
 });
 
 // Synchronizace modelů s databází a nastavení asociací
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: false }).then(async () => {
 
-    createInitialUser('admin', 'Test_admin1', 'admin@email.com', 'Ada', 'Adida', 4, 1000).then(r => console.log('Inicial user "admin" was created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('coach', 'Test_coach1', 'coach@email.com', 'Cach', 'CocaCola', 3, 500).then(r => console.log('Inicial user "coach" was created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('member', 'Test_member1', 'member@email.com', 'Martin', 'Merino', 2, 800).then(r => console.log('Inicial user "member" was created')).catch(err => console.error('Failed to create inicial user:', err));
-    createInitialUser('user', 'Test_user1', 'user@email.com', 'Usalam', 'Upatla', 1, 700).then(r => console.log('Inicial user "user" was created')).catch(err => console.error('Failed to create inicial user:', err));
+    await initialData.initializeData()
     console.log('Databáze a tabulky byly synchronizovány');
 
 }).catch(err => console.error('Při synchronizaci databáze došlo k chybě:', err));
 
-//Inicial user
-
-async function createInitialUser(username, password, email, firstName, lastName, roleId, credits) {
-    try {
-        const exists = await User.findOne({ where: { username } });
-
-        if (!exists) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({
-                username,
-                passwordHash: hashedPassword,
-                email,
-                firstName,
-                lastName,
-                roleId,
-                credits
-            });
-
-            console.log('Initial user created:', username);
-        } else {
-            console.log('Initial user already exists:', username);
-        }
-    } catch (error) {
-        console.error('Failed to create initial user:', error);
-    }
-}
