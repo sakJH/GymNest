@@ -57,6 +57,21 @@ class ScheduleController {
         }
     }
 
+    async findAllSchedulesByRange(req, res) {
+        try {
+            const { start, end } = req.query;
+            let schedules;
+            if (start && end) {
+                schedules = await ScheduleService.findSchedulesByDateRange(start, end);
+            } else {
+                schedules = await ScheduleService.findAllSchedules();
+            }
+            res.json(schedules);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = new ScheduleController();

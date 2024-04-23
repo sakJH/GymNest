@@ -95,7 +95,7 @@ async function createInitialMembership(userId, typeId) {
                 endDate,
                 status: 'active'
             });
-            console.log(`Membership created for user ID: ${userId}`);
+            console.log(`Membership created : ${userId}`);
             return membership;  // Return the created membership object for further use
         } else {
             console.log(`Membership already exists for user ID: ${userId}`);

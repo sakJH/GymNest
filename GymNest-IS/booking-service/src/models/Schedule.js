@@ -1,4 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Op } = require('sequelize');
 const sequelize = require('../sequelize');
 
 class Schedule extends Model {
@@ -57,6 +58,23 @@ class Schedule extends Model {
     static async findAllSchedules() {
         try {
             return await this.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async findSchedulesByDateRange(start, end) {
+        try {
+            return await this.findAll({
+                where: {
+                    startTime: {
+                        [Op.gte]: new Date(start)
+                    },
+                    endTime: {
+                        [Op.lte]: new Date(end)
+                    }
+                }
+            });
         } catch (error) {
             throw error;
         }

@@ -51,6 +51,15 @@ class ScheduleService {
         }
     }
 
+    async findSchedulesByDateRange(start, end) {
+        try {
+            return await Schedule.findSchedulesByDateRange(start, end);
+        } catch (error) {
+            console.error("Error finding schedules by date range:", error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = new ScheduleService();
