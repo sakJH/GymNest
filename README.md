@@ -39,10 +39,9 @@ MembershipPage
 - [x] změna měny
 - [x] přehled všech členství dle cen
 - [x] nákup členství
-- [ ] Automatické obnovení členství s předvolbami uživatele
-- [ ] Uživatelské recenze a hodnocení různých členství.
-- [ ] Možnost změny členství
-- [ ] Možnost zrušení členství
+- [x] Obnovení členství s předvolbami uživatele
+- [x] Možnost změny členství - lze zrusit a udelat nove
+- [x] Možnost zrušení členství
 
 HomePage
 - [x] Vytvořit něco pro nepřihlášené - Verejne rozvhy

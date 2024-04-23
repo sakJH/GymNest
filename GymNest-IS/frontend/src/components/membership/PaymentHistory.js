@@ -28,7 +28,7 @@ const PaymentHistory = ({ payments, memberships, membershipTypes }) => {
             <ListItem key={index}>
               <ListItemText
                 primary={`Částka: ${payment.amount}`}
-                secondary={`Datum platby: ${payment.paymentDate}, Typ členství: ${membership ? membership.typeName : 'Neznámé'}, Začátek členství: ${membership ? membership.startDate : 'Neznámý'}, Konec členství: ${membership ? membership.endDate : 'Neznámý'}`}
+                secondary={`Datum platby: ${payment.paymentDate}, Typ členství: ${membership ? membership.typeName : 'Neznámé'}, Začátek členství: ${membership ? membership.startDate : 'Neznámý'}, Konec členství: ${membership ? membership.endDate : 'Neznámý'}${payment.description ? ', Popis: ' + payment.description : ''}`}
               />
             </ListItem>
           );
