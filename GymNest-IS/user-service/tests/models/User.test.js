@@ -20,7 +20,7 @@ describe('User', function () {
 
     describe('findUserByUsername', function () {
         it('should find a user by username', async function () {
-            const mockUser = { id: 1, username: 'testUser', email: 'test@example.com' };
+            const mockUser = { id: 99, username: 'testUser', email: 'test@example.com' };
             sandbox.stub(User, 'findOne').resolves(mockUser);
 
             const result = await User.findUserByUsername('testUser');
@@ -37,7 +37,7 @@ describe('User', function () {
 
     describe('deleteUserByUsername', function () {
         it('should delete a user by username', async function () {
-            sandbox.stub(User, 'destroy').resolves(1);
+            sandbox.stub(User, 'destroy').resolves(99);
 
             const result = await User.deleteUserByUsername('testUser');
             expect(User.destroy.calledOnce).to.be.true;
@@ -53,7 +53,7 @@ describe('User', function () {
 
     describe('findUserByEmail', function () {
         it('should find a user by email', async function () {
-            const mockUser = { id: 1, username: 'testUser', email: 'test@example.com' };
+            const mockUser = { id: 99, username: 'testUser', email: 'test@example.com' };
             sandbox.stub(User, 'findOne').resolves(mockUser);
 
             const result = await User.findUserByEmail('test@example.com');
@@ -109,8 +109,8 @@ describe('User', function () {
                 sandbox.stub(User, 'findByPk').resolves(mockUser);
                 const preferences = { colorScheme: 'dark' };
 
-                const result = await User.updatePreferences(1, preferences);
-                expect(User.findByPk.calledWith(1)).to.be.true;
+                const result = await User.updatePreferences(99, preferences);
+                expect(User.findByPk.calledWith(99)).to.be.true;
                 expect(mockUser.update.calledWith(preferences)).to.be.true;
                 expect(result).to.equal(mockUser);
             });
@@ -129,8 +129,8 @@ describe('User', function () {
                 };
                 sandbox.stub(User, 'findByPk').resolves(mockUser);
 
-                const result = await User.resetPreferencesToDefault(1);
-                expect(User.findByPk.calledWith(1)).to.be.true;
+                const result = await User.resetPreferencesToDefault(99);
+                expect(User.findByPk.calledWith(99)).to.be.true;
                 expect(mockUser.update.calledWith({
                     preferredCurrency: 'CZK',
                     colorScheme: 'light'

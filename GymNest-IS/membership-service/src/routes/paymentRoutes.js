@@ -6,26 +6,28 @@ const router = express.Router();
 // Vytvoření nové platby
 /**
  * @swagger
- * /payments:
+ * /payments/create:
  *   post:
  *     summary: Vytvoření nové platby
+ *     tags: [Payments]
+ *     description: Tato operace vytvoří novou platbu podle zadaných parametrů.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Payment'
+ *             $ref: '#/components/schemas/PaymentCreateRequest'
  *     responses:
  *       201:
- *         description: Úspěšné vytvoření platby
+ *         description: Platba byla úspěšně vytvořena.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Payment'
+ *               $ref: '#/components/schemas/PaymentResponse'
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       500:
- *         description: Chyba serveru
+ *         description: Chyba serveru.
  */
 router.post('/payments/create', PaymentController.createPayment);
 
@@ -35,25 +37,23 @@ router.post('/payments/create', PaymentController.createPayment);
  * /payments/status:
  *   put:
  *     summary: Aktualizace stavu platby
+ *     tags: [Payments]
+ *     description: Tato operace aktualizuje stav existující platby.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/PaymentStatus'
+ *             $ref: '#/components/schemas/PaymentStatusUpdateRequest'
  *     responses:
  *       200:
- *         description: Úspěšná aktualizace stavu platby
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Payment'
+ *         description: Stav platby byl úspěšně aktualizován.
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       404:
- *         description: Platba nebyla nalezena
+ *         description: Platba nebyla nalezena.
  *       500:
- *         description: Chyba serveru
+ *         description: Chyba serveru.
  */
 router.put('/payments/status', PaymentController.updatePaymentStatus);
 
@@ -63,26 +63,28 @@ router.put('/payments/status', PaymentController.updatePaymentStatus);
  * /payments/subscription/{subscriptionId}:
  *   get:
  *     summary: Získání plateb podle ID předplatného
+ *     tags: [Payments]
+ *     description: Tato operace získá všechny platby spojené s konkrétním předplatným.
  *     parameters:
  *       - in: path
  *         name: subscriptionId
  *         required: true
- *         description: ID předplatného
+ *         description: ID předplatného, pro které se mají získat platby.
  *         schema:
- *           membershipType: integer
+ *           type: integer
  *     responses:
  *       200:
- *         description: Seznam plateb
+ *         description: Seznam všech plateb pro dané předplatné.
  *         content:
  *           application/json:
  *             schema:
- *               membershipType: array
+ *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Payment'
+ *                 $ref: '#/components/schemas/PaymentResponse'
  *       404:
- *         description: Předplatné nebylo nalezeno
+ *         description: Předplatné nebylo nalezeno.
  *       500:
- *         description: Chyba serveru
+ *         description: Chyba serveru.
  */
 router.get('/payments/subscription/:subscriptionId', PaymentController.findPaymentsBySubscriptionId);
 
@@ -92,26 +94,22 @@ router.get('/payments/subscription/:subscriptionId', PaymentController.findPayme
  * /payments/{paymentId}/refund:
  *   post:
  *     summary: Zpracování vrácení peněz
+ *     tags: [Payments]
+ *     description: Tato operace zpracuje požadavek na vrácení peněz pro konkrétní platbu.
  *     parameters:
  *       - in: path
  *         name: paymentId
  *         required: true
- *         description: ID platby
+ *         description: ID platby, pro kterou se má zpracovat vrácení peněz.
  *         schema:
- *           membershipType: integer
+ *           type: integer
  *     responses:
  *       200:
- *         description: Úspěšné vrácení peněz
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Payment'
- *       400:
- *         description: Chybný formát požadavku
+ *         description: Vrácení peněz bylo úspěšně zpracováno.
  *       404:
- *         description: Platba nebyla nalezena
+ *         description: Platba nebyla nalezena.
  *       500:
- *         description: Chyba serveru
+ *         description: Chyba serveru.
  */
 router.post('/payments/:paymentId/refund', PaymentController.processRefund);
 

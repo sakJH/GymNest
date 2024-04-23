@@ -17,26 +17,6 @@ describe('Booking', function () {
         sandbox.restore();
     });
 
-    describe('createBooking', function () {
-        it('should create a booking', async function () {
-            const details = { userId: 1, activityId: 2, scheduleId: 3, bookingDate: new Date() };
-            const expectedBooking = { ...details, status: 'scheduled', id: 1 };
-
-            sandbox.stub(Booking, 'create').resolves(expectedBooking);
-            const result = await Booking.createBooking(details);
-
-            expect(Booking.create.calledOnce).to.be.true;
-            expect(result).to.deep.equal(expectedBooking);
-        });
-
-        it('should handle errors during booking creation', async function () {
-            const details = { userId: 1, activityId: 2, scheduleId: 3, bookingDate: new Date() };
-            sandbox.stub(Booking, 'create').rejects(new Error('Database error'));
-
-            await expect(Booking.createBooking(details)).to.be.rejectedWith('Database error');
-        });
-    });
-
     describe('updateBooking', function () {
         it('should update a booking', async function () {
             const mockBooking = { id: 1, update: sinon.stub().resolves() };

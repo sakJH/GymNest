@@ -11,13 +11,12 @@ router.use(bodyParser.json());
  * @swagger
  * /auth/google:
  *   get:
- *     summary: "Přesměrování na Google pro autentizaci"
- *     description: "Tato endpointa přesměruje uživatele na Google pro autentizaci."
- *     tags:
- *       - Auth
+ *     summary: "Redirect na Google pro autentizaci"
+ *     tags: [Auth]
+ *     description: "Uživatel je přesměrován na Google pro autentizaci přes OAuth."
  *     responses:
  *       302:
- *         description: "Přesměrování na Google"
+ *         description: "Přesměrování na stránku Google pro autentizaci."
  */
 router.post('/auth/google', AuthController.googleAuthenticate);
 
@@ -27,12 +26,13 @@ router.post('/auth/google', AuthController.googleAuthenticate);
  * /auth/google/callback:
  *   get:
  *     summary: "Google callback URL"
- *     description: "Tato endpointa obdrží data po přesměrování z Google a vrací uživatele a tokeny."
- *     tags:
- *       - Auth
+ *     tags: [Auth]
+ *     description: "Endpoint zpracuje callback od Google po uživatelově autentizaci."
  *     responses:
- *       302:
- *         description: "Přesměrování na Google"
+ *       200:
+ *         description: "Uživatel byl úspěšně autentizován."
+ *       401:
+ *         description: "Autentizace selhala."
  */
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/googleError' }),
@@ -44,9 +44,8 @@ router.get('/auth/google/callback',
  * /auth/register:
  *   post:
  *     summary: "Registrace nového uživatele"
- *     description: "Tato endpointa registruje nového uživatele a vrací přístupový a obnovovací token."
- *     tags:
- *       - Auth
+ *     tags: [Auth]
+ *     description: "Registruje nového uživatele a vrací přístupový token a token pro obnovu."
  *     requestBody:
  *       required: true
  *       content:
@@ -66,15 +65,12 @@ router.get('/auth/google/callback',
  *                 type: string
  *     responses:
  *       201:
- *         description: "Úspěšná registrace"
+ *         description: "Uživatel byl úspěšně zaregistrován."
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   example: "User successfully registered"
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *                 token:
@@ -82,9 +78,9 @@ router.get('/auth/google/callback',
  *                 refreshToken:
  *                   type: string
  *       400:
- *         description: "Chybný formát požadavku"
+ *         description: "Chybný formát požadavku."
  *       500:
- *         description: "Chyba serveru při registraci"
+ *         description: "Interní chyba serveru při registraci."
  */
 router.post('/auth/register', AuthController.register);
 
@@ -94,9 +90,8 @@ router.post('/auth/register', AuthController.register);
  * /auth/login:
  *   post:
  *     summary: "Přihlášení uživatele"
- *     description: "Přijímá uživatelské jméno a heslo, ověřuje je a v případě úspěchu vrací uživatele a tokeny."
- *     tags:
- *       - Auth
+ *     tags: [Auth]
+ *     description: "Přihlásí uživatele a vrací přístupový token a token pro obnovu."
  *     requestBody:
  *       required: true
  *       content:
@@ -113,7 +108,7 @@ router.post('/auth/register', AuthController.register);
  *                 type: string
  *     responses:
  *       200:
- *         description: "Úspěšné přihlášení"
+ *         description: "Uživatel byl úspěšně přihlášen."
  *         content:
  *           application/json:
  *             schema:
@@ -129,9 +124,9 @@ router.post('/auth/register', AuthController.register);
  *                 refreshToken:
  *                   type: string
  *       401:
- *         description: "Neplatné přihlašovací údaje"
+ *         description: "Neplatné přihlašovací údaje."
  *       500:
- *         description: "Serverová chyba při přihlašování"
+ *         description: "Interní chyba serveru při přihlašování."
  */
 router.post('/auth/login', AuthController.login);
 

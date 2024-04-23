@@ -7,11 +7,11 @@ const router = express.Router();
 // Definování cesty pro vytvoření nového harmonogramu
 /**
  * @swagger
- * /schedule:
+ * /schedules/create:
  *   post:
  *     summary: Vytvoření nového harmonogramu
  *     tags: [Schedules]
- *     description: Vytvoření nového harmonogramu s danými parametry
+ *     description: Vytvoří nový harmonogram s danými parametry.
  *     requestBody:
  *       required: true
  *       content:
@@ -19,23 +19,23 @@ const router = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/Schedule'
  *     responses:
- *       200:
- *         description: Harmonogram byl úspěšně vytvořen
+ *       201:
+ *         description: Harmonogram byl úspěšně vytvořen.
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       500:
- *         description: Chyba serveru
+ *         description: Interní chyba serveru.
  */
 router.post('/schedules/create', ScheduleController.createSchedule);
 
 // Aktualizace existujícího harmonogramu
 /**
  * @swagger
- * /schedule:
+ * /schedules/update:
  *   put:
  *     summary: Aktualizace harmonogramu
  *     tags: [Schedules]
- *     description: Aktualizace harmonogramu podle zadaných parametrů
+ *     description: Aktualizuje existující harmonogram podle zadaných parametrů.
  *     requestBody:
  *       required: true
  *       content:
@@ -44,75 +44,77 @@ router.post('/schedules/create', ScheduleController.createSchedule);
  *             $ref: '#/components/schemas/Schedule'
  *     responses:
  *       200:
- *         description: Harmonogram byl úspěšně aktualizován
+ *         description: Harmonogram byl úspěšně aktualizován.
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       500:
- *         description: Chyba serveru
+ *         description: Interní chyba serveru.
  */
 router.put('/schedules/update', ScheduleController.updateSchedule);
 
 // Definování cesty pro zrušení harmonogramu podle jeho ID
 /**
  * @swagger
- * /schedule/{scheduleId}:
+ * /schedules/cancel/{scheduleId}:
  *   delete:
  *     summary: Zrušení harmonogramu
  *     tags: [Schedules]
- *     description: Zrušení harmonogramu podle zadaného ID
+ *     description: Zruší harmonogram podle zadaného ID.
  *     parameters:
  *       - in: path
  *         name: scheduleId
  *         required: true
  *         description: ID harmonogramu
  *         schema:
- *           membershipType: string
+ *           type: string
  *     responses:
  *       200:
- *         description: Harmonogram byl úspěšně zrušen
+ *         description: Harmonogram byl úspěšně zrušen.
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       500:
- *         description: Chyba serveru
+ *         description: Interní chyba serveru.
  */
 router.delete('/schedules/cancel/:scheduleId', ScheduleController.deleteSchedule);
 
 // Definování cesty pro vyhledání konkrétního harmonogramu podle jeho ID
 /**
  * @swagger
- * /schedule/{scheduleId}:
+ * /schedules/find/{scheduleId}:
  *   get:
  *     summary: Vyhledání harmonogramu podle ID
  *     tags: [Schedules]
- *     description: Vyhledání harmonogramu podle zadaného ID
+ *     description: Vyhledá harmonogram podle zadaného ID.
  *     parameters:
  *       - in: path
  *         name: scheduleId
  *         required: true
  *         description: ID harmonogramu
  *         schema:
- *           membershipType: string
+ *           type: string
  *     responses:
  *       200:
- *         description: Harmonogram byl úspěšně nalezen
+ *         description: Harmonogram byl úspěšně nalezen.
  *       400:
- *         description: Chybný formát požadavku
+ *         description: Chybný formát požadavku.
  *       500:
- *         description: Chyba serveru
+ *         description: Interní chyba serveru.
  */
 router.get('/schedules/find/:scheduleId', ScheduleController.findScheduleById);
 
 // Definování cesty pro získání seznamu všech harmonogramů
 /**
  * @swagger
- * /schedule:
+ * /schedules/all:
  *   get:
  *     summary: Vyhledání všech harmonogramů
  *     tags: [Schedules]
- *     description: Vyhledání všech harmonogramů
+ *     description: Získá seznam všech dostupných harmonogramů.
  *     responses:
  *       200:
- *         description: Seznam harmonogramů byl úspěšně nalezen
+ *         description: Seznam všech harmonogramů byl úspěšně získán.
+ *       500:
+ *         description: Interní chyba serveru.
  */
 router.get('/schedules/all', ScheduleController.findAllSchedules);
 

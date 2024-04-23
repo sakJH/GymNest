@@ -13,30 +13,32 @@ const router = express.Router();
 // Inicializace rolí
 /**
  * @swagger
- * /roles:
+ * /roles/initialize:
  *   post:
  *     summary: Inicializace rolí
  *     tags: [Roles]
+ *     description: Vytvoří výchozí sady rolí v systému.
  *     responses:
  *       200:
- *         description: Role byly inicializovány
+ *         description: Role byly úspěšně inicializovány.
  *       500:
- *         description: Došlo k chybě na serveru
+ *         description: Došlo k chybě na serveru.
  */
 router.post('/roles/initialize', RoleController.initializeRoles);
 
 // Získání všech rolí
 /**
  * @swagger
- * /roles:
+ * /roles/getAll:
  *   get:
  *     summary: Získání všech rolí
  *     tags: [Roles]
+ *     description: Vrací seznam všech rolí v systému.
  *     responses:
  *       200:
- *         description: Seznam rolí
+ *         description: Seznam všech rolí.
  *       500:
- *         description: Došlo k chybě na serveru
+ *         description: Došlo k chybě na serveru.
  */
 router.get('/roles/getAll', RoleController.getAllRoles);
 
@@ -47,18 +49,19 @@ router.get('/roles/getAll', RoleController.getAllRoles);
  *   get:
  *     summary: Získání uživatelů podle role
  *     tags: [Roles]
+ *     description: Vrací seznam uživatelů, kteří mají zadanou roli.
  *     parameters:
  *       - in: path
  *         name: roleName
- *         schema:
- *           membershipType: string
  *         required: true
+ *         schema:
+ *           type: string
  *         description: Název role
  *     responses:
  *       200:
- *         description: Seznam uživatelů s danou rolí
+ *         description: Seznam uživatelů s danou rolí.
  *       500:
- *         description: Došlo k chybě na serveru
+ *         description: Došlo k chybě na serveru.
  */
 router.get('/roles/:roleName/users', RoleController.findUsersByRole);
 
@@ -67,26 +70,27 @@ router.get('/roles/:roleName/users', RoleController.findUsersByRole);
  * @swagger
  * /users/{userId}/role:
  *   post:
- *     summary: Přidání výchozí role k uživateli
+ *     summary: Přidání role k uživateli
  *     tags: [Roles]
+ *     description: Přidělí zadanou roli uživateli.
  *     parameters:
  *       - in: path
  *         name: userId
- *         schema:
- *           membershipType: integer
  *         required: true
+ *         schema:
+ *           type: integer
  *         description: ID uživatele
  *       - in: body
  *         name: roleName
- *         schema:
- *           membershipType: string
  *         required: true
- *         description: Název role
+ *         schema:
+ *           type: string
+ *         description: Název role k přidělení
  *     responses:
  *       200:
- *         description: Role byla přidána
+ *         description: Role byla úspěšně přidána uživateli.
  *       500:
- *         description: Došlo k chybě na serveru
+ *         description: Došlo k chybě na serveru.
  */
 router.put('/users/:userId/role', RoleController.setDefaultRole);
 
@@ -97,18 +101,19 @@ router.put('/users/:userId/role', RoleController.setDefaultRole);
  *   delete:
  *     summary: Odebrání role uživateli a přidělení výchozí role
  *     tags: [Roles]
+ *     description: Odstraní aktuální roli uživatele a přidělí mu výchozí roli.
  *     parameters:
  *       - in: path
  *         name: userId
- *         schema:
- *           membershipType: integer
  *         required: true
+ *         schema:
+ *           type: integer
  *         description: ID uživatele
  *     responses:
  *       200:
- *         description: Role byla odebrána
- *       500:
- *         description: Došlo k chybě na serveru
+ *         description: Role byla odebrána a výchozí role přidělena.
+ *        500:
+ *         description: Došlo k chybě na serveru.
  */
 router.delete('/users/:userId/role', RoleController.removeRoleToUser);
 
