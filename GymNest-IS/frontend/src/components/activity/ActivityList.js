@@ -18,18 +18,18 @@ const ActivityList = ({ activities, onClick, onEdit, onDelete }) => {
             />
           </ListItemButton>
           {(user && (user.roleId === 3 || user.roleId === 4)) && (
-            <>
             <Tooltip title="Editovat">
                 <IconButton onClick={(e) => { e.stopPropagation(); onEdit(activity.id); }} color="primary">
                     <EditIcon />
                 </IconButton>
             </Tooltip>
+          )}
+          {(user && (user.roleId === 4)) && (
             <Tooltip title="Smazat">
                 <IconButton onClick={(e) => { e.stopPropagation(); onDelete(activity.id); }} color="error">
                     <DeleteIcon />
                 </IconButton>
             </Tooltip>
-            </>
           )}
         </ListItem>
       ))}
