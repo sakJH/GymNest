@@ -82,43 +82,65 @@ const onDelete = async (scheduleId) => {
     }
 };
 
-  const onReserve = async (activityId, scheduleId) => {
-    setLoading(true);
-    const existingBooking = reservedSchedules.find(schedule => schedule.id === scheduleId);
-    try {
-        if (existingBooking) {
-            // Zrušení rezervace, pokud je rozvrh již rezervovaný
-            const response = await axios.delete(`${apiAddress}/bookings/cancel/${existingBooking.bookingId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.status === 200) {
-                alert('Rezervace byla zrušena.');
-                refreshAndDetailUpdate();
-            }
-        } else {
-            // Vytvoření nové rezervace
-            const bookingDetails = {
-                userId: user.id,
-                activityId: activityId,
-                scheduleId: scheduleId,
-                status: 'scheduled',
-                bookingDate: new Date().toISOString()
-            };
-            const response = await axios.post(`${apiAddress}/bookings/create`, bookingDetails, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.status === 201) {
-                alert('Rezervace byla úspěšně provedena.');
-                refreshAndDetailUpdate();
-            }
-        }
-    } catch (error) {
-        console.error("Error handling reservation:", error);
-        setError('Nepodařilo se zpracovat požadavek na rezervaci.');
-    } finally {
-        setLoading(false);
-    }
+const onReserve = async (activityId, scheduleId) => {
+  setLoading(true);
+  const existingBooking = reservedSchedules.find(schedule => schedule.id === scheduleId);
+  try {
+      const scheduleDetails = schedules.find(schedule => schedule.id === scheduleId); // Najděte detaily rozvrhu
+
+      if (existingBooking) {
+          // Zrušení rezervace, pokud je rozvrh již rezervovaný
+          const response = await axios.delete(`${apiAddress}/bookings/cancel/${existingBooking.bookingId}`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (response.status === 200) {
+              alert('Rezervace byla zrušena.');
+              refreshAndDetailUpdate();
+          }
+      } else {
+          // Vytvoření nové rezervace
+          const bookingDetails = {
+              userId: user.id,
+              activityId: activityId,
+              scheduleId: scheduleId,
+              status: 'scheduled',
+              bookingDate: new Date().toISOString()
+          };
+          const bookingResponse = await axios.post(`${apiAddress}/bookings/create`, bookingDetails, {
+              headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (bookingResponse.status === 201) {
+              alert('Rezervace byla úspěšně provedena.');
+              refreshAndDetailUpdate();
+              const formattedDate = new Date(scheduleDetails.startTime).toLocaleDateString('cs-CZ'); // Přeformátování data
+              const formattedTime = new Date(scheduleDetails.startTime).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' }); // Přeformátování času
+              createNotification(`Vaše třída ${scheduleDetails.name} začíná v ${formattedTime}, dne ${formattedDate}.`, 'Nová rezervace');
+          }
+      }
+  } catch (error) {
+      console.error("Error handling reservation:", error);
+      setError('Nepodařilo se zpracovat požadavek na rezervaci.');
+  } finally {
+      setLoading(false);
+  }
 };
+
+const createNotification = async (message, title) => {
+  const notificationDetails = {
+      userId: user.id,
+      title: title,
+      message: message,
+      status: 'unread' // defaultní status pro nové notifikace
+  };
+  try {
+      await axios.post(`${apiAddress}/notifications/create`, notificationDetails, {
+          headers: { 'Authorization': `Bearer ${token}` }
+      });
+  } catch (error) {
+      console.error('Failed to create notification:', error);
+  }
+};
+
 
 const refreshAndDetailUpdate = async () => {
   setCurrentWeek(new Date(currentWeek));
