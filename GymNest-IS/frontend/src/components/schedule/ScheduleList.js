@@ -46,7 +46,7 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve, can
                     </IconButton>
                 </Tooltip>
             )}
-            {canReserve && (
+            {canReserve && onReserve && (
                 <Tooltip title={isReserved ? "Zrušit rezervaci" : "Rezervovat"}>
                     <IconButton onClick={(e) => { e.stopPropagation(); onReserve(schedule.activityId, schedule.id); }}>
                         {isReserved ? <EventBusyIcon /> : <EventAvailableIcon />}
