@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemText, ListItemButton, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import { AuthContext } from '../AuthContext';
+import { useAuth } from '../AuthContext';
+import useMemberships from '../../hooks/useMemberships';
 
-const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) => {
-    const { user } = useContext(AuthContext);
+const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve, canReserve }) => {
+    const { user } = useAuth();
     const formattedStartDate = new Date(schedule.startTime).toLocaleDateString();
     const formattedStartTime = new Date(schedule.startTime).toLocaleTimeString();
     const formattedEndTime = new Date(schedule.endTime).toLocaleTimeString();
@@ -45,7 +46,7 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) =
                     </IconButton>
                 </Tooltip>
             )}
-            {user && onReserve && (
+            {canReserve && (
                 <Tooltip title={isReserved ? "Zrušit rezervaci" : "Rezervovat"}>
                     <IconButton onClick={(e) => { e.stopPropagation(); onReserve(schedule.activityId, schedule.id); }}>
                         {isReserved ? <EventBusyIcon /> : <EventAvailableIcon />}
@@ -56,7 +57,15 @@ const ActivityListItem = ({ schedule, onSelect, onEdit, onDelete, onReserve }) =
     );
 };
 
-export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role, onReserve }) => {
+export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, onReserve }) => {
+    const { user } = useAuth();
+    const { memberships, loading } = useMemberships(user?.id);
+
+    let hasActiveMembership = false;
+    if(memberships){
+        hasActiveMembership = memberships.some(m => m.status === 'active');
+    }
+
     return (
         <List sx={{ width: '100%' }}>
             {schedules.map((schedule, index) => (
@@ -66,8 +75,8 @@ export const ScheduleList = ({ schedules, onSelect, onEdit, onDelete, role, onRe
                     onSelect={onSelect}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    role={role}
                     onReserve={onReserve}
+                    canReserve={hasActiveMembership}  // Předání informace o možnosti rezervace
                 />
             ))}
         </List>

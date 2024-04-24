@@ -7,29 +7,15 @@ import PaymentHistory from '../components/membership/PaymentHistory';
 import PayPalButton from '../components/membership/PayPalButton';
 import { AuthContext } from '../components/AuthContext';
 import useMembershipTypes from '../hooks/useMembershipTypes';
+import useMemberships from '../hooks/useMemberships';
 
 const MembershipPage = () => {
   const { token, user, setCreditsUser } = useContext(AuthContext);
-  const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
-  const { membershipTypes, loading, error } = useMembershipTypes();
+  const { memberships, refreshMemberships } = useMemberships(user?.id);
+  const { membershipTypes } = useMembershipTypes();
 
   const apiAddress = 'http://localhost:3002/api';
-
-  const fetchMembershipInfo = async () => {
-    if (token && user && user.id) {
-      try {
-        const membershipResponse = await axios.get(`${apiAddress}/memberships/user/${user.id}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          }
-        });
-        setMembershipInfo(membershipResponse.data);
-      } catch (error) {
-        console.error("Error fetching membership info:", error);
-      }
-    }
-  };
 
   const fetchPaymentHistory = async () => {
     if (token && user && user.id) {
@@ -47,7 +33,6 @@ const MembershipPage = () => {
   };
 
   useEffect(() => {
-    fetchMembershipInfo();
     fetchPaymentHistory();
   }, [token, user]);
 
@@ -89,7 +74,6 @@ const MembershipPage = () => {
 
       if (updateResponse.status === 200) {
         alert('Členství bylo úspěšně prodlouženo');
-        fetchMembershipInfo(); // Znovu načíst informace o členství po aktualizaci
 
         // Zavolání funkce handlePurchase pro zpracování platby
         await handlePurchase(user.id, membershipId, paymentAmount);
@@ -113,8 +97,8 @@ const MembershipPage = () => {
       });
       if (response.status === 204 || response.status === 200) {
         alert('Členství bylo úspěšně zrušeno');
+        refreshMemberships();
         fetchPaymentHistory();
-        fetchMembershipInfo(); // Znovu načíst informace o členství po smazání
       }
     } catch (error) {
       console.error('Failed to cancel membership:', error);
@@ -150,6 +134,7 @@ const MembershipPage = () => {
             headers: { Authorization: `Bearer ${token}` }
         });
         if (response.data) {
+            refreshMemberships();
             fetchPaymentHistory();
         }
     } catch (error) {
@@ -188,11 +173,11 @@ const MembershipPage = () => {
         <PayPalButton modifyCredits={modifyUserCredits} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
-        <PaymentHistory payments={paymentHistory} memberships={membershipInfo} membershipTypes={membershipTypes} />
+        <PaymentHistory payments={paymentHistory} memberships={memberships} membershipTypes={membershipTypes} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
         <Typography variant="h4" sx={{ marginBottom: 2 }}>Moje Členství</Typography>
-        {membershipInfo && membershipTypes && <MembershipStatus memberships={membershipInfo} membershipTypes={membershipTypes} onRenew={onRenew} onCancel={onCancel} />}
+        {memberships && membershipTypes && <MembershipStatus memberships={memberships} membershipTypes={membershipTypes} onRenew={onRenew} onCancel={onCancel} />}
       </Paper>
       </>
     )}

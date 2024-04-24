@@ -2,32 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import UserSettingsForm from './UserSettingsForm';
 import useMembershipTypes from '../../hooks/useMembershipTypes';
+import useMemberships from '../../hooks/useMemberships';
 import axios from 'axios';
 import { Typography, Paper, Button, List, ListItem, ListItemText, Modal, Box, Divider } from '@mui/material';
 
 const UserInfo = () => {
     const { user } = useAuth();
-    const [memberships, setMemberships] = useState([]);
+    const { memberships, loading: membershipsLoading } = useMemberships(user?.id);
     const { membershipTypes, loading: typesLoading, error: typesError } = useMembershipTypes();
-    const [loading, setLoading] = useState(true);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-    useEffect(() => {
-        if (user) {
-            fetchMembershipInfo();
-        }
-    }, [user]);
-
-    const fetchMembershipInfo = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3002/api/memberships/user/${user.id}`);
-            setMemberships(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching membership info:', error);
-            setLoading(false);  // Ensure loading is set to false even if there is an error
-        }
-    };
 
     const handleChangeSettings = () => {
         setIsSettingsOpen(true); // Otevření modálního okna
@@ -37,7 +20,7 @@ const UserInfo = () => {
         setIsSettingsOpen(false); // Zavření modálního okna
     };
 
-    if (!user || loading || typesLoading) {
+    if (!user || membershipsLoading || typesLoading) {
         return null;  // Return nothing while loading or if there is no user
     }
 
