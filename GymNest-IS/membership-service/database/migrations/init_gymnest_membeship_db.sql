@@ -41,8 +41,8 @@ ALTER TABLE `memberships` ADD FOREIGN KEY (`membershipTypeId`) REFERENCES `membe
 
 INSERT INTO `membershipTypes` (`id`, `membershipName`, `membershipPrice`, `currency`, `expirationDate`)
 VALUES
-    (1, 'Free', 0, 'CZK', '2022-12-31'),
-    (2, 'Standard', 200, 'CZK', '2022-12-31'),
-    (3, 'Premium', 400, 'CZK', '2022-12-31'),
-    (4, 'Family', 600, 'CZK', '2022-12-31'),
-    (5, 'Year', 1000, 'CZK', '2023-12-31');
+    (1, 'Free', 0, 'CZK', '2024-12-31'),
+    (2, 'Standard', 200, 'CZK', '2024-12-31'),
+    (3, 'Premium', 400, 'CZK', '2024-12-31'),
+    (4, 'Family', 600, 'CZK', '2024-12-31'),
+    (5, 'Year', 1000, 'CZK', '2024-12-31');
