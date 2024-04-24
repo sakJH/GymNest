@@ -8,7 +8,16 @@ async function initializeActivities() {
     // List of activities to initialize
     const activitiesData = [
         { name: 'Yoga', description: 'Jemná jóga pro začátečníky.', type: 'wellness', duration: 60 },
-        // Additional activities...
+        { name: 'Spinning', description: 'Intenzivní spinning class pro pokročilé.', type: 'fitness', duration: 45 },
+        { name: 'Pilates', description: 'Pilates focení na jádro a flexibilitu.', type: 'wellness', duration: 50 },
+        { name: 'Crossfit', description: 'Vysoko intenzivní trénink pro všechny úrovně.', type: 'fitness', duration: 60 },
+        { name: 'Zumba', description: 'Zábavná taneční cvičební třída.', type: 'dance', duration: 50 },
+        { name: 'HIIT', description: 'Vysokointenzivní intervalový trénink.', type: 'fitness', duration: 45 },
+        { name: 'Aerobic', description: 'Tradiční kardio třída zaměřená na vytrvalost.', type: 'fitness', duration: 60 },
+        { name: 'Box', description: 'Boxerský trénink pro zlepšení síly a obratnosti.', type: 'fight', duration: 45 },
+        { name: 'Pole dance', description: 'Taneční třída s tyčí pro zlepšení flexibility a síly.', type: 'dance', duration: 50 },
+        { name: 'Pump', description: 'Kombinace kardio a silového tréninku.', type: 'fitness', duration: 60 }
+
     ];
 
     for (const data of activitiesData) {
@@ -21,7 +30,6 @@ async function initializeActivities() {
 }
 
 async function initializeSchedules() {
-    // Assuming you fetch activity IDs dynamically based on initialized activities
     const activities = await Activity.findAll();
     const activityIdMap = activities.reduce((map, item) => {
         map[item.name] = item.id;
@@ -29,7 +37,6 @@ async function initializeSchedules() {
     }, {});
 
     const schedulesData = [
-        { activityId: activityIdMap['Yoga'], startTime: new Date('2024-04-21 10:00:00'), endTime: new Date('2024-04-21 11:00:00'), capacity: 10 },
         { activityId: activityIdMap['Yoga'], startTime: new Date('2024-04-21 10:00:00'), endTime: new Date('2024-04-21 11:00:00'), capacity: 10 },
         { activityId: activityIdMap['Spinning'], startTime: new Date('2024-04-22 12:00:00'), endTime: new Date('2024-04-22 12:45:00'), capacity: 15 },
         { activityId: activityIdMap['Pilates'], startTime: new Date('2024-04-23 14:00:00'), endTime: new Date('2024-04-23 14:50:00'), capacity: 8 },
@@ -47,10 +54,16 @@ async function initializeSchedules() {
         await Schedule.create(data);
     }
     console.log('Schedules initialized');
+    return activityIdMap;
 }
 
 async function initializeBookings() {
-    // Example: Bookings require Schedule IDs which should be fetched dynamically after initializing Schedules
+    const activities = await Activity.findAll();
+    const activityIdMap = activities.reduce((map, item) => {
+        map[item.name] = item.id;
+        return map;
+    }, {});
+
     const bookingsData = [
         // Define your bookings based on actual schedule IDs
         { userId: 1, activityId: activityIdMap['Yoga'], scheduleId: 1, status: 'scheduled', bookingDate: new Date('2024-04-23') },
