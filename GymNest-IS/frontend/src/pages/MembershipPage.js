@@ -6,12 +6,13 @@ import AvailableMemberships from '../components/membership/AvailableMemberships'
 import PaymentHistory from '../components/membership/PaymentHistory';
 import PayPalButton from '../components/membership/PayPalButton';
 import { AuthContext } from '../components/AuthContext';
+import useMembershipTypes from '../hooks/useMembershipTypes';
 
 const MembershipPage = () => {
   const { token, user, setCreditsUser } = useContext(AuthContext);
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [paymentHistory, setPaymentHistory] = useState([]);
-  const [availableMemberships, setAvailableMemberships] = useState([]);
+  const { membershipTypes, loading, error } = useMembershipTypes();
 
   const apiAddress = 'http://localhost:3002/api';
 
@@ -45,19 +46,9 @@ const MembershipPage = () => {
     }
   };
 
-  const fetchAvailableMemberships = async () => {
-    try {
-      const membershipTypes = await axios.get(`${apiAddress}/memberships/types/all`)
-      setAvailableMemberships(membershipTypes.data);
-    } catch (error) {
-      console.error("Error fetching available memberships:", error);
-    }
-  };
-
   useEffect(() => {
     fetchMembershipInfo();
     fetchPaymentHistory();
-    fetchAvailableMemberships();
   }, [token, user]);
 
   const onRenew = async (membershipId) => {
@@ -72,7 +63,7 @@ const MembershipPage = () => {
         return;
       }
 
-      const membershipType = availableMemberships.find(type => type.id === membershipResponse.data.membershipTypeId);
+      const membershipType = membershipTypes.find(type => type.id === membershipResponse.data.membershipTypeId);
       if (!membershipType) {
         alert('Nepodařilo se získat typ členství.');
         return;
@@ -197,15 +188,15 @@ const MembershipPage = () => {
         <PayPalButton modifyCredits={modifyUserCredits} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
-        <PaymentHistory payments={paymentHistory} memberships={membershipInfo} membershipTypes={availableMemberships} />
+        <PaymentHistory payments={paymentHistory} memberships={membershipInfo} membershipTypes={membershipTypes} />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
         <Typography variant="h4" sx={{ marginBottom: 2 }}>Moje Členství</Typography>
-        {membershipInfo && availableMemberships && <MembershipStatus memberships={membershipInfo} membershipTypes={availableMemberships} onRenew={onRenew} onCancel={onCancel} />}
+        {membershipInfo && membershipTypes && <MembershipStatus memberships={membershipInfo} membershipTypes={membershipTypes} onRenew={onRenew} onCancel={onCancel} />}
       </Paper>
       </>
     )}
-    <AvailableMemberships memberships={availableMemberships} onPurchase={handlePurchase} />
+    <AvailableMemberships memberships={membershipTypes} onPurchase={handlePurchase} />
     </>
   );
 };

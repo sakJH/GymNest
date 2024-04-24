@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
-import UserSettingsForm from './UserSettingsForm';  // Ujistěte se, že cesta k importu je správná
+import UserSettingsForm from './UserSettingsForm';
+import useMembershipTypes from '../../hooks/useMembershipTypes';
 import axios from 'axios';
-import { Typography, Paper, Button, List, ListItem, ListItemText, Divider, Modal, Box } from '@mui/material';
+import { Typography, Paper, Button, List, ListItem, ListItemText, Modal, Box, Divider } from '@mui/material';
 
 const UserInfo = () => {
     const { user } = useAuth();
-    const [membershipInfo, setMembershipInfo] = useState({});
+    const [memberships, setMemberships] = useState([]);
+    const { membershipTypes, loading: typesLoading, error: typesError } = useMembershipTypes();
     const [loading, setLoading] = useState(true);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -18,8 +20,8 @@ const UserInfo = () => {
 
     const fetchMembershipInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:3002/api/memberships/get/${user.id}`);
-            setMembershipInfo(response.data);
+            const response = await axios.get(`http://localhost:3002/api/memberships/user/${user.id}`);
+            setMemberships(response.data);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching membership info:', error);
@@ -35,13 +37,18 @@ const UserInfo = () => {
         setIsSettingsOpen(false); // Zavření modálního okna
     };
 
-    if (!user || loading) {
+    if (!user || loading || typesLoading) {
         return null;  // Return nothing while loading or if there is no user
     }
 
+    const getMembershipName = (membershipTypeId) => {
+        const type = membershipTypes.find(type => type.id === membershipTypeId);
+        return type ? type.membershipName : 'Neznámý typ';
+    };
+
     return (
         <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h4" gutterBottom>
                 Informace o uživateli
             </Typography>
             <List>
@@ -54,20 +61,31 @@ const UserInfo = () => {
                 <ListItem>
                     <ListItemText primary="Email" secondary={user.email} />
                 </ListItem>
-                {membershipInfo && membershipInfo.status === 'active' ? (
-                    <>
+                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+                    Členství
+                </Typography>
+                <List>
+                    {memberships.length > 0 ? (
+                        memberships.map((membership, index) => (
+                            <React.Fragment key={index}>
+                                <ListItem>
+                                    <ListItemText primary="Typ členství" secondary={getMembershipName(membership.membershipTypeId)} />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText primary="Datum vypršení členství" secondary={membership.endDate} />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText primary="Stav členství" secondary={membership.status} />
+                                </ListItem>
+                                {index < memberships.length - 1 && <Divider />}
+                            </React.Fragment>
+                        ))
+                    ) : (
                         <ListItem>
-                            <ListItemText primary="Datum vypršení členství" secondary={membershipInfo.endDate} />
+                            <ListItemText primary="Žádné aktivní členství" />
                         </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Tier členství" secondary={membershipInfo.membershipType} />
-                        </ListItem>
-                    </>
-                ) : (
-                    <ListItem>
-                        <ListItemText primary="Členství" secondary="Žádné aktivní členství" />
-                    </ListItem>
-                )}
+                    )}
+                </List>
             </List>
             <Button variant="outlined" color="primary" onClick={handleChangeSettings}>
                 Upravit nastavení
