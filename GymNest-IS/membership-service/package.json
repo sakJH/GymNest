@@ -12,7 +12,7 @@
     "express": "~4.19.2",
     "http-errors": "~2.0.0",
     "morgan": "~1.10.0",
-    "pug": "~3.0.2",
+    "pug": "~3.0.3",
     "dotenv": "~16.4.5",
     "mysql2": "~3.9.3",
     "@paypal/checkout-server-sdk": "~1.0.3",
