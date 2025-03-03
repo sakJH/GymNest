@@ -14,7 +14,7 @@
     "morgan": "~1.10.0",
     "pug": "~3.0.2",
     "dotenv": "~16.4.5",
-    "mysql2": "~3.9.3",
+    "mysql2": "~3.9.7",
     "@paypal/checkout-server-sdk": "~1.0.3",
     "swagger-ui-express": "~5.0.0",
     "swagger-jsdoc": "~6.2.8",
